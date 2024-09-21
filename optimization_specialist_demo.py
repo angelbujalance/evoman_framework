@@ -261,7 +261,7 @@ for i in range(ini_g+1, gens):
 
     # saves results
     file_aux = open(experiment_name+'/results.txt','a')
-    print( '\n GENERATION '+str(i)+' '+str(round(fit_pop[best],6))+' '+str(round(mean,6))+' '+str(round(std,6)))
+    print('\n GENERATION '+str(i)+' '+str(round(fit_pop[best],6))+' '+str(round(mean,6))+' '+str(round(std,6)))
     file_aux.write('\n'+str(i)+' '+str(round(fit_pop[best],6))+' '+str(round(mean,6))+' '+str(round(std,6))   )
     file_aux.close()
 
@@ -282,12 +282,12 @@ for i in range(ini_g+1, gens):
 
 
 fim = time.time() # prints total execution time for experiment
-print( '\nExecution time: '+str(round((fim-ini)/60))+' minutes \n')
-print( '\nExecution time: '+str(round((fim-ini)))+' seconds \n')
+print('\nExecution time: '+str(round((fim-ini)/60))+' minutes \n')
+print('\nExecution time: '+str(round((fim-ini)))+' seconds \n')
 
 
 file = open(experiment_name+'/neuroended', 'w')  # saves control (simulation has ended) file for bash loop file
 file.close()
 
 
-env.state_to_log() # checks environment state
+env.state_to_log()  # checks environment state

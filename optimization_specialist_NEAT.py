@@ -1,9 +1,4 @@
-###############################################################################
-# EvoMan FrameWork - V1.0 2016  			                                  #
-# DEMO : Neuroevolution - Genetic Algorithm  neural network.                  #
-# Author: Karine Miras        			                                      #
-# karine.smiras@gmail.com     				                                  #
-###############################################################################
+
 
 # imports framework
 from evoman.environment import Environment
@@ -14,6 +9,7 @@ import time
 import numpy as np
 import glob, os
 import neat
+from neat_population import Population
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
@@ -77,7 +73,6 @@ def eval_genomes(genomes, config):
                 genome.enemy_energy, genome.individual_gain]
 
 
-
 def run(config_file):
     # Load configuration.
     config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
@@ -85,7 +80,7 @@ def run(config_file):
                          config_file)
 
     # Create the population, which is the top-level object for a NEAT run.
-    p = neat.Population(config)
+    p = Population(config_path)
 
     # Add a stdout reporter to show progress in the terminal.
     p.add_reporter(neat.StdOutReporter(True))
@@ -101,7 +96,6 @@ def run(config_file):
 
     # Show output of the most fit genome against training data.
     print('\nOutput:')
-    winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
 
     p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
     p.run(eval_genomes, 10)
