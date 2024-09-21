@@ -54,7 +54,7 @@ ini = time.time()  # sets time marker
 
 # genetic algorithm params
 
-run_mode = 'train' # train or test
+run_mode = 'train'  # train or test
 
 # number of weights for multilayer with 10 hidden neurons
 n_vars = (env.get_num_sensors()+1)*n_hidden_neurons + (n_hidden_neurons+1)*5
@@ -73,6 +73,7 @@ def simulation(env,x):
     f,p,e,t = env.play(pcont=x)
     return f
 
+
 # normalizes
 def norm(x, pfit_pop):
 
@@ -86,12 +87,10 @@ def norm(x, pfit_pop):
     return x_norm
 
 
-# TODO: Change evaluate
 # evaluation
 def evaluate(x):
     return np.array(list(map(lambda y: simulation(env,y), x)))
 
-# TODO: Change tournament
 
 # tournament
 def tournament(pop):
@@ -114,7 +113,6 @@ def limits(x):
     else:
         return x
 
-# TODO: Change crossover
 
 # crossover
 def crossover(pop):
@@ -144,7 +142,6 @@ def crossover(pop):
 
     return total_offspring
 
-# TODO: Change doomsday
 
 # kills the worst genomes, and replace with new best/random solutions
 def doomsday(pop,fit_pop):
@@ -154,17 +151,16 @@ def doomsday(pop,fit_pop):
     orderasc = order[0:worst]
 
     for o in orderasc:
-        for j in range(0,n_vars):
-            pro = np.random.uniform(0,1)
-            if np.random.uniform(0,1)  <= pro:
-                pop[o][j] = np.random.uniform(dom_l, dom_u) # random dna, uniform dist.
+        for j in range(0, n_vars):
+            pro = np.random.uniform(0, 1)
+            if np.random.uniform(0, 1) <= pro:
+                pop[o][j] = np.random.uniform(dom_l, dom_u)  # random dna, uniform dist.
             else:
                 pop[o][j] = pop[order[-1:]][0][j] # dna from best
 
-        fit_pop[o]=evaluate([pop[o]])
+        fit_pop[o] = evaluate([pop[o]])
 
-    return pop,fit_pop
-
+    return pop, fit_pop
 
 
 # loads file with the best solution for testing
@@ -177,9 +173,7 @@ if run_mode =='test':
 
     sys.exit(0)
 
-
 # initializes population loading old solutions or generating new ones
-
 if not os.path.exists(experiment_name+'/evoman_solstate'):
 
     print( '\nNEW EVOLUTION\n')
@@ -206,15 +200,12 @@ else:
     std = np.std(fit_pop)
 
     # finds last generation number
-    file_aux  = open(experiment_name+'/gen.txt','r')
+    file_aux = open(experiment_name+'/gen.txt','r')
     ini_g = int(file_aux.readline())
     file_aux.close()
 
-
-
-
 # saves results for first pop
-file_aux  = open(experiment_name+'/results.txt','a')
+file_aux = open(experiment_name+'/results.txt','a')
 file_aux.write('\n\ngen best mean std')
 print( '\n GENERATION '+str(ini_g)+' '+str(round(fit_pop[best],6))+' '+str(round(mean,6))+' '+str(round(std,6)))
 file_aux.write('\n'+str(ini_g)+' '+str(round(fit_pop[best],6))+' '+str(round(mean,6))+' '+str(round(std,6))   )
@@ -222,9 +213,6 @@ file_aux.close()
 
 
 # evolution
-# TODO: Change evaluation
-
-
 last_sol = fit_pop[best]
 notimproved = 0
 
@@ -235,15 +223,15 @@ for i in range(ini_g+1, gens):
     pop = np.vstack((pop,offspring))
     fit_pop = np.append(fit_pop,fit_offspring)
 
-    best = np.argmax(fit_pop) #best solution in generation
-    fit_pop[best] = float(evaluate(np.array([pop[best] ]))[0]) # repeats best eval, for stability issues
+    best = np.argmax(fit_pop)  # best solution in generation
+    fit_pop[best] = float(evaluate(np.array([pop[best]]))[0])  # repeats best eval, for stability issues
     best_sol = fit_pop[best]
 
     # selection
     fit_pop_cp = fit_pop
-    fit_pop_norm =  np.array(list(map(lambda y: norm(y,fit_pop_cp), fit_pop))) # avoiding negative probabilities, as fitness is ranges from negative numbers
+    fit_pop_norm = np.array(list(map(lambda y: norm(y,fit_pop_cp), fit_pop))) # avoiding negative probabilities, as fitness is ranges from negative numbers
     probs = (fit_pop_norm)/(fit_pop_norm).sum()
-    chosen = np.random.choice(pop.shape[0], npop , p=probs, replace=False)
+    chosen = np.random.choice(pop.shape[0], npop, p=probs, replace=False)
     chosen = np.append(chosen[1:],best)
     pop = pop[chosen]
     fit_pop = fit_pop[chosen]
@@ -259,7 +247,7 @@ for i in range(ini_g+1, gens):
 
     if notimproved >= 15:
 
-        file_aux  = open(experiment_name+'/results.txt','a')
+        file_aux = open(experiment_name+'/results.txt','a')
         file_aux.write('\ndoomsday')
         file_aux.close()
 
@@ -267,18 +255,18 @@ for i in range(ini_g+1, gens):
         notimproved = 0
 
     best = np.argmax(fit_pop)
-    std  =  np.std(fit_pop)
+    std = np.std(fit_pop)
     mean = np.mean(fit_pop)
 
 
     # saves results
-    file_aux  = open(experiment_name+'/results.txt','a')
+    file_aux = open(experiment_name+'/results.txt','a')
     print( '\n GENERATION '+str(i)+' '+str(round(fit_pop[best],6))+' '+str(round(mean,6))+' '+str(round(std,6)))
     file_aux.write('\n'+str(i)+' '+str(round(fit_pop[best],6))+' '+str(round(mean,6))+' '+str(round(std,6))   )
     file_aux.close()
 
     # saves generation number
-    file_aux  = open(experiment_name+'/gen.txt','w')
+    file_aux = open(experiment_name+'/gen.txt','w')
     file_aux.write(str(i))
     file_aux.close()
 

@@ -95,8 +95,8 @@ class Environment(object):
 
 
         # initializes log file
-        if self.logs  == "on" and self.savelogs == "yes":
-            file_aux  = open(self.experiment_name+'/evoman_logs.txt','w')
+        if self.logs == "on" and self.savelogs == "yes":
+            file_aux = open(self.experiment_name+'/evoman_logs.txt','w')
             file_aux.close()
 
 
@@ -590,15 +590,13 @@ class Environment(object):
                 if self.time >= self.timeexpire:
                     return return_run()
 
-
-
     # repeats run for every enemy in list
-    def multiple(self,pcont,econt):
+    def multiple(self, pcont, econt):
 
-        vfitness, vplayerlife, venemylife, vtime = [],[],[],[]
+        vfitness, vplayerlife, venemylife, vtime = [], [], [], []
         for e in self.enemies:
 
-            fitness, playerlife, enemylife, time  = self.run_single(e,pcont,econt)
+            fitness, playerlife, enemylife, time = self.run_single(e,pcont,econt)
             vfitness.append(fitness)
             vplayerlife.append(playerlife)
             venemylife.append(enemylife)
@@ -609,13 +607,12 @@ class Environment(object):
         venemylife = self.cons_multi(numpy.array(venemylife))
         vtime = self.cons_multi(numpy.array(vtime))
 
-        return    vfitness, vplayerlife, venemylife, vtime
-
+        return vfitness, vplayerlife, venemylife, vtime
 
     # checks objective mode
-    def play(self,pcont="None",econt="None"):
+    def play(self, pcont="None", econt="None"):
 
         if self.multiplemode == "yes":
-            return self.multiple(pcont,econt)
+            return self.multiple(pcont, econt)
         else:
-            return self.run_single(self.enemies[0],pcont,econt)
+            return self.run_single(self.enemies[0], pcont, econt)
