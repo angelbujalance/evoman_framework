@@ -105,8 +105,14 @@ def run(config_file):
     # Show output of the most fit genome against training data.
     print('\nOutput:')
 
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
-    p.run(eval_genomes, 10)
+    winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
+
+    [winner.fitness, winner.player_energy, winner.enemy_energy,
+     winner.individual_gain] = simulation(env, winner_net)
+
+    print(f"Winner fitness: {winner.fitness}, player_energy: {winner.player_energy}, enemy_energy: {winner.enemy_energy}, individual_gain: {winner.individual_gain}")
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
+    # p.run(eval_genomes, 10)
 
 
 if __name__ == '__main__':
