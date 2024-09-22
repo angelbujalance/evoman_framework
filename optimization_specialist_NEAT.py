@@ -12,6 +12,10 @@ import os
 import neat
 from neat_population import Population
 
+# Parameters for neat.Checkpointer
+GENERATION_INTERVAL = 5
+CHECKPOINT_PREFIX = 'neat-checkpoint-'
+
 # choose this for not using visuals and thus making experiments faster
 headless = True
 if headless:
@@ -81,20 +85,47 @@ def eval_genomes(genomes, config) -> None:
         #         genome.enemy_energy, genome.individual_gain]
 
 
-def run(config_file):
-    # Load configuration.
-    config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
-                         neat.DefaultSpeciesSet, neat.DefaultStagnation,
-                         config_file)
-
+def create_population(checkpoint_folder: str, config: neat.Config):
     # Create the population, which is the top-level object for a NEAT run.
-    p = Population(config)
+    p = neat.Population(config)
 
     # Add a stdout reporter to show progress in the terminal.
     p.add_reporter(neat.StdOutReporter(True))
+
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    p.add_reporter(neat.Checkpointer(5))
+
+    cp_prefix = os.path.join(
+        checkpoint_folder, CHECKPOINT_PREFIX)
+    p.add_reporter(neat.Checkpointer(generation_interval=GENERATION_INTERVAL,
+                                     filename_prefix=cp_prefix))
+    return p
+
+
+def load_population(checkpoint_folder: str):
+    # Get the latest checkpoint from the newest file in the folder
+    files = os.listdir(checkpoint_folder)
+    file = max(files,
+               key=lambda f: os.path.getctime(os.path.join(checkpoint_folder, f)))
+
+    return neat.Checkpointer.restore_checkpoint(file)
+
+
+def get_population(checkpoint_folder: str, config: neat.Config):
+    if checkpoint_folder is None or not os.path.exists(checkpoint_folder):
+        return create_population(checkpoint_folder, config)
+
+    return load_population(checkpoint_folder)
+
+
+def run(config_file: str, checkpoint_folder: str):
+    # Load configuration.
+    species_set = neat.DefaultSpeciesSet
+    config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
+                         species_set, neat.DefaultStagnation,
+                         config_file)
+
+    p = get_population(checkpoint_folder, config)
 
     # Run for up to 300 generations.
     winner = p.run(eval_genomes, 300)
@@ -112,6 +143,7 @@ def run(config_file):
 
     print("Winner fitness: {:.3f}, player_energy: {:.3f}, enemy_energy: {:.3f}, individual_gain: {:.3f}".format(winner.fitness, winner.player_energy, winner.enemy_energy,
           winner.individual_gain))
+    # neat.Checkpointer.save_checkpoint(config, p, species_set, self.current_generation)
     # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
     # p.run(eval_genomes, 10)
 
@@ -122,4 +154,6 @@ if __name__ == '__main__':
     # current working directory.
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config_specialist_NEAT')
-    run(config_path)
+    checkpoint_path = os.path.join(local_dir, experiment_name, 'checkpoints')
+
+    run(config_path, checkpoint_path)
