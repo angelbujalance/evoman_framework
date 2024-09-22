@@ -95,27 +95,26 @@ def create_population(checkpoint_folder: str, config: neat.Config):
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
 
-    cp_prefix = os.path.join(
-        checkpoint_folder, CHECKPOINT_PREFIX)
+    cp_prefix = os.path.join(checkpoint_folder, CHECKPOINT_PREFIX)
     p.add_reporter(neat.Checkpointer(generation_interval=GENERATION_INTERVAL,
                                      filename_prefix=cp_prefix))
+    os.makedirs(checkpoint_folder, exist_ok=True)
     return p
 
 
-def load_population(checkpoint_folder: str):
-    # Get the latest checkpoint from the newest file in the folder
-    files = os.listdir(checkpoint_folder)
-    file = max(files,
-               key=lambda f: os.path.getctime(os.path.join(checkpoint_folder, f)))
-
-    return neat.Checkpointer.restore_checkpoint(file)
-
-
 def get_population(checkpoint_folder: str, config: neat.Config):
-    if checkpoint_folder is None or not os.path.exists(checkpoint_folder):
+    os.makedirs(checkpoint_folder, exist_ok=True)
+    files = os.listdir(checkpoint_folder)
+
+    if len(files) == 0:
         return create_population(checkpoint_folder, config)
 
-    return load_population(checkpoint_folder)
+    def get_latest_file(f):
+        return os.path.getctime(os.path.join(checkpoint_folder, f))
+
+    filename = max(os.listdir(checkpoint_folder), key=get_latest_file)
+    file = os.path.join(checkpoint_folder, filename)
+    return neat.Checkpointer.restore_checkpoint(file)
 
 
 def run(config_file: str, checkpoint_folder: str):
