@@ -110,7 +110,8 @@ def run(config_file):
     [winner.fitness, winner.player_energy, winner.enemy_energy,
      winner.individual_gain] = simulation(env, winner_net)
 
-    print(f"Winner fitness: {winner.fitness}, player_energy: {winner.player_energy}, enemy_energy: {winner.enemy_energy}, individual_gain: {winner.individual_gain}")
+    print("Winner fitness: {:.3f}, player_energy: {:.3f}, enemy_energy: {:.3f}, individual_gain: {:.3f}".format(winner.fitness, winner.player_energy, winner.enemy_energy,
+          winner.individual_gain))
     # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
     # p.run(eval_genomes, 10)
 
