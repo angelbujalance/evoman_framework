@@ -2,7 +2,7 @@
 
 # imports framework
 from evoman.environment import Environment
-from demo_controller import player_controller
+from neat_controller import PlayerControllerNEAT
 
 # imports other libs
 import time
@@ -27,7 +27,7 @@ n_hidden_neurons = 10
 env = Environment(experiment_name=experiment_name,
                   enemies=[8],
                   playermode="ai",
-                  player_controller=player_controller(n_hidden_neurons),
+                  player_controller=PlayerControllerNEAT(n_hidden_neurons),
                   enemymode="static",
                   level=2,
                   speed="fastest",
@@ -64,16 +64,21 @@ def simulation(env, x):
 
 
 # code adapted from https://neat-python.readthedocs.io/en/latest/xor_example.html
-def eval_genomes(genomes, config):
+def eval_genomes(genomes, config) -> None:
+    """
+    Fitness function which sets
+    """
+
     for genome_id, genome in genomes:
-        genome.fitness = 4.0
+        # genome.fitness = 4.0
         net = neat.nn.FeedForwardNetwork.create(genome, config)
 
         [genome.fitness, genome.player_energy, genome.enemy_energy,
             genome.individual_gain] = simulation(env, net)
 
-        return [genome.fitness, genome.player_energy,
-                genome.enemy_energy, genome.individual_gain]
+        # NOTE: Return values are ignored by neat.Population.run(eval_genomes)
+        # return [genome.fitness, genome.player_energy,
+        #         genome.enemy_energy, genome.individual_gain]
 
 
 def run(config_file):
