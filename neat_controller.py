@@ -3,23 +3,35 @@ import neat
 
 
 class PlayerControllerNEAT(Controller):
-    def __init__(self, _n_hidden):
+    def __init__(self, _n_hidden: int):
         self.n_hidden = [_n_hidden]
 
-    def set(self, genome, n_inputs):
+    def set(self, genome: neat.nn.FeedForwardNetwork, n_inputs: int):
         # TODO
         # in the demo controller, the biases and weights were set here
         ...
 
-    def control(self, params, cont: neat.nn.FeedForwardNetwork = None):
-        # Normalises the input using min-max scaling
-        params = (params-min(params))/float((max(params)-min(params)))
+    def control(self, inputs: list, cont: neat.nn.FeedForwardNetwork = None):
+        """
+        Evaluates the next move of actions.
+        The actions are: left, right, jump, shoot and release.
 
-        output = cont.activate(params)
+        inputs: the list of value inputs for each of the sensors
+        cont: NEAT net to be evaluated
+
+        Returns:
+
+        A boolean list corresponding to each of the actions,
+        which defines the action's activity.
+        """
+        # Normalises the input using min-max scaling
+        inputs = (inputs-min(inputs))/float((max(inputs)-min(inputs)))
+
+        output = cont.activate(inputs)
         left, right, jump, shoot, release = self.extract_net_output(output)
         return [left, right, jump, shoot, release]
 
-    def extract_net_output(self, output):
+    def extract_net_output(self, output: list):
         if output[0] > 0.5:
             left = 1
         else:
