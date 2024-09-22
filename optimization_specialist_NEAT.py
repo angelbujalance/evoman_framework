@@ -7,7 +7,8 @@ from demo_controller import player_controller
 # imports other libs
 import time
 import numpy as np
-import glob, os
+import glob
+import os
 import neat
 from neat_population import Population
 
@@ -45,7 +46,8 @@ ini = time.time()  # sets time marker
 run_mode = 'train'  # train or test
 
 # number of weights for multilayer with 10 hidden neurons
-n_vars = (env.get_num_sensors() + 1) * n_hidden_neurons + (n_hidden_neurons + 1) * 5
+n_vars = (env.get_num_sensors() + 1) * \
+    n_hidden_neurons + (n_hidden_neurons + 1) * 5
 
 dom_u = 1
 dom_l = -1
@@ -67,7 +69,8 @@ def eval_genomes(genomes, config):
         genome.fitness = 4.0
         net = neat.nn.FeedForwardNetwork.create(genome, config)
 
-        [genome.fitness, genome.player_energy, genome.enemy_energy, genome.individual_gain] = simulation(env, net)
+        [genome.fitness, genome.player_energy, genome.enemy_energy,
+            genome.individual_gain] = simulation(env, net)
 
         return [genome.fitness, genome.player_energy,
                 genome.enemy_energy, genome.individual_gain]
@@ -80,7 +83,7 @@ def run(config_file):
                          config_file)
 
     # Create the population, which is the top-level object for a NEAT run.
-    p = Population(config_path)
+    p = Population(config)
 
     # Add a stdout reporter to show progress in the terminal.
     p.add_reporter(neat.StdOutReporter(True))
@@ -106,5 +109,5 @@ if __name__ == '__main__':
     # here so that the script will run successfully regardless of the
     # current working directory.
     local_dir = os.path.dirname(__file__)
-    config_path = os.path.join(local_dir, 'config-feedforward')
+    config_path = os.path.join(local_dir, 'config_specialist_NEAT')
     run(config_path)
