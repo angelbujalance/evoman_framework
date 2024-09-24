@@ -10,6 +10,7 @@ import numpy as np
 import glob
 import os
 import neat
+import visualize
 from neat_population import Population
 
 # Parameters for neat.Checkpointer
@@ -146,6 +147,13 @@ def run(config_file: str, checkpoint_folder: str):
     # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
     # p.run(eval_genomes, 10)
 
+    visualize.draw_net(config, winner, True, node_names={
+                       -1: 'player', -2: 'enemy'})
+    visualize.draw_net(config, winner, True, node_names={
+                       -1: 'player', -2: 'enemy'}, filename='winner.svg')
+    visualize.plot_stats(p.reporter.stats, ylog=False, view=True)
+    visualize.plot_species(p.reporter.stats, view=True)
+
 
 if __name__ == '__main__':
     # Determine path to configuration file. This path manipulation is
@@ -156,3 +164,12 @@ if __name__ == '__main__':
     checkpoint_path = os.path.join(local_dir, experiment_name, 'checkpoints')
 
     run(config_path, checkpoint_path)
+
+    fim = time.time() # prints total execution time for experiment
+    print( '\nExecution time: '+str(round((fim-ini)/60))+' minutes \n')
+    print( '\nExecution time: '+str(round((fim-ini)))+' seconds \n')
+    
+    file = open(experiment_name+'/neuroended', 'w')  # saves control (simulation has ended) file for bash loop file
+    file.close()
+
+    env.state_to_log() # checks environment state
