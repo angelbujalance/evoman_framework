@@ -1,9 +1,9 @@
-# Evoma
+# Evoman
 Evoman [[1]](#1) is a video game playing framework made in PyGame to be used as a testbed for optimization algorithms. It's inspired on the game MegaMan II.
 
 A demo can be found here:  https://www.youtube.com/watch?v=ZqaMjd1E4ZI
 
-Evolutionary Computing is used to train an AI-player to defeat the enemies. Each level contains one enemy, which has its own characteristics, such as the way it attacks. This enemy can shoot projectiles and the player can shoot to decrease the health of the enemy. These enemies resemble the enemies from MegaMan II.
+Evolutionary Computing is used to train an AI-player to defeat the enemies. Each level contains one enemy, which has its own characteristics, such as the way it attacks. This enemy can shoot projectiles and the player can shoot to decrease the health of the enemy. The moves of the enemies are predefined and resemble the enemies from MegaMan II.
 
 There are two methods, namely the specialist and the generalist. For the specialist, only a single objective is used for training. The objective is the enemy in this case. On the other hand, a generalist performs training on multiple enemies.
 
@@ -16,6 +16,13 @@ In this repository, we implemented two Evolutionary Algorithms (EA) using NEAT.
 Use the requirements.txt file to install the dependencies.
 
 # How to use
+## Human controller
+This game can be played with a human player against each of the enemies. The game will start with level 1, when the player or the enemy reaches a health of zero, the level is ended and will continue to the next one, regardless of who has one. This also happens in case of a time-out.
+
+To play the game, use the following command:
+
+```python human_demo.py```
+
 ## EA 1
 The following files are specific to this EA:
 
@@ -25,7 +32,7 @@ The following files are specific to this EA:
 
 This algorithm trains on enemy TODO and tests on enemies TODO.
 
-To run this program, use the following command:
+To run this method, use the following command:
 
 ```python optimization_specialist_NEAT.py```
 
