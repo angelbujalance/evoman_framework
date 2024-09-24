@@ -1,3 +1,40 @@
-Evoman is a video game playing framework to be used as a testbed for optimization algorithms.
+# Evoma
+Evoman [[1]](#1) is a video game playing framework made in PyGame to be used as a testbed for optimization algorithms. It's inspired on the game MegaMan II.
 
 A demo can be found here:  https://www.youtube.com/watch?v=ZqaMjd1E4ZI
+
+Evolutionary Computing is used to train an AI-player to defeat the enemies. Each level contains one enemy, which has its own characteristics, such as the way it attacks. This enemy can shoot projectiles and the player can shoot to decrease the health of the enemy. These enemies resemble the enemies from MegaMan II.
+
+There are two methods, namely the specialist and the generalist. For the specialist, only a single objective is used for training. The objective is the enemy in this case. On the other hand, a generalist performs training on multiple enemies.
+
+There are 20 values (sensors) in total which can determine the player's next action. 16 sensors are used for the distances (x, y) between the player and one of the maximum 8 projectiles. Another tuple (x, y) of two sensors is used for the distance between the player and the enemy. Finally, two sensors are used for the player's facing direction.
+
+# Specialist
+In this repository, we implemented two Evolutionary Algorithms (EA) using NEAT.
+
+# Install
+Use the requirements.txt file to install the dependencies.
+
+# How to use
+## EA 1
+The following files are specific to this EA:
+
+- config_specialist_NEAT: The configuration file to use with NEAT.
+- neat_controller.py: The AI-player controller, which determines the next action.
+- optimization_specialist_NEAT.py: Initializes the population and runs NEAT's genetic algorithm.
+
+This algorithm trains on enemy TODO and tests on enemies TODO.
+
+To run this program, use the following command:
+
+```python optimization_specialist_NEAT.py```
+
+This will produce output files (logs and checkpoints) in the folder `optimization_test`. If there already is a checkpoint file in here, this will be used to continue the algorithm.
+
+## EA 2
+
+# Generalist
+
+# References
+<a id="1">[1]</a>
+Karine da Silva Miras de Araújo and Fabrício Olivetti de França. 2016. An electronic-game framework for evaluating coevolutionary algorithms. arXiv.NE/1604.00644. https://arxiv.org/abs/1604.00644
