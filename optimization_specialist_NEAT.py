@@ -151,8 +151,18 @@ def run(config_file: str, checkpoint_folder: str):
                        -1: 'player', -2: 'enemy'})
     visualize.draw_net(config, winner, True, node_names={
                        -1: 'player', -2: 'enemy'}, filename='winner.svg')
-    visualize.plot_stats(p.reporters.stats, ylog=False, view=True)
-    visualize.plot_species(p.reporters.stats, view=True)
+
+    stats = None
+    for r in p.reporters.reporters:
+        if type(r) == neat.StatisticsReporter:
+            stats = r
+            break
+
+    if stats is None:
+        return
+
+    visualize.plot_stats(stats, ylog=False, view=True)
+    visualize.plot_species(stats, view=True)
 
 
 if __name__ == '__main__':
