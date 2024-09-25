@@ -22,7 +22,7 @@ headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-experiment_name = 'optimization_test'
+experiment_name = 'optimization_NEAT'
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
 
@@ -151,8 +151,18 @@ def run(config_file: str, checkpoint_folder: str):
                        -1: 'player', -2: 'enemy'})
     visualize.draw_net(config, winner, True, node_names={
                        -1: 'player', -2: 'enemy'}, filename='winner.svg')
-    visualize.plot_stats(p.reporter.stats, ylog=False, view=True)
-    visualize.plot_species(p.reporter.stats, view=True)
+
+    stats = None
+    for r in p.reporters.reporters:
+        if type(r) == neat.StatisticsReporter:
+            stats = r
+            break
+
+    if stats is None:
+        return
+
+    visualize.plot_stats(stats, ylog=False, view=True)
+    visualize.plot_species(stats, view=True)
 
 
 if __name__ == '__main__':
@@ -165,11 +175,12 @@ if __name__ == '__main__':
 
     run(config_path, checkpoint_path)
 
-    fim = time.time() # prints total execution time for experiment
-    print( '\nExecution time: '+str(round((fim-ini)/60))+' minutes \n')
-    print( '\nExecution time: '+str(round((fim-ini)))+' seconds \n')
-    
-    file = open(experiment_name+'/neuroended', 'w')  # saves control (simulation has ended) file for bash loop file
+    fim = time.time()  # prints total execution time for experiment
+    print('\nExecution time: '+str(round((fim-ini)/60))+' minutes \n')
+    print('\nExecution time: '+str(round((fim-ini)))+' seconds \n')
+
+    # saves control (simulation has ended) file for bash loop file
+    file = open(experiment_name+'/neuroended', 'w')
     file.close()
 
-    env.state_to_log() # checks environment state
+    env.state_to_log()  # checks environment state
