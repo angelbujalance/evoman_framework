@@ -36,7 +36,7 @@ To run this method, use the following command:
 
 ```python optimization_specialist_NEAT.py```
 
-This will produce output files (logs and checkpoints) in the folder `optimization_test`. If there already is a checkpoint file in here, this will be used to continue the algorithm.
+This will produce output files (logs and checkpoints) in the folder `optimization_NEAT`. If there already is a checkpoint file in here, this will be used to continue the algorithm.
 
 ## EA 2
 
