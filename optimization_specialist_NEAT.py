@@ -11,7 +11,6 @@ import glob
 import os
 import neat
 import visualize
-from neat_population import Population
 
 # Parameters for neat.Checkpointer
 GENERATION_INTERVAL = 5
@@ -81,10 +80,6 @@ def eval_genomes(genomes, config) -> None:
         [genome.fitness, genome.player_energy, genome.enemy_energy,
             genome.individual_gain] = simulation(env, net)
 
-        # NOTE: Return values are ignored by neat.Population.run(eval_genomes)
-        # return [genome.fitness, genome.player_energy,
-        #         genome.enemy_energy, genome.individual_gain]
-
 
 def create_population(checkpoint_folder: str, config: neat.Config):
     # Create the population, which is the top-level object for a NEAT run.
@@ -118,7 +113,15 @@ def get_population(checkpoint_folder: str, config: neat.Config):
     return neat.Checkpointer.restore_checkpoint(file)
 
 
-def run(config_file: str, checkpoint_folder: str):
+def get_stats(population: neat.Population):
+    for r in population.reporters.reporters:
+        if r is neat.StatisticsReporter:
+            return r
+
+    return None
+
+
+def run(experiment_folder: str, config_file: str, checkpoint_folder: str):
     # Load configuration.
     species_set = neat.DefaultSpeciesSet
     config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
@@ -143,20 +146,14 @@ def run(config_file: str, checkpoint_folder: str):
 
     print("Winner fitness: {:.3f}, player_energy: {:.3f}, enemy_energy: {:.3f}, individual_gain: {:.3f}".format(winner.fitness, winner.player_energy, winner.enemy_energy,
           winner.individual_gain))
-    # neat.Checkpointer.save_checkpoint(config, p, species_set, self.current_generation)
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
-    # p.run(eval_genomes, 10)
 
-    visualize.draw_net(config, winner, True, node_names={
-                       -1: 'player', -2: 'enemy'})
-    visualize.draw_net(config, winner, True, node_names={
-                       -1: 'player', -2: 'enemy'}, filename='winner.svg')
+    visualize.draw_net(config, winner, True,
+                       node_names={-1: 'player', -2: 'enemy'})
+    visualize.draw_net(config, winner, True,
+                       node_names={-1: 'player', -2: 'enemy'},
+                       filename=os.path.join(experiment_folder, 'winner.svg'))
 
-    stats = None
-    for r in p.reporters.reporters:
-        if type(r) == neat.StatisticsReporter:
-            stats = r
-            break
+    stats = get_stats(p)
 
     if stats is None:
         return
@@ -173,7 +170,8 @@ if __name__ == '__main__':
     config_path = os.path.join(local_dir, 'config_specialist_NEAT')
     checkpoint_path = os.path.join(local_dir, experiment_name, 'checkpoints')
 
-    run(config_path, checkpoint_path)
+    os.makedirs(experiment_name, exist_ok=True)
+    run(experiment_name, config_path, checkpoint_path)
 
     fim = time.time()  # prints total execution time for experiment
     print('\nExecution time: '+str(round((fim-ini)/60))+' minutes \n')
