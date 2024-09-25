@@ -24,8 +24,6 @@ class PlayerControllerNEAT(Controller):
         A boolean list corresponding to each of the actions,
         which defines the action's activity.
         """
-        # print("player_controller control", cont.fitness, len(inputs))
-        # Normalises the input using min-max scaling
         inputs = (inputs-min(inputs))/float((max(inputs)-min(inputs)))
 
         output = cont.activate(inputs)
