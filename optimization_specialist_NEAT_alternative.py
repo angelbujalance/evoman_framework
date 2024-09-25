@@ -22,7 +22,7 @@ headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-experiment_name = 'test'
+experiment_name = 'NEAT_run0'
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
 
@@ -48,7 +48,7 @@ ini = time.time()  # sets time marker
 
 # genetic algorithm params
 
-run_mode = 'train'  # train or test
+run_mode = 'train'  # train or NEAT_run0
 
 # number of weights for multilayer with 10 hidden neurons
 n_vars = (env.get_num_sensors() + 1) * \
