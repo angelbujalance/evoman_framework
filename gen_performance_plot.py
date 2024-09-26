@@ -12,7 +12,7 @@ def confidence_interval(data, confidence=0.95):
     return mean, mean - h, mean + h
 
 # Generate file names for the different runs
-files = [f'NEAT_run{run}/results_clean.txt' for run in range(10)]
+files = [f'NEAT_experiment/NEAT_run{run}/results_clean.txt' for run in range(10)]
 
 # Read the files and append them to a list of dataframes
 dfs = []

@@ -1,7 +1,7 @@
 
 
 for run in range(10):
-    file_name = f'NEAT_run{run}/results.txt'
+    file_name = f'NEAT_experiment/NEAT_run{run}/results.txt'
 
     with open(file_name, 'r') as file:
         lines = file.readlines()
@@ -19,5 +19,5 @@ for run in range(10):
     header = "generation,best_fitness,mean_fitness,std_fitness"
     new_results[0] = header
 
-    with open(f'NEAT_run{run}/results_clean.txt', 'w') as file:
+    with open(f'NEAT_experiment/NEAT_run{run}/results_clean.txt', 'w') as file:
         file.writelines(new_results)
