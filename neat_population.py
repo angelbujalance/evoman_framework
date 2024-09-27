@@ -1,14 +1,15 @@
 # Code adapted from: https://neat-python.readthedocs.io/en/latest/_modules/population.html
 
 from neat.math_util import mean
-from neat.reporting import ReporterSet
+from neat.reporting import ReporterSet, BaseReporter
+from neat.population import Population, CompleteExtinctionException
 
 
 class CompleteExtinctionException(Exception):
     pass
 
 
-class Population(object):
+class CustomPopulation(Population):
     """
     This class implements the core evolution algorithm:
         1. Evaluate fitness of all genomes.
@@ -18,41 +19,8 @@ class Population(object):
         5. Go to 1.
     """
 
-    def __init__(self, config, initial_state=None):
-        self.reporters = ReporterSet()
-        self.config = config
-        stagnation = config.stagnation_type(config.stagnation_config, self.reporters)
-        self.reproduction = config.reproduction_type(config.reproduction_config,
-                                                     self.reporters,
-                                                     stagnation)
-        if config.fitness_criterion == 'max':
-            self.fitness_criterion = max
-        elif config.fitness_criterion == 'min':
-            self.fitness_criterion = min
-        elif config.fitness_criterion == 'mean':
-            self.fitness_criterion = mean
-        elif not config.no_fitness_termination:
-            raise RuntimeError(
-                "Unexpected fitness_criterion: {0!r}".format(config.fitness_criterion))
-
-        if initial_state is None:
-            # Create a population from scratch, then partition into species.
-            self.population = self.reproduction.create_new(config.genome_type,
-                                                           config.genome_config,
-                                                           config.pop_size)
-            self.species = config.species_set_type(config.species_set_config, self.reporters)
-            self.generation = 0
-            self.species.speciate(config, self.population, self.generation)
-        else:
-            self.population, self.species, self.generation = initial_state
-
-        self.best_genome = None
-
-    def add_reporter(self, reporter):
-        self.reporters.add(reporter)
-
-    def remove_reporter(self, reporter):
-        self.reporters.remove(reporter)
+    def __init__(self, config):
+        super().__init__(config)
 
     def run(self, fitness_function, n=None):
         """
@@ -135,4 +103,4 @@ class Population(object):
         if self.config.no_fitness_termination:
             self.reporters.found_solution(self.config, self.generation, self.best_genome)
 
-        return self.best_genome
+        return self.best_genome, best

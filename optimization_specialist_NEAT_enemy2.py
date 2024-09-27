@@ -27,7 +27,7 @@ for i_run in range(10):
     print(f"Start running {i_run}")
     print("----------------------")
 
-    enemy_number = [8]
+    enemy_number = [2]
     
     experiment_name = f'NEAT_experiment/enemy_{enemy_number[0]}/NEAT_run{i_run}'
 
