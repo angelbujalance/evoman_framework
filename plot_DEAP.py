@@ -25,10 +25,14 @@ def read_results(experiment_dir, num_runs):
 
     return all_best_fitness, all_mean_fitness, all_std_fitness
 
+#TODO: is the best fitness the average of the ten runs? 
+
 def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment_dir):
     num_generations = len(all_mean_fitness[0]) 
     # Aggregate data across runs
     avg_best_fitness = np.mean(all_best_fitness, axis=0)
+    std_best_fitness = np.std(all_best_fitness, axis=0)
+
     avg_mean_fitness = np.mean(all_mean_fitness, axis=0)
     avg_std_fitness = np.mean(all_std_fitness, axis=0)
 
@@ -43,6 +47,10 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
 
     # Plot the best fitness
     plt.plot(generations, avg_best_fitness, label='Best Fitness', color='green')
+    plt.fill_between(generations,
+                     np.array(avg_best_fitness) - np.array(std_best_fitness),
+                     np.array(avg_best_fitness) + np.array(std_best_fitness),
+                     color='green', alpha=0.2, label='Best Fitness Std Dev')
 
     # Add labels and title
     plt.xlabel('Generations')
@@ -64,3 +72,6 @@ if __name__ == '__main__':
 
     # Plot the fitness results
     plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment_dir)
+
+
+
