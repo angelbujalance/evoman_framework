@@ -1,1 +1,0 @@
-best_fitness,mean_fitness,std_fitness
