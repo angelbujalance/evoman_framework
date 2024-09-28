@@ -10,7 +10,7 @@ There are two methods, namely the specialist and the generalist. For the special
 There are 20 values (sensors) in total which can determine the player's next action. 16 sensors are used for the distances (x, y) between the player and one of the maximum 8 projectiles. Another tuple (x, y) of two sensors is used for the distance between the player and the enemy. Finally, two sensors are used for the player's facing direction.
 
 # Specialist
-In this repository, we implemented two Evolutionary Algorithms (EA) using NEAT.
+In this repository, we implemented two Evolutionary Algorithms (EA) using NEAT and comma-selection.
 
 # Install
 Use the requirements.txt file to install the dependencies.
@@ -23,14 +23,14 @@ To play the game, use the following command:
 
 ```python human_demo.py```
 
-## EA 1
+## EA 1: NEAT
 The following files are specific to this EA:
 
 - config_specialist_NEAT: The configuration file to use with NEAT.
 - neat_controller.py: The AI-player controller, which determines the next action.
 - optimization_specialist_NEAT.py: Initializes the population and runs NEAT's genetic algorithm.
 
-This algorithm trains on enemy TODO and tests on enemies TODO.
+This algorithm trains on levels/enemies 1, ??? and 8.
 
 To run this method, use the following command:
 
@@ -38,9 +38,16 @@ To run this method, use the following command:
 
 This will produce output files (logs and checkpoints) in the folder `optimization_NEAT`. If there already is a checkpoint file in here, this will be used to continue the algorithm.
 
-## EA 2
+## EA 2: Comma-selection with DEAP
 
-# Generalist
+The following files are specific to this EA:
+
+- deap_controller.py: The AI-player controller, which determines the next action.
+- optimization_specialist_DEAP.py: Initializes the population and runs the comma-selection algorithm using DEAP's framework.
+
+To run this method, use the following command:
+
+```python optimization_specialist_DEAP.py```
 
 # References
 <a id="1">[1]</a>
