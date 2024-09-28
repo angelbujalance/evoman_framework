@@ -17,6 +17,7 @@ import os
 from deap import base, creator, tools, algorithms
 import random
 import csv
+import optuna  # Import Optuna
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
@@ -28,17 +29,16 @@ for i_run in range(10):
     print(f"Start running {i_run}")
     print("----------------------")
 
-    experiment_name = f'DEAPAexperimentE2/DEAP_runE2{i_run}'
+    experiment_name = f'DEAPAexperimentE2/DEAP_runE8{i_run}'
 
     if not os.path.exists(experiment_name):
         os.makedirs(experiment_name)
-
 
     n_hidden_neurons = 10
 
     # initializes simulation in individual evolution mode, for single static enemy.
     env = Environment(experiment_name=experiment_name,
-                    enemies=[2],
+                    enemies=[8],
                     playermode="ai",
                     player_controller=player_controller(n_hidden_neurons),
                     enemymode="static",
@@ -71,30 +71,20 @@ for i_run in range(10):
     # Evaluation function for DEAP
     def evaluate(individual):
         return (simulation(env, individual),)
-    #should this be:
-        return np.array(list(map(lambda y: simulation(env,y), x)))
 
     toolbox.register("evaluate", evaluate)
 
-    # genetic algorithm params, these same as the demo file
-    dom_u = 1
-    dom_l = -1
-    npop = 100  # Population size
     gens = 30  # Number of generations
-    mutpb = 0.2  # Mutation probability
-
-    cxpb = 0.5  # Crossover probability
-    mu = npop  # Number of individuals to select
-    lambda_ = npop * 2  # Number of offspring to generate
 
     # same as the demo file
     def simulation(env, x):
         f, p, e, t = env.play(pcont=x)
         return f
 
-
     # Initializes the population
-    def run_evolutionary_algorithm():
+    def run_evolutionary_algorithm(cxpb, mutpb, mu, lambda_):
+        npop = mu  # Use mu as the population size
+        
         pop = toolbox.population(n=npop)
 
         # Configure statistics and logbook
@@ -124,7 +114,20 @@ for i_run in range(10):
                 writer.writerow(record)
 
 
-    # loads file with the best solution for testing
+    # Optuna Objective Function
+    def objective(trial):
+        # Suggest hyperparameters
+        cxpb = trial.suggest_float('cxpb', 0.0, 0.9)
+        mutpb = trial.suggest_float('mutpb', 0.0, 1.0 - cxpb)
+        mu = trial.suggest_int('mu', 50, 100)
+        lambda_ = trial.suggest_int('lambda_', 100, 200)
+
+        # Run the DEAP evolutionary algorithm
+        final_pop, hof, _ = run_evolutionary_algorithm(cxpb, mutpb, mu, lambda_)
+
+        # Return the fitness of the best individual
+        return hof[0].fitness.values[0]
+
     if __name__ == '__main__':
         run_mode = 'train'  # or 'test'
 
@@ -135,17 +138,24 @@ for i_run in range(10):
             evaluate([bsol])
             sys.exit(0)
 
-        # Start the evolutionary process
+        # Record start time before Optuna study begins
         start_time = time.time()
 
-        # Run the DEAP evolutionary algorithm
-        final_pop, hof, logbook = run_evolutionary_algorithm()
+        # Start the Optuna study for hyperparameter tuning
+        study = optuna.create_study(direction='maximize')
+        study.optimize(objective, n_trials=26)  # Run 26 trials of hyperparameter optimization
+
+        # Output the best parameters
+        best_params = study.best_params
+        print(f"Best Parameters: {best_params}")
+
+        # Once best parameters are found, you can run the evolutionary algorithm again with the best parameters:
+        final_pop, hof, logbook = run_evolutionary_algorithm(best_params['cxpb'], best_params['mutpb'], best_params['mu'], best_params['lambda_'])
 
         # Save the best individual
         np.savetxt(experiment_name + '/best.txt', hof[0])
 
         # Save logbook results
-        # np.savetxt(experiment_name + '/logbook.txt', np.array(logbook))
         save_logbook(logbook, experiment_name + '/logbook.csv')
 
         # Print execution time

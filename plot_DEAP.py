@@ -9,7 +9,9 @@ def read_results(experiment_dir, num_runs):
     all_std_fitness = []
 
     for i in range(num_runs):
-        results_path = os.path.join(experiment_dir, f'DEAP_run{i}', 'logbook.csv')
+        results_path = os.path.join(experiment_dir, f'DEAP_runE{20 + i}', 'logbook.csv')
+        print(f"Trying to read: {results_path}") 
+
         try:
             data = pd.read_csv(results_path)
             best_fitness = data['max'].tolist()
@@ -64,7 +66,7 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
     plt.show()
 
 if __name__ == '__main__':
-    experiment_dir = 'DEAPAexperiment'  # Directory containing all run folders
+    experiment_dir = 'DEAPAexperimentE2'  # Directory containing all run folders
     num_runs = 10  # Number of runs
 
     # Read the results from the files
