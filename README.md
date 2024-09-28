@@ -34,14 +34,18 @@ The `optimization_specialist_*.py` are used to run the algorithms. If optuna is 
 ### EA 1: NEAT
 The following files are specific to this EA:
 
-- `config_specialist_NEAT`: The configuration file to use with NEAT.
+- `adjust_txt_files.py`*: Provides a cleaner version of the output files returned by
+- `config_specialist_NEAT`: The configuration file used by `optimization_specialist_NEAT.py` and the values are tuned by `optimization_specialist_NEAT_optuna.py`.
+- `config_specialist_NEAT_elitism`: The configuration file used by `optimization_specialist_NEAT_alternative.py`.
 - `neat_controller.py`: The AI-player controller, which determines the next action.
-- `neat_population.py`: Custom population, different than NEAT's default class (`neat.Population`) to<span style="background-color: #FFFF00">TODO</span>.
-- `optimization_specialist_NEAT.py`: Initializes the population and runs NEAT's genetic algorithm.
-- `optimization_specialist_NEAT_alternative.py`: Initializes the population and runs NEAT's genetic algorithm.
-- `optimization_specialist_NEAT_optuna.py`: Initializes the population and runs NEAT's genetic algorithm.
+- `neat_population.py`: Custom population, as alternative to NEAT's default class (`neat.Population`) to<span style="background-color: #FFFF00">TODO</span>.
+- `optimization_specialist_NEAT.py`*: Initializes the population and runs NEAT's genetic algorithm.
+- `optimization_specialist_NEAT_alternative.py`*: Initializes the population and runs NEAT's genetic algorithm.
+- `optimization_specialist_NEAT_optuna.py`*: Initializes the population and runs NEAT's genetic algorithm.
 
-This algorithm trains on levels/enemies 1, <span style="background-color: #FFFF00">TODO</span> and 8.
+*: Main file to run.
+
+This algorithm trains on levels 1, <span style="background-color: #FFFF00">TODO</span> and 8.
 
 
 This will produce output files (logs and checkpoints) in the folder `optimization_NEAT`. If there already is a checkpoint file in here, this will be used to continue the algorithm.
@@ -53,10 +57,22 @@ The following files are specific to this EA:
 - `deap_controller.py`: The AI-player controller, which determines the next action.
 - `optimization_specialist_DEAP_plus_optuna.py`: Initializes the population and runs the comma-selection algorithm using DEAP's framework. It also does hyperparameter tuning.
 - `plot_DEAP.py`: Visualize the output from the text files into plots.
+- `best_individual_runs_DEAP.py`: Evaluates and visualizes results with the best individual.
 
-To run this method, use the following command:
+To run the algorithm, including hyperparameter tuning, use the following command:
 
 ```python optimization_specialist_DEAP_plus_optuna.py```
+
+Plot the performance of the best individual by using:
+
+```python best_individual_runs_DEAP.py```
+
+
+Plot the output over the generations by using:
+
+```python best_individual_runs_DEAP.py```
+
+
 
 # References
 <a id="1">[1]</a>
