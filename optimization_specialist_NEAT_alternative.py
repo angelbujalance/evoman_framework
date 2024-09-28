@@ -16,13 +16,15 @@ import pickle
 # Parameters for neat.Checkpointer
 GENERATION_INTERVAL = 5
 CHECKPOINT_PREFIX = 'neat-checkpoint-'
+num_runs = 10
+num_gens = 26
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-for i_run in range(10):
+for i_run in range(num_runs):
     print("----------------------")
     print(f"Start running {i_run}")
     print("----------------------")
@@ -72,7 +74,7 @@ for i_run in range(10):
 
     # Create results file to store fitness metrics
     fitness_log_file = open(f'{experiment_name}/results.txt', 'w')
-    fitness_log_file.write("best_fitness,mean_fitness,std_fitness\n")
+    fitness_log_file.write("best_fitness,mean_fitness,std_fitness,gain\n")
 
 
     # runs simulation
@@ -88,22 +90,25 @@ for i_run in range(10):
         """
 
         fitness_values = []
+        gain_values = []
         for genome_id, genome in genomes:
             # genome.fitness = 4.0
             net = neat.nn.FeedForwardNetwork.create(genome, config)
 
             [genome.fitness, genome.player_energy, genome.enemy_energy,
-                genome.individual_gain] = simulation(env, net)
+                genome.gain] = simulation(env, net)
 
             fitness_values.append(genome.fitness)
+            gain_values.append(genome.gain)
 
         # Calculate fitness metrics
         best_fitness = max(fitness_values)
         mean_fitness = np.mean(fitness_values)
         std_fitness = np.std(fitness_values)
+        best_gain = gain_values[fitness_values.index(best_fitness)]
 
         # Log the metrics to the file
-        fitness_log_file.write(f"{best_fitness},{mean_fitness},{std_fitness}\n")
+        fitness_log_file.write(f"{best_fitness},{mean_fitness},{std_fitness},{best_gain}\n")
 
 
     def create_population(checkpoint_folder: str, config: neat.Config):
@@ -148,8 +153,8 @@ for i_run in range(10):
 
         p = CustomPopulation(config)
 
-        # Run for up to 30 generations.
-        winner, best = p.run(eval_genomes, 26)
+        # Run for up to 26 generations. Estimated with optuna
+        winner, best = p.run(eval_genomes, num_gens)
 
         # Display the winning genome.
         print('\nBest genome:\n{!s}'.format(winner))
