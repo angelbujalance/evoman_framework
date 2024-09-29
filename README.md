@@ -28,7 +28,7 @@ To play the game, use the following command:
 ## AI agent
 To use an AI agent there are two possible EA's.
 
-The `optimization_specialist_*.py` are used to run the algorithms. If optuna is specified, the file is used for hyperparameter tuning.
+The `optimization_specialist_*.py` are used to run the algorithms. If Optuna is specified, the file is used for hyperparameter tuning.
 
 
 ### EA 1: NEAT
@@ -38,14 +38,14 @@ The following files are specific to this EA:
 - `config_specialist_NEAT`: The configuration file used by `optimization_specialist_NEAT.py` and the values are tuned by `optimization_specialist_NEAT_optuna.py`.
 - `config_specialist_NEAT_elitism`: The configuration file used by `optimization_specialist_NEAT_alternative.py`.
 - `neat_controller.py`: The AI-player controller, which determines the next action.
-- `neat_population.py`: Custom population, as alternative to NEAT's default class (`neat.Population`) to<span style="background-color: #FFFF00">TODO</span>.
+- `neat_population.py`: Custom population, as alternative to NEAT's default class (`neat.Population`).
 - `optimization_specialist_NEAT.py`*: Initializes the population and runs NEAT's genetic algorithm.
 - `optimization_specialist_NEAT_alternative.py`*: Initializes the population and runs NEAT's genetic algorithm.
 - `optimization_specialist_NEAT_optuna.py`*: Initializes the population and runs NEAT's genetic algorithm.
 
 *: Main file to run.
 
-This algorithm trains on levels 1, <span style="background-color: #FFFF00">TODO</span> and 8.
+This algorithm trains on levels 2, 7 and 8.
 
 
 This will produce output files (logs and checkpoints) in the folder `optimization_NEAT`. If there already is a checkpoint file in here, this will be used to continue the algorithm.
