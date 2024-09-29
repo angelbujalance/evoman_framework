@@ -2,14 +2,24 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from scipy import stats
 
-def read_results(experiment_dir, num_runs):
+# Function to compute confidence intervals
+def confidence_interval(data, confidence=0.95):
+    n = len(data)
+    mean = np.mean(data)
+    sem = stats.sem(data)  # Standard error of the mean
+    h = sem * stats.t.ppf((1 + confidence) / 2, n - 1)  # Margin of error
+    return mean, mean - h, mean + h
+
+
+def read_results(experiment_dir, num_runs, enemy):
     all_best_fitness = []
     all_mean_fitness = []
     all_std_fitness = []
 
     for i in range(num_runs):
-        results_path = os.path.join(experiment_dir, f'DEAP_runE{20 + i}', 'logbook.csv')
+        results_path = os.path.join(experiment_dir, f'DEAP_runE{enemy}{i}', 'logbook.csv')
         print(f"Trying to read: {results_path}") 
 
         try:
@@ -27,9 +37,40 @@ def read_results(experiment_dir, num_runs):
 
     return all_best_fitness, all_mean_fitness, all_std_fitness
 
+
+def NEAT_results(enemy):
+
+    # Generate file names for the different runs
+    files = [f'NEAT_experiment/enemy_{enemy}/NEAT_run{run}/results_clean.txt' for run in range(10)]
+
+    # Read the files and append them to a list of dataframes
+    dfs = []
+    for run, file_name in enumerate(files):
+        df = pd.read_csv(file_name)
+        df['run'] = run  # Add a new column to track the run
+        dfs.append(df)
+
+    # Combine all DataFrames into a single DataFrame
+    combined_df = pd.concat([df.assign(run=i+1) for i, df in enumerate(dfs)])
+
+    # Group the combined dataframe by generation to calculate the statistics
+    grouped_mean_fitness = combined_df.groupby('generation')['mean_fitness'].apply(list)
+    grouped_best_fitness = combined_df.groupby('generation')['best_fitness'].apply(list)
+
+    # Calculate the mean and confidence intervals for mean fitness per generation
+    mean_fitness_means = grouped_mean_fitness.apply(np.mean)
+    mean_fitness_conf_ints = grouped_mean_fitness.apply(confidence_interval)
+
+    # Calculate the mean and confidence intervals for best fitness per generation
+    best_fitness_means = grouped_best_fitness.apply(np.mean)
+    best_fitness_conf_ints = grouped_best_fitness.apply(confidence_interval)
+
+    return mean_fitness_means, mean_fitness_conf_ints, best_fitness_means, best_fitness_conf_ints
+
+
 #TODO: is the best fitness the average of the ten runs? 
 
-def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment_dir):
+def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment_dir, enemy):
     num_generations = len(all_mean_fitness[0]) 
     # Aggregate data across runs
     avg_best_fitness = np.mean(all_best_fitness, axis=0)
@@ -40,40 +81,60 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
 
     generations = range(num_generations)
 
-    # Plot the average fitness with standard deviation
-    plt.plot(generations, avg_mean_fitness, label='Average Fitness', color='blue')
+    average_fitness_NEAT, average_fitness_NEAT_CI, best_fitness_NEAT, best_fitness_NEAT_CI, = NEAT_results(enemy)
+
+    # Separate the mean, lower, and upper confidence intervals for mean fitness
+    mean_fitness_values = [c[0] for c in average_fitness_NEAT_CI]
+    mean_ci_lower = [c[1] for c in average_fitness_NEAT_CI]
+    mean_ci_upper = [c[2] for c in average_fitness_NEAT_CI]
+
+    # Separate the mean, lower, and upper confidence intervals for best fitness
+    best_fitness_values = [c[0] for c in best_fitness_NEAT_CI]
+    best_ci_lower = [c[1] for c in best_fitness_NEAT_CI]
+    best_ci_upper = [c[2] for c in best_fitness_NEAT_CI]
+
+    # Plot the average fitness with standard deviation for DEAP
+    plt.plot(generations, avg_mean_fitness, label='Average DEAP', color='blue', ls="--")
     plt.fill_between(generations,
                      np.array(avg_mean_fitness) - np.array(avg_std_fitness),
                      np.array(avg_mean_fitness) + np.array(avg_std_fitness),
-                     color='blue', alpha=0.2, label='Standard Deviation')
+                     color='blue', alpha=0.2)
 
-    # Plot the best fitness
-    plt.plot(generations, avg_best_fitness, label='Best Fitness', color='green')
+    # Plot the average fitness with standard deviation for NEAT
+    plt.plot(generations[:25], average_fitness_NEAT, label='Average NEAT', color='green', ls="--")
+    plt.fill_between(average_fitness_NEAT.index, mean_ci_lower, mean_ci_upper,
+                     color='green', alpha=0.2)
+
+    # Plot the best fitness for DEAP
+    plt.plot(generations, avg_best_fitness, label='Best DEAP', color='blue')
     plt.fill_between(generations,
                      np.array(avg_best_fitness) - np.array(std_best_fitness),
                      np.array(avg_best_fitness) + np.array(std_best_fitness),
-                     color='green', alpha=0.2, label='Best Fitness Std Dev')
+                     color='blue', alpha=0.2)
+
+    # Plot the best fitness for NEAT
+    plt.plot(generations[:25], best_fitness_NEAT, label='Best NEAT', color='green')
+    plt.fill_between(best_fitness_NEAT.index, best_ci_lower, best_ci_upper,
+                     color='green', alpha=0.2)
 
     # Add labels and title
     plt.xlabel('Generations')
     plt.ylabel('Fitness')
-    plt.title('Fitness Over Generations for Enemy 8 DEAP')
+    plt.title(f'Fitness Over Generations for Enemy {enemy}')
     plt.legend()
     plt.grid(True)
 
     # Save the plot
-    plt.savefig(os.path.join(experiment_dir, 'DEAP_fitness_plot.png'))
+    plt.savefig(f'fitness_plot_enemy_{enemy}.png')
     plt.show()
 
 if __name__ == '__main__':
-    experiment_dir = 'DEAPAexperimentE2'  # Directory containing all run folders
+    enemy = 2
+    experiment_dir = f'DEAPexperimentE{enemy}'  # Directory containing all run folders
     num_runs = 10  # Number of runs
 
     # Read the results from the files
-    all_best_fitness, all_mean_fitness, all_std_fitness = read_results(experiment_dir, num_runs)
+    all_best_fitness, all_mean_fitness, all_std_fitness = read_results(experiment_dir, num_runs, enemy)
 
     # Plot the fitness results
-    plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment_dir)
-
-
-
+    plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment_dir, enemy)
