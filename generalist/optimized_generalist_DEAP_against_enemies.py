@@ -11,7 +11,7 @@ import csv
 import json
 
 from deap import base, creator, tools, algorithms
-from optimization_specialist_DEAP_plus_optuna import run_evolutionary_algorithm, save_logbook
+from optimization_generalist_DEAP_plus_optuna import run_evolutionary_algorithm, save_logbook
 
 # Load the best parameters from a JSON file
 
