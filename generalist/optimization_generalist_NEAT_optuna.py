@@ -11,6 +11,10 @@ import os
 import neat
 from neat_population import Population
 
+from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2
+
+CURRENT_ENEMY_GROUP = ENEMY_GROUP_1
+
 # Fine-tune to obtain the best hyperparameter setting
 
 # Define Optuna objective function
@@ -36,13 +40,14 @@ def objective(trial):
 
     # Initialize environment
     env = Environment(experiment_name=experiment_name,
-                      enemies=[8],
+                      enemies=CURRENT_ENEMY_GROUP,
                       playermode="ai",
                       player_controller=PlayerControllerNEAT(n_hidden_neurons),
                       enemymode="static",
                       level=2,
                       speed="fastest",
-                      visuals=False)
+                      visuals=False,
+                      multiplemode="yes")
 
     # Load configuration and set hyperparameters
     config_path = os.path.join(os.path.dirname(__file__),

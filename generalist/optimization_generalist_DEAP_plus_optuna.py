@@ -9,6 +9,7 @@
 import sys
 from evoman.environment import Environment
 from demo_controller import player_controller
+from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2
 
 # imports other libs
 import time
@@ -18,6 +19,8 @@ from deap import base, creator, tools, algorithms
 import random
 import csv
 import optuna  # Import Optuna
+
+CURRENT_ENEMY_GROUP = ENEMY_GROUP_1
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
@@ -38,13 +41,14 @@ for i_run in range(10):
 
     # initializes simulation in individual evolution mode, for single static enemy.
     env = Environment(experiment_name=experiment_name,
-                      enemies=[8],
+                      enemies=CURRENT_ENEMY_GROUP,
                       playermode="ai",
                       player_controller=player_controller(n_hidden_neurons),
                       enemymode="static",
                       level=2,
                       speed="fastest",
-                      visuals=False)
+                      visuals=False,
+                      multiplemode="yes")
 
     # same as the demo file
     env.state_to_log()  # checks environment state

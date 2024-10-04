@@ -4,6 +4,7 @@
 from evoman.environment import Environment
 from neat_controller import PlayerControllerNEAT
 from neat_population import CustomPopulation
+from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str
 
 # imports other libs
 import time
@@ -12,6 +13,8 @@ import glob
 import os
 import neat
 import pickle
+
+CURRENT_ENEMY_GROUP = ENEMY_GROUP_1
 
 # Parameters for neat.Checkpointer
 GENERATION_INTERVAL = 5
@@ -29,9 +32,7 @@ for i_run in range(num_runs):
     print(f"Start running {i_run}")
     print("----------------------")
 
-    enemy_number = [8]
-
-    experiment_name = f'NEAT_experiment/enemy_{enemy_number[0]}/NEAT_run{i_run}'
+    experiment_name = f'NEAT_experiment/enemy_{enemy_group_to_str(CURRENT_ENEMY_GROUP)}/NEAT_run{i_run}'
 
     if not os.path.exists(experiment_name):
         os.makedirs(experiment_name)
@@ -40,13 +41,14 @@ for i_run in range(num_runs):
 
     # initializes simulation in individual evolution mode, for single static enemy.
     env = Environment(experiment_name=experiment_name,
-                      enemies=enemy_number,
+                      enemies=CURRENT_ENEMY_GROUP,
                       playermode="ai",
                       player_controller=PlayerControllerNEAT(n_hidden_neurons),
                       enemymode="static",
                       level=2,
                       speed="fastest",
-                      visuals=False)
+                      visuals=False,
+                      multiplemode="yes")
 
     # default environment fitness is assumed for experiment
 
