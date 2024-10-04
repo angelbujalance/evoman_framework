@@ -195,7 +195,7 @@ for i_run in range(num_runs):
         # here so that the script will run successfully regardless of the
         # current working directory.
         local_dir = os.path.dirname(__file__)
-        config_path = os.path.join(local_dir, 'config_specialist_NEAT')
+        config_path = os.path.join(local_dir, 'config_generalist_NEAT')
         checkpoint_path = os.path.join(
             local_dir, experiment_name, 'checkpoints')
 

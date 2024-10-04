@@ -1,5 +1,6 @@
 import optuna
-from optuna.samplers import TPESampler  # Tree-structured Parzen Estimator (TPE) sampler for better search efficiency
+# Tree-structured Parzen Estimator (TPE) sampler for better search efficiency
+from optuna.samplers import TPESampler
 
 # Import existing modules
 from evoman.environment import Environment
@@ -13,14 +14,18 @@ from neat_population import Population
 # Fine-tune to obtain the best hyperparameter setting
 
 # Define Optuna objective function
+
+
 def objective(trial):
     """
     Objective function to optimize using Optuna.
     This function runs the NEAT algorithm with a set of hyperparameters and returns the best fitness.
     """
     # Hyperparameters to optimize
-    n_hidden_neurons = trial.suggest_int('num_hidden', 5, 20)  # Number of hidden neurons
-    mutation_rate = trial.suggest_float('mutation_rate', 0.01, 0.5)  # Mutation rate
+    n_hidden_neurons = trial.suggest_int(
+        'num_hidden', 5, 20)  # Number of hidden neurons
+    mutation_rate = trial.suggest_float(
+        'mutation_rate', 0.01, 0.5)  # Mutation rate
     pop_size = trial.suggest_int('pop_size', 50, 200)  # Population size
     elitism = trial.suggest_int('elitism', 1, 30)  # Number of elitism
     generations = trial.suggest_int('generations', 5, 30)  # Number of elitism
@@ -40,14 +45,16 @@ def objective(trial):
                       visuals=False)
 
     # Load configuration and set hyperparameters
-    config_path = os.path.join(os.path.dirname(__file__), 'config_specialist_NEAT')
+    config_path = os.path.join(os.path.dirname(__file__),
+                               'config_generalist_NEAT')
     checkpoint_path = os.path.join(experiment_name, 'checkpoints')
 
     def eval_genomes(genomes, config):
         fitness_values = []
         for genome_id, genome in genomes:
             net = neat.nn.FeedForwardNetwork.create(genome, config)
-            [genome.fitness, genome.player_energy, genome.enemy_energy, genome.individual_gain] = simulation(env, net)
+            [genome.fitness, genome.player_energy, genome.enemy_energy,
+                genome.individual_gain] = simulation(env, net)
             fitness_values.append(genome.fitness)
 
         best_fitness = max(fitness_values)
@@ -76,7 +83,8 @@ def objective(trial):
 
         # Run the simulation with the winning genome
         winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
-        [winner.fitness, winner.player_energy, winner.enemy_energy, winner.individual_gain] = simulation(env, winner_net)
+        [winner.fitness, winner.player_energy, winner.enemy_energy,
+            winner.individual_gain] = simulation(env, winner_net)
 
         return winner.fitness
 
