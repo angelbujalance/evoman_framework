@@ -8,7 +8,7 @@
 # imports framework
 import sys
 from evoman.environment import Environment
-from deap_controller import player_controller
+from demo_controller import player_controller
 
 # imports other libs
 import time
@@ -38,20 +38,20 @@ for i_run in range(10):
 
     # initializes simulation in individual evolution mode, for single static enemy.
     env = Environment(experiment_name=experiment_name,
-                    enemies=[8],
-                    playermode="ai",
-                    player_controller=player_controller(n_hidden_neurons),
-                    enemymode="static",
-                    level=2,
-                    speed="fastest",
-                    visuals=False)
+                      enemies=[8],
+                      playermode="ai",
+                      player_controller=player_controller(n_hidden_neurons),
+                      enemymode="static",
+                      level=2,
+                      speed="fastest",
+                      visuals=False)
 
     # same as the demo file
     env.state_to_log()  # checks environment state
 
     # same as the demo file
-    n_vars = (env.get_num_sensors() + 1) * n_hidden_neurons + (n_hidden_neurons + 1) * 5
-
+    n_vars = (env.get_num_sensors() + 1) * \
+        n_hidden_neurons + (n_hidden_neurons + 1) * 5
 
     # DEAP setup for evolutionary algorithm
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))
@@ -60,7 +60,8 @@ for i_run in range(10):
     toolbox = base.Toolbox()
 
     toolbox.register("attr_float", random.uniform, -1, 1)
-    toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_float, n=n_vars)
+    toolbox.register("individual", tools.initRepeat,
+                     creator.Individual, toolbox.attr_float, n=n_vars)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
     # Genetic operators
@@ -84,7 +85,7 @@ for i_run in range(10):
     # Initializes the population
     def run_evolutionary_algorithm(cxpb, mutpb, mu, lambda_):
         npop = mu  # Use mu as the population size
-        
+
         pop = toolbox.population(n=npop)
 
         # Configure statistics and logbook
@@ -98,23 +99,25 @@ for i_run in range(10):
         hof = tools.HallOfFame(1)
 
         # Run the DEAP evolutionary algorithm (Mu, Lambda)
-        final_pop, logbook = algorithms.eaMuCommaLambda(pop, toolbox, mu, lambda_, cxpb, mutpb, gens, stats=stats, halloffame=hof, verbose=True)
+        final_pop, logbook = algorithms.eaMuCommaLambda(
+            pop, toolbox, mu, lambda_, cxpb, mutpb, gens, stats=stats, halloffame=hof, verbose=True)
 
         return final_pop, hof, logbook
 
     # Save logbook results to a CSV file
     def save_logbook(logbook, filename):
         # Extract the relevant keys (such as 'gen', 'nevals', 'avg', 'std', 'min', 'max') from the logbook
-        keys = logbook[0].keys()  # Use the keys from the first logbook entry (assuming all entries have the same keys)
-        
+        # Use the keys from the first logbook entry (assuming all entries have the same keys)
+        keys = logbook[0].keys()
+
         with open(filename, 'w', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=keys)
             writer.writeheader()
             for record in logbook:
                 writer.writerow(record)
 
-
     # Optuna Objective Function
+
     def objective(trial):
         # Suggest hyperparameters
         cxpb = trial.suggest_float('cxpb', 0.0, 0.9)
@@ -123,7 +126,8 @@ for i_run in range(10):
         lambda_ = trial.suggest_int('lambda_', 100, 200)
 
         # Run the DEAP evolutionary algorithm
-        final_pop, hof, _ = run_evolutionary_algorithm(cxpb, mutpb, mu, lambda_)
+        final_pop, hof, _ = run_evolutionary_algorithm(
+            cxpb, mutpb, mu, lambda_)
 
         # Return the fitness of the best individual
         return hof[0].fitness.values[0]
@@ -143,14 +147,16 @@ for i_run in range(10):
 
         # Start the Optuna study for hyperparameter tuning
         study = optuna.create_study(direction='maximize')
-        study.optimize(objective, n_trials=26)  # Run 26 trials of hyperparameter optimization
+        # Run 26 trials of hyperparameter optimization
+        study.optimize(objective, n_trials=26)
 
         # Output the best parameters
         best_params = study.best_params
         print(f"Best Parameters: {best_params}")
 
         # Once best parameters are found, you can run the evolutionary algorithm again with the best parameters:
-        final_pop, hof, logbook = run_evolutionary_algorithm(best_params['cxpb'], best_params['mutpb'], best_params['mu'], best_params['lambda_'])
+        final_pop, hof, logbook = run_evolutionary_algorithm(
+            best_params['cxpb'], best_params['mutpb'], best_params['mu'], best_params['lambda_'])
 
         # Save the best individual
         np.savetxt(experiment_name + '/best.txt', hof[0])
@@ -160,8 +166,10 @@ for i_run in range(10):
 
         # Print execution time
         end_time = time.time()
-        print('\nExecution time: ' + str(round((end_time - start_time) / 60)) + ' minutes \n')
-        print('\nExecution time: ' + str(round((end_time - start_time))) + ' seconds \n')
+        print('\nExecution time: ' +
+              str(round((end_time - start_time) / 60)) + ' minutes \n')
+        print('\nExecution time: ' +
+              str(round((end_time - start_time))) + ' seconds \n')
 
         # Save control (simulation has ended) file for bash loop
         with open(experiment_name + '/neuroended', 'w') as file:
