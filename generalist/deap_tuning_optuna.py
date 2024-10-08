@@ -27,7 +27,7 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
 
     # Output the best parameters
     best_params = study.best_params
-    print(f"Best Parameters: {best_params}")
+    print(f"Best Parameters for enemies {enemies}: {best_params}")
 
     # Once best parameters are found, you can run the evolutionary algorithm again with the best parameters:
     deapRunner_best = start_run(enemies=enemies,
