@@ -46,7 +46,7 @@ if __name__ == '__main__':
         start_time = time.time()
 
         str_enemy_group = enemy_group_to_str(CURRENT_ENEMY_GROUP)
-        experiment_name = f'DEAPexperimentE{str_enemy_group}/DEAP_runE{str_enemy_group}{i_run}'
+        experiment_name = f'DEAPexperiment_E{str_enemy_group}/DEAP_run_E{str_enemy_group}_{i_run}'
 
         if not os.path.exists(experiment_name):
             os.makedirs(experiment_name)

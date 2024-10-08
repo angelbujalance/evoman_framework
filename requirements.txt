@@ -4,4 +4,5 @@ neat_python==0.92
 numpy==1.26.4
 pandas==1.2.0
 pygame==2.6.0
-deap=1.4.1
+deap==1.4.1
+optuna==4.0.0

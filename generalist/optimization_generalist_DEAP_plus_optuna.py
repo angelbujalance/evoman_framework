@@ -9,7 +9,7 @@
 import sys
 from evoman.environment import Environment
 from demo_controller import player_controller
-from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2
+from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str
 
 # imports other libs
 import time
@@ -32,7 +32,8 @@ for i_run in range(10):
     print(f"Start running {i_run}")
     print("----------------------")
 
-    experiment_name = f'DEAPAexperimentE2/DEAP_runE8{i_run}'
+    str_enemy_group = enemy_group_to_str(CURRENT_ENEMY_GROUP)
+    experiment_name = f'DEAPAexperimentE{str_enemy_group}/DEAP_runE{str_enemy_group}{i_run}'
 
     if not os.path.exists(experiment_name):
         os.makedirs(experiment_name)
@@ -59,7 +60,7 @@ for i_run in range(10):
 
     # DEAP setup for evolutionary algorithm
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))
-    creator.create("Individual", list, fitness=creator.FitnessMax)
+    creator.create("Individual", np.ndarray, fitness=creator.FitnessMax)
 
     toolbox = base.Toolbox()
 
@@ -83,7 +84,7 @@ for i_run in range(10):
 
     # same as the demo file
     def simulation(env, x):
-        f, p, e, t = env.play(pcont=x)
+        f, p, e, t = env.play(pcont=np.array(x))
         return f
 
     # Initializes the population
@@ -100,7 +101,7 @@ for i_run in range(10):
         stats.register("max", np.max)
 
         # Hall of Fame to keep track of the best individual
-        hof = tools.HallOfFame(1)
+        hof = tools.HallOfFame(1, similar=np.array_equal)
 
         # Run the DEAP evolutionary algorithm (Mu, Lambda)
         final_pop, logbook = algorithms.eaMuCommaLambda(

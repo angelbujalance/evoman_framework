@@ -21,6 +21,7 @@ GENERATION_INTERVAL = 5
 CHECKPOINT_PREFIX = 'neat-checkpoint-'
 num_runs = 10
 num_gens = 26
+cur_gens = 0
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
@@ -89,6 +90,15 @@ for i_run in range(num_runs):
         """
         Fitness function which sets
         """
+
+        global cur_gens
+
+        if cur_gens > 10:
+            config.genome_config.weight_mutate_rate *= 0.9
+            config.genome_config.conn_add_prob *= 0.95
+            config.genome_config.conn_delete_prob *= 0.95
+
+        cur_gens += 1
 
         fitness_values = []
         gain_values = []
