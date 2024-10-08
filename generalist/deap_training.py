@@ -19,7 +19,7 @@ def start_run(run_idx: int, enemies: list,
                             output_base_folder=output_base_folder)
     deapRunner.set_params(cxpb=cxpb, mutpb=mutpb, mu=mu, lambda_=lambda_)
     final_pop, hof, logbook = deapRunner.run_evolutionary_algorithm()
-    deapRunner.save_logbook(logbook)
+    deapRunner.save_logbook()
     return deapRunner
 
 

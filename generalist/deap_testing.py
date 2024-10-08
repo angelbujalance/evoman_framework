@@ -5,9 +5,9 @@ from deap_evolution import DeapRunner
 from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES
 
 
-def test_enemies(enemies: list, num_generations: int, experiment_name: str = "DEAP_testing"):
+def test_enemies(train_enemies: list, test_enemies: list, num_generations: int, experiment_name: str = "DEAP_testing"):
     deapRunner = DeapRunner(
-        enemies=enemies, num_generations=num_generations, output_base_folder=experiment_name)
+        enemies=train_enemies, num_generations=num_generations, output_base_folder=experiment_name)
     folder = deapRunner.get_run_folder()
     bsol = np.loadtxt(os.path.join(folder, 'best.txt'))
     print('\nRUNNING SAVED BEST SOLUTION\n')
@@ -23,4 +23,6 @@ def test_enemies(enemies: list, num_generations: int, experiment_name: str = "DE
 
 if __name__ == "__main__":
     for group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
-        test_enemies(enemies=group, num_generations=100)
+        for enemy in ALL_ENEMIES:
+            test_enemies(train_enemies=group, test_enemies=[
+                         enemy], num_generations=100)
