@@ -27,12 +27,12 @@ headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-for i_run in range(10):
+for i_run in range(3):
     print("----------------------")
     print(f"Start running {i_run}")
     print("----------------------")
 
-    experiment_name = f'DEAPAexperimentE2/DEAP_runE8{i_run}'
+    experiment_name = f'DEAPAexperimentE2/DEAP_runE_100GENS_{CURRENT_ENEMY_GROUP}_{i_run}'
 
     if not os.path.exists(experiment_name):
         os.makedirs(experiment_name)
@@ -83,7 +83,7 @@ for i_run in range(10):
 
     toolbox.register("evaluate", evaluate)
 
-    gens = 30  # Number of generations
+    gens = 100  # Number of generations
 
     # same as the demo file
     def simulation(env, x):
