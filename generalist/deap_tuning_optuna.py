@@ -19,7 +19,7 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
     study = optuna.create_study(direction='maximize')
 
     deapRunner = DeapRunner(enemies, num_generations=num_generations,
-                            run_idx=0, output_base_folder="DEAP_tuning")
+                            run_idx=0, training_base_folder="DEAP_tuning")
 
     # Run trials of hyperparameter optimization
     study.optimize(lambda trial: objective(deapRunner, trial),
@@ -41,7 +41,7 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
 
     final_pop, hof, logbook = deapRunner_best.get_results()
 
-    path = deapRunner_best.get_run_folder()
+    path = deapRunner_best.get_input_folder()
 
     # Save the best individual
     np.savetxt(os.path.join(path, 'best.txt'), hof[0])

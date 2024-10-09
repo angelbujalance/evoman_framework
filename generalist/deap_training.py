@@ -15,8 +15,8 @@ best_params = {
 def start_run(run_idx: int, enemies: list,
               cxpb: float, mutpb: float, mu: float, lambda_: float, num_generations: int,
               output_base_folder: str = "DEAP_training"):
-    deapRunner = DeapRunner(enemies=enemies, run_idx=run_idx, num_generations=num_generations,
-                            output_base_folder=output_base_folder)
+    deapRunner = DeapRunner(train_enemies=enemies, run_idx=run_idx, num_generations=num_generations,
+                            training_base_folder=output_base_folder)
     deapRunner.set_params(cxpb=cxpb, mutpb=mutpb, mu=mu, lambda_=lambda_)
     final_pop, hof, logbook = deapRunner.run_evolutionary_algorithm()
     deapRunner.save_logbook()

@@ -18,12 +18,16 @@ N_HIDDEN_NEURONS = 10
 
 
 class DeapRunner:
-    def __init__(self, enemies: list, num_generations: int, run_idx: int,
-                 output_base_folder: str = "DEAPexperimentE"):
-        self.enemies = enemies
+    def __init__(self, train_enemies: list, num_generations: int, run_idx: int,
+                 training_base_folder: str = "DEAPexperimentE",
+                 testing_base_folder: str = "DEAP_testing",
+                 test_enemies: list = None):
+        self.train_enemies = train_enemies
+        self.test_enemies = test_enemies
         self.run_idx = run_idx
         self.num_generations = num_generations
-        self.output_base_folder = output_base_folder
+        self.training_base_folder = training_base_folder
+        self.testing_base_folder = testing_base_folder
 
         # Params to be set using `set_params`
         self.cxpb = None
@@ -32,13 +36,20 @@ class DeapRunner:
         self.lambda_ = None
 
         self.env, self.n_vars = self._create_environment()
-        self._init_deap()
-        self.toolbox = self._create_toolbox()
+
+        if self.is_training:
+            # Only activate deap in training mode
+            self._init_deap()
+            self.toolbox = self._create_toolbox()
 
         # Results
         self.final_pop = None
         self.hof = None
         self.logbook = None
+
+    @property
+    def is_training(self):
+        return self.test_enemies is None
 
     def set_params(self, cxpb: float, mutpb: float, mu: float, lambda_: float):
         self.cxpb = cxpb
@@ -54,14 +65,16 @@ class DeapRunner:
         return toolbox
 
     def _create_environment(self):
-        experiment_name = self.get_run_folder()
+        experiment_name = self.get_input_folder()
 
         if not os.path.exists(experiment_name):
             os.makedirs(experiment_name)
 
         # initializes simulation in individual evolution mode, for single static enemy.
+        enemies = self.get_run_enemies()
+        multiplemode = "yes" if len(enemies) > 1 else "no"
         env = Environment(experiment_name=experiment_name,
-                          enemies=self.enemies,
+                          enemies=enemies,
                           playermode="ai",
                           player_controller=player_controller(
                               N_HIDDEN_NEURONS),
@@ -69,7 +82,7 @@ class DeapRunner:
                           level=2,
                           speed="fastest",
                           visuals=False,
-                          multiplemode="yes")
+                          multiplemode=multiplemode)
 
         n_vars = (env.get_num_sensors() + 1) * \
             N_HIDDEN_NEURONS + (N_HIDDEN_NEURONS + 1) * 5
@@ -99,14 +112,30 @@ class DeapRunner:
     def evaluate(self, individual):
         return (self._simulation(individual),)
 
-    # same as the demo file
-    def _simulation(self, x):
-        f, p, e, t = self.env.play(pcont=np.array(x))
+    def _simulation(self, pcont):
+        f, p, e, t = self.run_game(pcont)
         return f
 
-    def get_run_folder(self):
-        str_enemy_group = enemy_group_to_str(self.enemies)
-        return f'{self.output_base_folder}{str_enemy_group}/DEAP_run{self.run_idx}'
+    def run_game(self, pcont):
+        f, p, e, t = self.env.play(pcont=np.array(pcont))
+        return f, p, e, t
+
+    def get_input_folder(self):
+        enemies = self.train_enemies
+        return self._construct_path(self.training_base_folder, enemies)
+
+    def get_output_folder(self):
+        enemies = self.get_run_enemies()
+        base_folder = self.training_base_folder if self.is_training else self.testing_base_folder
+        return self._construct_path(base_folder, enemies)
+
+    def _construct_path(self, base_folder, enemy_group):
+        str_enemy_group = enemy_group_to_str(enemy_group)
+        return os.path.join(f'{base_folder}{str_enemy_group}',
+                            f'DEAP_run{str_enemy_group}{self.run_idx}')
+
+    def get_run_enemies(self):
+        return self.train_enemies if self.is_training else self.test_enemies
 
     # Initializes the population
     def run_evolutionary_algorithm(self):
@@ -146,7 +175,7 @@ class DeapRunner:
 
         keys = self.logbook[0].keys()
 
-        file = os.path.join(self.get_run_folder(), filename)
+        file = os.path.join(self.get_output_folder(), filename)
 
         with open(file, 'w', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=keys)
