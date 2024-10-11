@@ -101,6 +101,8 @@ class NeatRunner:
                            self.config_file)
 
     def evaluate_from_genome_file(self, file):
+        os.makedirs(os.path.dirname(file), exist_ok=True)
+
         with open(file, "rb") as f:
             genome = pickle.load(f)
 

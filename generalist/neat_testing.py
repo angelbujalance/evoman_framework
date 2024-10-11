@@ -34,7 +34,8 @@ def get_best_run_idx(enemy_group):
         results_file = os.path.join(relpath, dir, "results.txt")
 
         lines = np.genfromtxt(results_file, skip_header=True, delimiter=",")
-        line = lines[-1] if lines[0] is list else lines  # last generation
+        # last generation
+        line = lines[-1] if hasattr(lines[0], "__len__") else lines
         best_fitness, mean_fitness, std_fitness, gain = line
 
         if best_fitness > all_best_fitness:
@@ -53,12 +54,13 @@ if __name__ == "__main__":
         all_results = {}
         best_run_idx = get_best_run_idx(group)
 
-        for run_idx in amount_runs:
+        for run_idx in range(amount_runs):
             str_enemy_group = enemy_group_to_str(group)
             file = os.path.join("results", "NEAT", "tested",
                                 f"enemy_{str_enemy_group}", f"run_{run_idx}",
                                 "results.csv")
 
+            os.makedirs(os.path.dirname(file), exist_ok=True)
             with open(file, "w") as f:
                 f.write("enemy,fitness,player_energy,enemy_energy,gain\n")
 
@@ -67,7 +69,8 @@ if __name__ == "__main__":
                                                                           run_idx=best_run_idx)
 
                 with open(file, "a") as f:
-                    f.write(fitness, player_energy, enemy_energy, gain)
+                    f.write(
+                        ",".join(map(str, [enemy, fitness, player_energy, enemy_energy, gain])) + "\n")
 
                 all_results[enemy] = (
                     fitness, player_energy, enemy_energy, gain)
