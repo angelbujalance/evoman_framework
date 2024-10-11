@@ -14,20 +14,21 @@ headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-N_HIDDEN_NEURONS = 10
-
 
 class DeapRunner:
     def __init__(self, train_enemies: list, num_generations: int, run_idx: int,
-                 training_base_folder: str = "DEAPexperimentE",
-                 testing_base_folder: str = "DEAP_testing",
-                 test_enemies: list = None):
+                 training_base_folder: str = "trained",
+                 testing_base_folder: str = "tested",
+                 test_enemies: list = None, n_hidden_neurons=10):
         self.train_enemies = train_enemies
         self.test_enemies = test_enemies
         self.run_idx = run_idx
         self.num_generations = num_generations
-        self.training_base_folder = training_base_folder
-        self.testing_base_folder = testing_base_folder
+        self.n_hidden_neurons = n_hidden_neurons
+        self.training_base_folder = os.path.join("results DEAP",
+                                                 training_base_folder)
+        self.testing_base_folder = os.path.join("results DEAP",
+                                                testing_base_folder)
 
         # Params to be set using `set_params`
         self.cxpb = None
@@ -39,7 +40,7 @@ class DeapRunner:
 
         if self.is_training:
             # Only activate deap in training mode
-            self._init_deap()
+            self._init_deap_training()
             self.toolbox = self._create_toolbox()
 
         # Results
@@ -57,12 +58,10 @@ class DeapRunner:
         self.mu = mu
         self.lambda_ = lambda_
 
-    def _init_deap(self):
+    def _init_deap_training(self):
         # DEAP setup for evolutionary algorithm
         creator.create("FitnessMax", base.Fitness, weights=(1.0,))
         creator.create("Individual", list, fitness=creator.FitnessMax)
-        toolbox = self._create_toolbox()
-        return toolbox
 
     def _create_environment(self):
         experiment_name = self.get_input_folder()
@@ -77,7 +76,7 @@ class DeapRunner:
                           enemies=enemies,
                           playermode="ai",
                           player_controller=player_controller(
-                              N_HIDDEN_NEURONS),
+                              self.n_hidden_neurons),
                           enemymode="static",
                           level=2,
                           speed="fastest",
@@ -85,7 +84,7 @@ class DeapRunner:
                           multiplemode=multiplemode)
 
         n_vars = (env.get_num_sensors() + 1) * \
-            N_HIDDEN_NEURONS + (N_HIDDEN_NEURONS + 1) * 5
+            self.n_hidden_neurons + (self.n_hidden_neurons + 1) * 5
 
         env.state_to_log()  # checks environment state
         return env, n_vars
