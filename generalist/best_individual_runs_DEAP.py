@@ -6,6 +6,7 @@ import seaborn as sns
 
 from evoman.environment import Environment
 from demo_controller import player_controller
+from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str
 
 N_GAMES = 5  # Specify the number of games to play
 
@@ -16,7 +17,7 @@ def read_results(experiment_dir, num_runs):
 
     for i in range(num_runs):
         results_path = os.path.join(
-            experiment_dir, f'DEAP_runE2{i}', 'logbook.csv')
+            experiment_dir, f'run_{i}', 'logbook.csv')
         try:
             data = pd.read_csv(results_path)
             best_fitness = data['max'].tolist()
@@ -40,7 +41,7 @@ def read_results(experiment_dir, num_runs):
 
 def get_best_individual_weights(experiment_dir, best_run_idx):
     best_weights_path = os.path.join(
-        experiment_dir, f'DEAP_runE2{best_run_idx}', 'best.txt')
+        experiment_dir, f'run_{best_run_idx}', 'best.txt')
 
     try:
         best_weights = np.loadtxt(best_weights_path)
@@ -54,10 +55,11 @@ def get_best_individual_weights(experiment_dir, best_run_idx):
         return None
 
 
-def init_env(experiment_dir, enemy: int):
+def init_env(experiment_dir, enemies: list):
     n_hidden_neurons = 10
     env = Environment(experiment_name=experiment_dir,
-                      enemies=[enemy],
+                      enemies=enemies,
+                      multiplemode="yes" if len(enemies) > 1 else "no",
                       playermode="ai",
                       player_controller=player_controller(n_hidden_neurons),
                       enemymode="static",
@@ -113,15 +115,20 @@ def plot_gain_boxplot(gains_approach_1, gains_approach_2, enemy_number):
     ax.set_xticklabels(labels)
 
     # Create a title with T-statistic and p-value if provided
-    title = f"Enemy {enemy_number}"
+    title = f"Enemies {enemy_number}"
     ax.set_title(title)
 
     plt.show()
 
 
 if __name__ == '__main__':
-    for enemy in [1, 2, 3, 4, 5, 6, 7, 8]:
-        experiment_dir = 'DEAPAexperimentE2'  # Directory containing all run folders
+    # for enemy in [1, 2, 3, 4, 5, 6, 7, 8]:
+    for enemy_group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
+        str_enemy_group = enemy_group_to_str(enemy_group)
+
+        # Directory containing all run folders
+        experiment_dir = os.path.join('results', 'DEAP', 'trained',
+                                      f'enemies_{str_enemy_group}')
         num_runs = 10  # Number of runs
 
         # Find the best run and generation
@@ -139,14 +146,14 @@ if __name__ == '__main__':
             continue
 
         # Initialize the environment
-        env = init_env(experiment_dir, enemy)
+        env = init_env(experiment_dir, enemy_group)
 
         gains = play_games(env, best_weights, N_GAMES)
 
         print(f"All gains over {N_GAMES} games: {gains}")
 
         # Plot the boxplot for the gains
-        plot_gain_boxplot(gains_approach_1, gains, enemy_number=enemy)
+        plot_gain_boxplot(gains_approach_1, gains, enemy_number=enemy_group)
 
         # save the plot
         plt.savefig('gain_boxplot.png')

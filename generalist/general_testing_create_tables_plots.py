@@ -6,7 +6,7 @@ from enemy_groups import enemy_group_to_str
 def create_table_for_enemy_group(stats_per_enemy_all_runs: dict):
     """
     stats_per_enemy_all_runs: key is enemy number,
-        value is tuple (fitness, player_energy, enemy_energy, time)
+        value is tuple (fitness, player_energy, enemy_energy, gain)
     """
     latex_lines = []
     test_enemies = list(stats_per_enemy_all_runs.keys())
@@ -21,7 +21,7 @@ def create_table_for_enemy_group(stats_per_enemy_all_runs: dict):
     enemy_healths = []
 
     for enemy in test_enemies:
-        fitness, player_energy, enemy_energy, time = stats_per_enemy_all_runs[enemy]
+        fitness, player_energy, enemy_energy, gain = stats_per_enemy_all_runs[enemy]
         player_healths.append(round(player_energy))
         enemy_healths.append(round(enemy_energy))
 

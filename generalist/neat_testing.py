@@ -16,15 +16,15 @@ def eval_enemies(train_enemies: list, test_enemies: list,
 
     print(f'\nRUNNING SAVED BEST SOLUTION OF RUN {run_idx}\n')
     best_file = os.path.join(folder, f'best_individual_run{run_idx}')
-    fitness, player_energy, enemy_energy, time = neatRunner.evaluate_from_genome_file(
+    fitness, player_energy, enemy_energy, gain = neatRunner.evaluate_from_genome_file(
         best_file)
 
-    return fitness, player_energy, enemy_energy, time
+    return fitness, player_energy, enemy_energy, gain
 
 
 def get_best_run_idx(enemy_group):
     str_enemy_group = enemy_group_to_str(enemy_group)
-    relpath = os.path.join("results NEAT", "trained",
+    relpath = os.path.join("results", "NEAT", "trained",
                            f"enemies_{str_enemy_group}")
 
     best_run_idx = 0
@@ -34,7 +34,6 @@ def get_best_run_idx(enemy_group):
         results_file = os.path.join(relpath, dir, "results.txt")
 
         lines = np.genfromtxt(results_file, skip_header=True, delimiter=",")
-        print(lines)
         line = lines[-1] if lines[0] is list else lines  # last generation
         best_fitness, mean_fitness, std_fitness, gain = line
 
@@ -46,6 +45,7 @@ def get_best_run_idx(enemy_group):
 
 
 if __name__ == "__main__":
+    amount_runs = 10
     groups = [ENEMY_GROUP_1, ENEMY_GROUP_2]
     enemies = ALL_ENEMIES
 
@@ -53,10 +53,25 @@ if __name__ == "__main__":
         all_results = {}
         best_run_idx = get_best_run_idx(group)
 
-        for enemy in enemies:
-            results = eval_enemies(train_enemies=group, test_enemies=[enemy],
-                                   run_idx=best_run_idx)
+        for run_idx in amount_runs:
+            str_enemy_group = enemy_group_to_str(group)
+            file = os.path.join("results", "NEAT", "tested",
+                                f"enemy_{str_enemy_group}", f"run_{run_idx}",
+                                "results.csv")
 
-            all_results[enemy] = results
+            with open(file, "w") as f:
+                f.write("enemy,fitness,player_energy,enemy_energy,gain\n")
 
-        save_table_for_enemy_group(all_results, "NEAT", group)
+            for enemy in enemies:
+                fitness, player_energy, enemy_energy, gain = eval_enemies(train_enemies=group, test_enemies=[enemy],
+                                                                          run_idx=best_run_idx)
+
+                with open(file, "a") as f:
+                    f.write(fitness, player_energy, enemy_energy, gain)
+
+                all_results[enemy] = (
+                    fitness, player_energy, enemy_energy, gain)
+
+            if run_idx == best_run_idx:
+                # Only save the best run as a table.
+                save_table_for_enemy_group(all_results, "NEAT", group)

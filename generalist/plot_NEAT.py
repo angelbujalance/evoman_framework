@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
+import os
 
 from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str
 
@@ -19,8 +20,10 @@ def confidence_interval(data, confidence=0.95):
 
 
 # Generate file names for the different runs
-files = [
-    f'NEAT_experiment/enemy_{enemy_group_to_str(ENEMIES)}/NEAT_run{run}/results.txt' for run in range(10)]
+files = [os.path.join('results', 'NEAT', 'tested',
+                      f'enemy_{enemy_group_to_str(ENEMIES)}',
+                      f'run_{run_idx}', 'results.csv')
+         for run_idx in range(10)]
 
 # Read the files and append them to a list of dataframes
 dfs = []

@@ -24,7 +24,7 @@ def read_results(experiment_dir, num_runs, enemy):
 
     for i in range(num_runs):
         results_path = os.path.join(
-            experiment_dir, f'DEAP_runE{enemy}{i}', 'logbook.csv')
+            experiment_dir, f'run_{i}', 'logbook.csv')
         print(f"Trying to read: {results_path}")
 
         try:
@@ -46,8 +46,9 @@ def read_results(experiment_dir, num_runs, enemy):
 def NEAT_results(enemy):
 
     # Generate file names for the different runs
-    files = [
-        f'NEAT_experiment/enemy_{enemy}/NEAT_run{run}/results_clean.txt' for run in range(10)]
+    files = [os.path.join('results', 'NEAT', 'trained', f'enemy_{enemy}',
+                          f'run_{run}', 'results_clean.txt')
+             for run in range(10)]
 
     # Read the files and append them to a list of dataframes
     dfs = []
@@ -138,14 +139,17 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
     plt.grid(True)
 
     # Save the plot
-    plt.savefig(f'fitness_plot_enemy_{enemy_group_to_str(enemy_group)}.png')
+    plt.savefig(os.path.join(experiment_dir,
+                             f'fitness_plot_enemy_{enemy_group_to_str(enemy_group)}.png'))
     plt.show()
 
 
 if __name__ == '__main__':
     for enemy_group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
         # Directory containing all run folders
-        experiment_dir = f'DEAPexperimentE{enemy_group_to_str(enemy_group)}'
+        experiment_dir = os.path.join(
+            'results', 'DEAP', 'trained',
+            f'enemies_{enemy_group_to_str(enemy_group)}')
         num_runs = 10  # Number of runs
 
         # Read the results from the files

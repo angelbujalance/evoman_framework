@@ -25,9 +25,9 @@ class DeapRunner:
         self.run_idx = run_idx
         self.num_generations = num_generations
         self.n_hidden_neurons = n_hidden_neurons
-        self.training_base_folder = os.path.join("results DEAP",
+        self.training_base_folder = os.path.join("results", "DEAP",
                                                  training_base_folder)
-        self.testing_base_folder = os.path.join("results DEAP",
+        self.testing_base_folder = os.path.join("results", "DEAP",
                                                 testing_base_folder)
 
         # Params to be set using `set_params`
@@ -130,8 +130,9 @@ class DeapRunner:
 
     def _construct_path(self, base_folder, enemy_group):
         str_enemy_group = enemy_group_to_str(enemy_group)
-        return os.path.join(f'{base_folder}{str_enemy_group}',
-                            f'DEAP_run{str_enemy_group}{self.run_idx}')
+        return os.path.join(f'{base_folder}',
+                            f'enemies_{str_enemy_group}',
+                            f'run_{self.run_idx}')
 
     def get_run_enemies(self):
         return self.train_enemies if self.is_training else self.test_enemies

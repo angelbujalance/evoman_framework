@@ -33,9 +33,9 @@ class NeatRunner:
         self.test_enemies = test_enemies
         self.run_idx = run_idx
         self.num_generations = num_generations
-        self.training_base_folder = os.path.join("results NEAT",
+        self.training_base_folder = os.path.join("results", "NEAT",
                                                  training_base_folder)
-        self.testing_base_folder = os.path.join("results NEAT",
+        self.testing_base_folder = os.path.join("results", "NEAT",
                                                 testing_base_folder)
 
         self.config_file = config_file
