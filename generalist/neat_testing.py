@@ -28,7 +28,7 @@ def get_best_run_idx(enemy_group):
                            f"enemies_{str_enemy_group}")
 
     best_run_idx = 0
-    best_gain = 0
+    all_best_fitness = 0
 
     for dir in os.listdir(relpath):
         results_file = os.path.join(relpath, dir, "results.txt")
@@ -38,7 +38,7 @@ def get_best_run_idx(enemy_group):
         line = lines[-1] if lines[0] is list else lines  # last generation
         best_fitness, mean_fitness, std_fitness, gain = line
 
-        if gain > best_gain:
+        if best_fitness > all_best_fitness:
             run_idx = dir.removeprefix("run_")
             best_run_idx = run_idx
 
