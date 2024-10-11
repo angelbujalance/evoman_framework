@@ -2,49 +2,36 @@ import numpy as np
 import os
 
 from deap_evolution import DeapRunner
-from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES, enemy_group_to_str
+from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES
+from general_testing_create_tables_plots import save_table_for_enemy_group
 
 
-def eval_enemies(train_enemies: list, test_enemies: list, num_generations: int,
-                 num_runs: int = 10):
-    gains = []
+def eval_enemies(train_enemies: list, test_enemies: list, num_generations: int):
+    deapRunner = DeapRunner(
+        train_enemies=train_enemies, test_enemies=test_enemies,
+        run_idx=0,
+        num_generations=num_generations)
+    folder = deapRunner.get_input_folder()
+    bsol = np.loadtxt(os.path.join(folder, 'best.txt'))
+    print('\nRUNNING SAVED BEST SOLUTION\n')
+    fitness, player_energy, enemy_energy, time = deapRunner.run_game(bsol)
 
-    for run_idx in range(num_runs):
-        deapRunner = DeapRunner(
-            train_enemies=train_enemies, test_enemies=test_enemies,
-            run_idx=run_idx,
-            num_generations=num_generations)
-        folder = deapRunner.get_input_folder()
-        bsol = np.loadtxt(os.path.join(folder, 'best.txt'))
-        print('\nRUNNING SAVED BEST SOLUTION\n')
-        fitness, player_energy, enemy_energy, time = deapRunner.run_game(bsol)
-        gain = player_energy - enemy_energy
-        gains.append(gain)
-
-    return gains
-
-
-def plot_gains(all_gains: dict):
-    ...
+    return fitness, player_energy, enemy_energy, time
 
 
 if __name__ == "__main__":
-    num_runs = 10
     num_generations = 1
 
-    groups = [ENEMY_GROUP_1]
-    enemies = [1]
-
-    # groups=[ENEMY_GROUP_1, ENEMY_GROUP_2]
-    # enemies = ALL_ENEMIES
-    all_gains = {}
+    groups = [ENEMY_GROUP_1, ENEMY_GROUP_2]
+    enemies = ALL_ENEMIES
 
     for group in groups:
+        all_results = {}
+
         for enemy in enemies:
-            gains = eval_enemies(train_enemies=group, test_enemies=[enemy],
-                                 num_generations=num_generations,
-                                 num_runs=num_runs)
+            results = eval_enemies(train_enemies=group, test_enemies=[enemy],
+                                   num_generations=num_generations)
 
-            all_gains.setdefault(enemy_group_to_str(group), {})[enemy] = gains
+            all_results[enemy] = results
 
-    plot_gains(all_gains)
+        save_table_for_enemy_group(all_results, "DEAP", group)
