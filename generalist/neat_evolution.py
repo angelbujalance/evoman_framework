@@ -173,6 +173,13 @@ class NeatRunner:
     def get_run_enemies(self):
         return self.train_enemies if self.is_training else self.test_enemies
 
+    def _update_mutation_rate(self, new_mutation_rate: float):
+        self.config.genome_config.conn_add_prob = new_mutation_rate
+        self.config.genome_config.conn_delete_prob = new_mutation_rate
+        self.config.genome_config.node_add_prob = new_mutation_rate
+        self.config.genome_config.node_delete_prob = new_mutation_rate
+        self.config.genome_config.weight_mutate_rate = new_mutation_rate
+
     def adjust_mutation_and_crossover_rates(self):
         if not self.use_adjusted_mutation_rate:
             return
@@ -192,11 +199,7 @@ class NeatRunner:
             (self.current_generation / self.num_generations)
 
         # Update mutation rates in the configuration
-        self.config.genome_config.conn_add_prob = new_mutation_rate
-        self.config.genome_config.conn_delete_prob = new_mutation_rate
-        self.config.genome_config.node_add_prob = new_mutation_rate
-        self.config.genome_config.node_delete_prob = new_mutation_rate
-        self.config.genome_config.weight_mutate_rate = new_mutation_rate
+        self._update_mutation_rate(new_mutation_rate)
 
         # Allow multiple structural mutations if needed
         self.config.genome_config.single_structural_mutation = False
@@ -242,3 +245,23 @@ class NeatRunner:
             weights.append(weight)
 
         return weights
+
+    def set_params(self, n_hidden_neurons=None, mutation_rate=None, pop_size=None, elitism=None, num_generations=None):
+        """
+        Override the values from the given config file by these values.
+        """
+
+        if n_hidden_neurons is not None:
+            self.config.genome_config.num_hidden = n_hidden_neurons
+
+        if mutation_rate is not None:
+            self._update_mutation_rate(mutation_rate)
+
+        if pop_size is not None:
+            self.config.pop_size = pop_size
+
+        if elitism is not None:
+            self.config.reproduction_config.elitism = elitism
+
+        if num_generations is not None:
+            self.num_generations = num_generations
