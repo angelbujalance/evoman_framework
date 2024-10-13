@@ -86,4 +86,4 @@ def objective(neatRunner: NeatRunner, trial: optuna.Trial):
 
 if __name__ == "__main__":
     for group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
-        run_optuna(enemies=group, n_trials=2, num_generations=2)
+        run_optuna(enemies=group, n_trials=50, num_generations=30)
