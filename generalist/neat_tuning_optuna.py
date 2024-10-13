@@ -1,5 +1,7 @@
 import numpy as np
 import optuna
+# Tree-structured Parzen Estimator (TPE) sampler for better search efficiency
+from optuna.samplers import TPESampler
 import time
 import sys
 import os
@@ -16,10 +18,11 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
     start_time = time.time()
 
     # Start the Optuna study for hyperparameter tuning
-    study = optuna.create_study(direction='maximize')
+    study = optuna.create_study(direction='maximize', sampler=TPESampler())
 
-    neatRunner = NeatRunner(enemies, num_generations=num_generations,
-                            run_idx=0, training_base_folder="tuning")
+    neatRunner = NeatRunner(enemies,
+                            num_generations=num_generations,
+                            training_base_folder="tuning")
 
     # Run trials of hyperparameter optimization
     study.optimize(lambda trial: objective(neatRunner, trial),
@@ -33,18 +36,18 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
     neatRunner_best = start_run(enemies=enemies,
                                 run_idx=0,
                                 num_generations=num_generations,
-                                cxpb=best_params['cxpb'],
-                                mutpb=best_params['mutpb'],
-                                mu=best_params['mu'],
-                                lambda_=best_params['lambda_'],
                                 output_base_folder="tuned")
 
-    final_pop, hof, logbook = neatRunner_best.get_results()
+    best_trial = study.best_trial
+    print(f"Best trial: {best_trial.number}")
+    print(f"Best fitness: {best_trial.value}")
+    print(f"Best hyperparameters: {best_trial.params}")
 
     path = neatRunner_best.get_input_folder()
+    file = os.path.join(path, "optuna_study_results.csv")
 
-    # Save the best individual
-    np.savetxt(os.path.join(path, 'best.txt'), hof[0])
+    # Save the Optuna study results for further analysis
+    study.trials_dataframe().to_csv(file)
 
     # Print execution time
     end_time = time.time()
@@ -73,15 +76,13 @@ def objective(neatRunner: NeatRunner, trial: optuna.Trial):
         'num_generations', 5, 30)  # Number of generations
 
     # Run the NEAT evolutionary algorithm
-    neatRunner.set_params(n_hidden_neurons=n_hidden_neurons, mutation_rate=mutation_rate,
-                          pop_size=pop_size, elitism=elitism, num_generations=num_generations)
-    final_pop, hof, logbook = neatRunner.run_evolutionary_algorithm()
-    neatRunner.save_logbook()
+    neatRunner.set_params(n_hidden_neurons=n_hidden_neurons,
+                          mutation_rate=mutation_rate,
+                          pop_size=pop_size, elitism=elitism,
+                          num_generations=num_generations)
 
-    _, hof, _ = neatRunner.get_results()
-
-    # Return the fitness of the best individual
-    return hof[0].fitness.values[0]
+    winner = neatRunner.run_evolutionary_algorithm(trial.number)
+    return winner.fitness
 
 
 if __name__ == "__main__":

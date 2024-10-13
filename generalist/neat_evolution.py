@@ -17,7 +17,7 @@ if headless:
 
 
 class NeatRunner:
-    def __init__(self, train_enemies: list, num_generations: int, run_idx: int,
+    def __init__(self, train_enemies: list, num_generations: int,
                  training_base_folder: str = "trained",
                  testing_base_folder: str = "tested",
                  test_enemies: list = None,
@@ -31,7 +31,6 @@ class NeatRunner:
                  ):
         self.train_enemies = train_enemies
         self.test_enemies = test_enemies
-        self.run_idx = run_idx
         self.num_generations = num_generations
         self.training_base_folder = os.path.join("results", "NEAT",
                                                  training_base_folder)
@@ -49,16 +48,9 @@ class NeatRunner:
         self.config = self._create_config()
         self.n_hidden_neurons = n_hidden_neurons
         self.config.genome_config.num_hidden = n_hidden_neurons
-        self.env, self.n_vars = self._create_environment()
-
-        if self.is_training:
-            experiment_name = self.get_input_folder()
-            self.results_file = os.path.join(experiment_name, "results.txt")
-
-            with open(self.results_file, 'w') as f:
-                f.write("best_fitness,mean_fitness,std_fitness,gain\n")
 
         self.current_generation = 0
+        self.run_idx = None
 
     @property
     def is_training(self):
@@ -208,13 +200,21 @@ class NeatRunner:
         print(
             f"Adjusted mutation rate to {new_mutation_rate:.4f} and crossover rate to {new_crossover_rate:.4f} for generation {self.current_generation}")
 
-    def run_evolutionary_algorithm(self):
+    def run_evolutionary_algorithm(self, run_idx):
+        self.run_idx = run_idx
         ini = time.time()
+        self.env, self.n_vars = self._create_environment()
+
+        experiment_name = self.get_input_folder()
+        self.results_file = os.path.join(experiment_name, "results.txt")
+
+        with open(self.results_file, 'w') as f:
+            f.write("best_fitness,mean_fitness,std_fitness,gain\n")
+
         p = CustomPopulation(self.config)
         winner, best = p.run(self.eval_genomes, self.num_generations)
 
-        best_file_name = f'best_individual_run{self.run_idx}'
-        experiment_name = self.get_input_folder()
+        best_file_name = f'best_individual_run{run_idx}'
 
         file = os.path.join(experiment_name, best_file_name)
 
@@ -232,6 +232,7 @@ class NeatRunner:
 
         file = open(os.path.join(experiment_name, 'neuroended'), 'w')
         file.close()
+        return winner
 
     def get_results(self):
         raise NotImplementedError()

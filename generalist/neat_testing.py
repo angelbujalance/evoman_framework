@@ -9,9 +9,10 @@ from general_testing_create_tables_plots import save_table_for_enemy_group
 
 def eval_enemies(train_enemies: list, test_enemies: list,
                  run_idx: int):
-    neatRunner = NeatRunner(
-        train_enemies=train_enemies, test_enemies=test_enemies,
-        run_idx=run_idx, num_generations=0)
+    neatRunner = NeatRunner(train_enemies=train_enemies,
+                            test_enemies=test_enemies,
+                            num_generations=0)
+    neatRunner.run_idx = run_idx
     folder = neatRunner.get_input_folder()
 
     print(f'\nRUNNING SAVED BEST SOLUTION OF RUN {run_idx}\n')

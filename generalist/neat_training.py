@@ -14,9 +14,10 @@ best_params = {
 
 def start_run(run_idx: int, enemies: list, num_generations: int,
               output_base_folder: str = "trained"):
-    neatRunner = NeatRunner(train_enemies=enemies, run_idx=run_idx, num_generations=num_generations,
+    neatRunner = NeatRunner(train_enemies=enemies,
+                            num_generations=num_generations,
                             training_base_folder=output_base_folder)
-    neatRunner.run_evolutionary_algorithm()
+    neatRunner.run_evolutionary_algorithm(run_idx)
     return neatRunner
 
 
