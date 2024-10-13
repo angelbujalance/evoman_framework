@@ -6,7 +6,7 @@ import time
 # import sys
 import os
 
-from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2
+from constants import ENEMY_GROUP_1, ENEMY_GROUP_2
 from neat_evolution import NeatRunner
 from neat_training import start_run
 

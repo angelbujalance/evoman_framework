@@ -1,4 +1,4 @@
-from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2
+from constants import ENEMY_GROUP_1, ENEMY_GROUP_2
 from neat_evolution import NeatRunner
 
 NUM_RUNS = 10

@@ -3,8 +3,8 @@ import os
 
 from constants import PATH_NEAT
 from neat_evolution import NeatRunner
-from enemy_groups import (ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES,
-                          enemy_group_to_str)
+from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES,
+                       enemy_group_to_str)
 from general_testing_create_tables_plots import save_table_for_enemy_group
 
 

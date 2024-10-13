@@ -2,6 +2,7 @@ import numpy as np
 import os
 import pandas as pd
 
+from constants import PATH_DEAP
 from deap_evolution import DeapRunner
 from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES
 from general_testing_create_tables_plots import save_table_for_enemy_group
@@ -56,7 +57,7 @@ if __name__ == "__main__":
     groups = [ENEMY_GROUP_1, ENEMY_GROUP_2]
     enemies = ALL_ENEMIES
 
-    best_run_idx, _, _ = get_best_run_idx("results DEAP", num_runs)
+    best_run_idx, _, _ = get_best_run_idx(PATH_DEAP, num_runs)
 
     for group in groups:
         all_results = {}

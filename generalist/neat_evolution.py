@@ -1,7 +1,7 @@
 from evoman.environment import Environment
 from neat_controller import PlayerControllerNEAT
 from neat_population import CustomPopulation
-from enemy_groups import enemy_group_to_str
+from constants import enemy_group_to_str
 
 # import time
 import numpy as np
