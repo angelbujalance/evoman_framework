@@ -32,7 +32,7 @@ def get_best_run_idx(enemy_group):
     all_best_fitness = 0
 
     for dir in os.listdir(relpath):
-        results_file = os.path.join(relpath, dir, "results.txt")
+        results_file = os.path.join(relpath, dir, "results.csv")
 
         lines = np.genfromtxt(results_file, skip_header=True, delimiter=",")
         # last generation

@@ -50,7 +50,7 @@ def NEAT_results(enemy_group, num_runs=NUM_RUNS):
     files = [os.path.join(PATH_NEAT, OUTPUT_FOLDER_TRAINING,
                           enemy_folder(enemy_group),
                           f'run_{run}',
-                          'results_clean.txt')
+                          'results.csv')
              for run in range(num_runs)]
 
     # Read the files and append them to a list of dataframes
@@ -113,6 +113,7 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
                      color='blue', alpha=0.2)
 
     # Plot the average fitness with standard deviation for NEAT
+    print(generations, average_fitness_NEAT)
     plt.plot(generations, average_fitness_NEAT,
              label='Average NEAT', color='green', ls="--")
     plt.fill_between(average_fitness_NEAT.index, mean_ci_lower, mean_ci_upper,

@@ -30,14 +30,13 @@ for i_run in range(num_runs):
     print("----------------------")
 
     enemy_number = [8]
-    
+
     experiment_name = f'NEAT_experiment/enemy_{enemy_number[0]}/NEAT_run{i_run}'
 
     if not os.path.exists(experiment_name):
         os.makedirs(experiment_name)
 
     n_hidden_neurons = 20
-
 
     # initializes simulation in individual evolution mode, for single static enemy.
     env = Environment(experiment_name=experiment_name,
@@ -73,17 +72,17 @@ for i_run in range(num_runs):
     last_best = 0
 
     # Create results file to store fitness metrics
-    fitness_log_file = open(f'{experiment_name}/results.txt', 'w')
+    fitness_log_file = open(f'{experiment_name}/results.csv', 'w')
     fitness_log_file.write("best_fitness,mean_fitness,std_fitness,gain\n")
 
-
     # runs simulation
+
     def simulation(env, x):
         f, p, e, t = env.play(pcont=x)
         return f, p, e, p-e
 
-
     # code adapted from https://neat-python.readthedocs.io/en/latest/xor_example.html
+
     def eval_genomes(genomes, config) -> None:
         """
         Fitness function which sets
@@ -108,8 +107,8 @@ for i_run in range(num_runs):
         best_gain = gain_values[fitness_values.index(best_fitness)]
 
         # Log the metrics to the file
-        fitness_log_file.write(f"{best_fitness},{mean_fitness},{std_fitness},{best_gain}\n")
-
+        fitness_log_file.write(
+            f"{best_fitness},{mean_fitness},{std_fitness},{best_gain}\n")
 
     def create_population(checkpoint_folder: str, config: neat.Config):
         # Create the population, which is the top-level object for a NEAT run.
@@ -128,7 +127,6 @@ for i_run in range(num_runs):
         os.makedirs(checkpoint_folder, exist_ok=True)
         return p
 
-
     def get_population(checkpoint_folder: str, config: neat.Config):
         os.makedirs(checkpoint_folder, exist_ok=True)
         files = os.listdir(checkpoint_folder)
@@ -142,7 +140,6 @@ for i_run in range(num_runs):
         filename = max(os.listdir(checkpoint_folder), key=get_latest_file)
         file = os.path.join(checkpoint_folder, filename)
         return neat.Checkpointer.restore_checkpoint(file)
-
 
     def run(config_file: str, checkpoint_folder: str):
         # Load configuration.
@@ -161,7 +158,7 @@ for i_run in range(num_runs):
 
         # Show output of the most fit genome against training data.
         print('\nOutput:')
-        
+
         best_file_name = f'best_individual_run{i_run}'
 
         with open(os.path.join(experiment_name, best_file_name), 'wb') as file_out:
@@ -178,22 +175,23 @@ for i_run in range(num_runs):
         # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
         # p.run(eval_genomes, 10)
 
-
     if __name__ == '__main__':
         # Determine path to configuration file. This path manipulation is
         # here so that the script will run successfully regardless of the
         # current working directory.
         local_dir = os.path.dirname(__file__)
         config_path = os.path.join(local_dir, 'config_specialist_NEAT')
-        checkpoint_path = os.path.join(local_dir, experiment_name, 'checkpoints')
+        checkpoint_path = os.path.join(
+            local_dir, experiment_name, 'checkpoints')
 
         run(config_path, checkpoint_path)
 
-        fim = time.time() # prints total execution time for experiment
+        fim = time.time()  # prints total execution time for experiment
         print('\nExecution time: '+str(round((fim-ini)/60))+' minutes \n')
         print('\nExecution time: '+str(round((fim-ini)))+' seconds \n')
 
-        file = open(experiment_name+'/neuroended', 'w')  # saves control (simulation has ended) file for bash loop file
+        # saves control (simulation has ended) file for bash loop file
+        file = open(experiment_name+'/neuroended', 'w')
         file.close()
 
         env.state_to_log()  # checks environment state

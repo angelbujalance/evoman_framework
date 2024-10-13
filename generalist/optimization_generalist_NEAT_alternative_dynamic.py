@@ -75,7 +75,7 @@ for i_run in range(num_runs):
     last_best = 0
 
     # Create results file to store fitness metrics
-    fitness_log_file = open(f'{experiment_name}/results.txt', 'w')
+    fitness_log_file = open(f'{experiment_name}/results.csv', 'w')
     fitness_log_file.write("best_fitness,mean_fitness,std_fitness,gain\n")
 
     # runs simulation

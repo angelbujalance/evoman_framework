@@ -22,7 +22,7 @@ def confidence_interval(data, confidence=0.95):
 # Generate file names for the different runs
 files = [os.path.join('results', 'NEAT', 'trained',
                       f'enemies_{enemy_group_to_str(ENEMIES)}',
-                      f'run_{run_idx}', 'results.txt')
+                      f'run_{run_idx}', 'results.csv')
          for run_idx in range(10)]
 
 # Read the files and append them to a list of dataframes

@@ -3,6 +3,7 @@ import numpy as np
 import os
 import neat
 import pickle
+import pandas as pd
 
 from evoman.environment import Environment
 from neat_controller import PlayerControllerNEAT
@@ -49,6 +50,8 @@ class NeatRunner:
 
         self.current_generation = 0
         self.run_idx = None
+
+        self.logger = {}  # gen_id: [max_fitness, mean_fitness, std_fitness]
 
     @property
     def is_training(self):
@@ -131,11 +134,6 @@ class NeatRunner:
                   f"Average Fitness = {mean_fitness:.4f}, " +
                   f"Std Dev = {std_fitness:.4f}")
 
-            with open(self.results_file, 'a') as f:
-                f.write(
-                    f"{self.current_generation},{best_fitness}," +
-                    f"{mean_fitness},{std_fitness},{best_gain}\n")
-
         else:
             print(
                 "Warning: No valid fitness values found in generation " +
@@ -204,8 +202,8 @@ class NeatRunner:
 
         print(
             f"Adjusted mutation rate to {new_mutation_rate:.4f} and " +
-            "crossover rate to {new_crossover_rate:.4f} " +
-            "for generation {self.current_generation}")
+            f"crossover rate to {new_crossover_rate:.4f} " +
+            f"for generation {self.current_generation}")
 
     def run_evolutionary_algorithm(self, run_idx):
         self.run_idx = run_idx
@@ -213,12 +211,14 @@ class NeatRunner:
         self.env, self.n_vars = self._create_environment()
 
         experiment_name = self.get_input_folder()
-        self.results_file = os.path.join(experiment_name, "results.txt")
-
-        with open(self.results_file, 'w') as f:
-            f.write("generation,best_fitness,mean_fitness,std_fitness,gain\n")
+        self.results_file = os.path.join(experiment_name, "results.csv")
 
         p = CustomPopulation(self.config)
+
+        stats = neat.StatisticsReporter()
+        p.add_reporter(stats)
+        p.add_reporter(neat.StdOutReporter(True))
+
         winner, best = p.run(self.eval_genomes, self.num_generations)
 
         best_file_name = f'best_individual_run{run_idx}'
@@ -237,6 +237,21 @@ class NeatRunner:
 
         best_weights = self.get_weights_genome(winner)
         np.savetxt(os.path.join(experiment_name, "best.txt"), best_weights)
+
+        generations = list(range(len(stats.most_fit_genomes)))
+        best_fitnesses = [stats.most_fit_genomes[i].fitness
+                          for i in range(len(stats.most_fit_genomes))]
+        mean_fitnesses = stats.get_fitness_mean()
+        std_fitnesses = stats.get_fitness_stdev()
+
+        df = pd.DataFrame({
+            'Generation': generations,
+            'Best Fitness': best_fitnesses,
+            'Mean Fitness': mean_fitnesses,
+            'Standard Deviation': std_fitnesses
+        })
+
+        df.to_csv(self.results_file, index=False)
 
         file = open(os.path.join(experiment_name, 'neuroended'), 'w')
         file.close()
