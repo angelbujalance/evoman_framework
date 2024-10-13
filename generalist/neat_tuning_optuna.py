@@ -6,7 +6,8 @@ import os
 
 from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
                        NUM_GENERATIONS, NUM_TRIALS_NEAT,
-                       OUTPUT_FOLDER_TUNING, OUTPUT_FOLDER_TUNING_BEST)
+                       OUTPUT_FOLDER_TUNING, OUTPUT_FOLDER_TUNING_BEST,
+                       TUNING_POP_SIZE_MIN, TUNING_POP_SIZE_MAX)
 from neat_evolution import NeatRunner
 from neat_training import start_run
 
@@ -20,7 +21,8 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
 
     neatRunner = NeatRunner(enemies,
                             num_generations=num_generations,
-                            training_base_folder=OUTPUT_FOLDER_TUNING)
+                            model_folder=OUTPUT_FOLDER_TUNING,
+                            results_folder=OUTPUT_FOLDER_TUNING)
 
     # Run trials of hyperparameter optimization
     study.optimize(lambda trial: objective(neatRunner, trial),
@@ -35,7 +37,8 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
     neatRunner_best = start_run(enemies=enemies,
                                 run_idx=0,
                                 num_generations=num_generations,
-                                output_base_folder=OUTPUT_FOLDER_TUNING_BEST)
+                                model_folder=OUTPUT_FOLDER_TUNING_BEST,
+                                results_folder=OUTPUT_FOLDER_TUNING_BEST)
 
     best_trial = study.best_trial
     print(f"Best trial: {best_trial.number}")
@@ -65,20 +68,16 @@ def objective(neatRunner: NeatRunner, trial: optuna.Trial):
     Optuna Objective Function
     """
     # Suggest hyperparameters
-    n_hidden_neurons = trial.suggest_int(
-        'num_hidden', 5, 20)  # Number of hidden neurons
     mutation_rate = trial.suggest_float(
-        'mutation_rate', 0.01, 0.5)  # Mutation rate
-    pop_size = trial.suggest_int('pop_size', 50, 200)  # Population size
-    elitism = trial.suggest_int('elitism', 1, 30)  # Number of elitism
-    num_generations = trial.suggest_int(
-        'num_generations', 5, 30)  # Number of generations
+        'mutation_rate', 0.01, 0.5)
+    pop_size = trial.suggest_int(
+        'pop_size', TUNING_POP_SIZE_MIN, TUNING_POP_SIZE_MAX)  # Population size
+    elitism = trial.suggest_int('elitism', 1, 30)
 
     # Run the NEAT evolutionary algorithm
-    neatRunner.set_params(n_hidden_neurons=n_hidden_neurons,
-                          mutation_rate=mutation_rate,
-                          pop_size=pop_size, elitism=elitism,
-                          num_generations=num_generations)
+    neatRunner.set_params(mutation_rate=mutation_rate,
+                          pop_size=pop_size,
+                          elitism=elitism)
 
     winner = neatRunner.run_evolutionary_algorithm(trial.number)
     return winner.fitness

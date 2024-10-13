@@ -5,7 +5,8 @@ import os
 
 from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
                        NUM_GENERATIONS,  NUM_TRIALS_DEAP,
-                       OUTPUT_FOLDER_TUNING, OUTPUT_FOLDER_TUNING_BEST)
+                       OUTPUT_FOLDER_TUNING, OUTPUT_FOLDER_TUNING_BEST,
+                       TUNING_POP_SIZE_MIN, TUNING_POP_SIZE_MAX)
 from deap_evolution import DeapRunner
 from deap_training import start_run
 
@@ -20,7 +21,8 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
     study = optuna.create_study(direction='maximize')
 
     deapRunner = DeapRunner(enemies, num_generations=num_generations,
-                            training_base_folder=OUTPUT_FOLDER_TUNING)
+                            model_folder=OUTPUT_FOLDER_TUNING,
+                            results_folder=OUTPUT_FOLDER_TUNING)
 
     # Run trials of hyperparameter optimization
     study.optimize(lambda trial: objective(deapRunner, trial),
@@ -39,11 +41,20 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
                                 mutpb=best_params['mutpb'],
                                 mu=best_params['mu'],
                                 lambda_=best_params['lambda_'],
-                                output_base_folder=OUTPUT_FOLDER_TUNING_BEST)
+                                model_folder=OUTPUT_FOLDER_TUNING_BEST,
+                                results_folder=OUTPUT_FOLDER_TUNING_BEST)
 
     final_pop, hof, logbook = deapRunner_best.get_results()
 
     path = deapRunner_best.get_input_folder()
+
+    best_trial = study.best_trial
+    print(f"Best trial: {best_trial.number}")
+    print(f"Best fitness: {best_trial.value}")
+    print(f"Best hyperparameters: {best_trial.params}")
+
+    path = deapRunner_best.get_input_folder()
+    file = os.path.join(path, "optuna_study_results.csv")
 
     # Save the best individual
     np.savetxt(os.path.join(path, 'best.txt'), hof[0])
@@ -67,13 +78,13 @@ def objective(deapRunner: DeapRunner, trial: optuna.Trial):
     # Suggest hyperparameters
     cxpb = trial.suggest_float('cxpb', 0.0, 0.9)
     mutpb = trial.suggest_float('mutpb', 0.0, 1.0 - cxpb)
-    mu = trial.suggest_int('mu', 50, 100)
+    mu = trial.suggest_int('mu', TUNING_POP_SIZE_MIN, TUNING_POP_SIZE_MAX)
     lambda_ = trial.suggest_int('lambda_', 100, 200)
 
     # Run the DEAP evolutionary algorithm
-    deapRunner.run_idx = trial.number
     deapRunner.set_params(cxpb=cxpb, mutpb=mutpb, mu=mu, lambda_=lambda_)
-    final_pop, hof, logbook = deapRunner.run_evolutionary_algorithm()
+    final_pop, hof, logbook = deapRunner.run_evolutionary_algorithm(
+        trial.number)
     deapRunner.save_logbook()
 
     _, hof, _ = deapRunner.get_results()

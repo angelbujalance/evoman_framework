@@ -13,7 +13,8 @@ def eval_enemies(train_enemies: list, test_enemies: list,
                  run_idx: int):
     deapRunner = DeapRunner(
         train_enemies=train_enemies, test_enemies=test_enemies,
-        run_idx=run_idx, num_generations=0)
+        num_generations=0)
+    deapRunner.run_idx = run_idx
     folder = deapRunner.get_input_folder()
     best_solution = np.loadtxt(os.path.join(folder, 'best.txt'))
     print(f'\nRUNNING SAVED BEST SOLUTION OF RUN {run_idx}\n')

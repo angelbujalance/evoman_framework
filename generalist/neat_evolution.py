@@ -18,8 +18,8 @@ if headless:
 
 class NeatRunner:
     def __init__(self, train_enemies: list, num_generations: int,
-                 training_base_folder: str = "trained",
-                 testing_base_folder: str = "tested",
+                 model_folder: str = "trained",
+                 results_folder: str = "tested",
                  test_enemies: list = None,
                  config_file: str = "config_generalist_NEAT",
                  n_hidden_neurons: int = 10,
@@ -32,10 +32,8 @@ class NeatRunner:
         self.train_enemies = train_enemies
         self.test_enemies = test_enemies
         self.num_generations = num_generations
-        self.training_base_folder = os.path.join(PATH_NEAT,
-                                                 training_base_folder)
-        self.testing_base_folder = os.path.join(PATH_NEAT,
-                                                testing_base_folder)
+        self.model_base_folder = os.path.join(PATH_NEAT, model_folder)
+        self.results_base_folder = os.path.join(PATH_NEAT, results_folder)
 
         self.config_file = config_file
         self.genome_type = genome_type
@@ -155,13 +153,13 @@ class NeatRunner:
 
     def get_input_folder(self):
         enemies = self.train_enemies
-        return self._construct_path(self.training_base_folder, enemies)
+        return self._construct_path(self.model_base_folder, enemies)
 
     def get_output_folder(self):
         enemies = self.get_run_enemies()
-        base_folder = (self.training_base_folder
+        base_folder = (self.model_base_folder
                        if self.is_training
-                       else self.testing_base_folder)
+                       else self.results_base_folder)
         return self._construct_path(base_folder, enemies)
 
     def _construct_path(self, base_folder, enemy_group):
@@ -259,7 +257,7 @@ class NeatRunner:
         return weights
 
     def set_params(self, n_hidden_neurons=None, mutation_rate=None,
-                   pop_size=None, elitism=None, num_generations=None):
+                   pop_size=None, elitism=None):
         """
         Override the values from the given config file by these values.
         """
@@ -275,6 +273,3 @@ class NeatRunner:
 
         if elitism is not None:
             self.config.reproduction_config.elitism = elitism
-
-        if num_generations is not None:
-            self.num_generations = num_generations

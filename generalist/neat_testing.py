@@ -43,7 +43,7 @@ def get_best_run_idx(enemy_group):
             run_idx = dir.removeprefix("run_")
             best_run_idx = run_idx
 
-    return best_run_idx
+    return int(best_run_idx)
 
 
 if __name__ == "__main__":
@@ -66,9 +66,8 @@ if __name__ == "__main__":
                 f.write("enemy,fitness,player_energy,enemy_energy,gain\n")
 
             for enemy in enemies:
-                fitness, player_energy, enemy_energy, gain = \
-                    eval_enemies(train_enemies=group, test_enemies=[enemy],
-                                 run_idx=best_run_idx)
+                fitness, player_energy, enemy_energy, gain = eval_enemies(train_enemies=group, test_enemies=[enemy],
+                                                                          run_idx=best_run_idx)
 
                 with open(file, "a") as f:
                     f.write(

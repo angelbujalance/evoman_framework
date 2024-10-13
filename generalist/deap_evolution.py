@@ -17,18 +17,16 @@ if headless:
 
 
 class DeapRunner:
-    def __init__(self, train_enemies: list, num_generations: int, run_idx: int,
-                 training_base_folder: str = OUTPUT_FOLDER_TRAINING,
-                 testing_base_folder: str = OUTPUT_FOLDER_TESTING,
-                 test_enemies: list = None, n_hidden_neurons=10):
+    def __init__(self, train_enemies: list, num_generations: int,
+                 test_enemies: list = None, n_hidden_neurons=10,
+                 model_folder: str = OUTPUT_FOLDER_TRAINING,
+                 results_folder: str = OUTPUT_FOLDER_TESTING):
         self.train_enemies = train_enemies
         self.test_enemies = test_enemies
-        self.run_idx = run_idx
         self.num_generations = num_generations
         self.n_hidden_neurons = n_hidden_neurons
-        self.training_base_folder = os.path.join(PATH_DEAP,
-                                                 training_base_folder)
-        self.testing_base_folder = os.path.join(PATH_DEAP, testing_base_folder)
+        self.model_base_folder = os.path.join(PATH_DEAP, model_folder)
+        self.results_base_folder = os.path.join(PATH_DEAP, results_folder)
 
         # Params to be set using `set_params`
         self.cxpb = None
@@ -41,6 +39,8 @@ class DeapRunner:
         self.final_pop = None
         self.hof = None
         self.logbook = None
+
+        self.run_idx = None
 
     @property
     def is_training(self):
@@ -130,13 +130,13 @@ class DeapRunner:
 
     def get_input_folder(self):
         enemies = self.train_enemies
-        return self._construct_path(self.training_base_folder, enemies)
+        return self._construct_path(self.model_base_folder, enemies)
 
     def get_output_folder(self):
         enemies = self.get_run_enemies()
-        base_folder = (self.training_base_folder
+        base_folder = (self.model_base_folder
                        if self.is_training
-                       else self.testing_base_folder)
+                       else self.results_base_folder)
         return self._construct_path(base_folder, enemies)
 
     def _construct_path(self, base_folder, enemy_group):
@@ -150,8 +150,8 @@ class DeapRunner:
 
     # Initializes the population
     def run_evolutionary_algorithm(self, run_idx):
-        self.env, self.n_vars = self._create_environment()
         self.run_idx = run_idx
+        self.env, self.n_vars = self._create_environment()
 
         # Only activate deap in training mode
         self._init_deap_training()
