@@ -1,6 +1,6 @@
 import numpy as np
 import os
-from deap import base, creator, tools, algorithms
+from deap import base, creator, tools, algorithms, cma
 import random
 import csv
 
@@ -35,6 +35,7 @@ class DeapRunner:
         self.mutpb = None
         self.mu = None
         self.lambda_ = None
+        self.use_cma = None
 
         # Results
         self.final_pop = None
@@ -45,11 +46,13 @@ class DeapRunner:
     def is_training(self):
         return self.test_enemies is None
 
-    def set_params(self, cxpb: float, mutpb: float, mu: float, lambda_: float):
+    def set_params(self, cxpb: float, mutpb: float, mu: float, lambda_: float,
+                   use_cma: bool = False):
         self.cxpb = cxpb
         self.mutpb = mutpb
         self.mu = mu
         self.lambda_ = lambda_
+        self.use_cma = use_cma
 
     def _init_deap_training(self):
         # DEAP setup for evolutionary algorithm
@@ -85,6 +88,16 @@ class DeapRunner:
 
     def _create_toolbox(self):
         toolbox = base.Toolbox()
+        toolbox.register("evaluate", self.evaluate)
+
+        if self.use_cma:
+            # Genetic operators for CMA-ES
+            # https://deap.readthedocs.io/en/master/examples/cmaes.html
+            strategy = cma.Strategy(
+                centroid=[0.0] * self.n_vars, sigma=1.0, lambda_=self.lambda_)
+            toolbox.register("generate", strategy.generate, creator.Individual)
+            toolbox.register("update", strategy.update)
+            return
 
         toolbox.register("attr_float", random.uniform, -1, 1)
         toolbox.register("individual", tools.initRepeat,
@@ -97,7 +110,6 @@ class DeapRunner:
         toolbox.register("mate", tools.cxTwoPoint)
         toolbox.register("mutate", tools.mutGaussian, mu=0, sigma=1, indpb=0.1)
         toolbox.register("select", tools.selTournament, tournsize=3)
-        toolbox.register("evaluate", self.evaluate)
 
         return toolbox
 
