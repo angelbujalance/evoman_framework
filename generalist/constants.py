@@ -1,8 +1,11 @@
 import os
-NUM_GENERATIONS = 30
-NUM_RUNS = 10
-NUM_TRIALS_NEAT = 50
-NUM_TRIALS_DEAP = 26
+
+DEBUG = False
+
+NUM_GENERATIONS = 1 if DEBUG else 30
+NUM_RUNS = 1 if DEBUG else 10
+NUM_TRIALS_NEAT = 1 if DEBUG else 50
+NUM_TRIALS_DEAP = 1 if DEBUG else 26
 
 PATH_NEAT = os.path.join("results", "NEAT")
 PATH_DEAP = os.path.join("results", "DEAP")
