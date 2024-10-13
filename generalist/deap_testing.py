@@ -45,7 +45,7 @@ def get_best_run_idx(folder, num_runs):
 
     print(
         f"Highest Best Fitness: {max_fitness_value}, found in run " +
-        "{best_run_idx}, generation {best_generation_idx}")
+        f"{best_run_idx}, generation {best_generation_idx}")
 
     return best_run_idx, best_generation_idx, max_fitness_value
 

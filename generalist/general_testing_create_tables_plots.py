@@ -32,7 +32,7 @@ def create_table_for_enemy_group(stats_per_enemy_all_runs: dict):
     latex_lines.append(fr"Player health & {latex_player_healths}\\")
     latex_lines.append("\hline")
     latex_lines.append(fr"Enemy health & {latex_enemy_healths}\\")
-    latex_lines.append("\hline")
+    latex_lines.append(r"\hline")
     latex_lines.append(r"\end{tabular}")
     return "\n".join(latex_lines)
 
@@ -44,7 +44,8 @@ def save_table_for_enemy_group(stats_per_enemy_all_runs: dict, name_EA: str,
     tabular_line = create_table_for_enemy_group(stats_per_enemy_all_runs)
 
     latex_lines.append(r"\begin{table}[ht]")
-    latex_lines.append("\n\centering")
+    latex_lines.append("\n")
+    latex_lines.append(r"\centering")
     latex_lines += "\n" + tabular_line + "\n"
     caption = f"Final healths of player and enemy. With {name_EA} model " + \
         "trained on group {train_enemy_group}."
