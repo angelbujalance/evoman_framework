@@ -1,8 +1,11 @@
 import os
+from constants import PATH_NEAT, OUTPUT_FOLDER_TRAINING
+
 enemies = [1]
 for enemy in enemies:
     for run in range(10):
-        file_name = os.path.join('results', 'NEAT', 'trained', f'enemies_{enemy}',
+        file_name = os.path.join(PATH_NEAT, OUTPUT_FOLDER_TRAINING,
+                                 f'enemies_{enemy}',
                                  f'NEAT_run{run}', 'results.txt')
 
         with open(file_name, 'r') as file:
@@ -21,7 +24,8 @@ for enemy in enemies:
         header = "generation,best_fitness,mean_fitness,std_fitness,gain"
         new_results[0] = header
 
-        file = os.path.join('results', 'NEAT', f'enemies_{enemy}',
+        file = os.path.join(PATH_NEAT, OUTPUT_FOLDER_TRAINING,
+                            f'enemies_{enemy}',
                             f'NEAT_run{run}', 'results_clean.txt')
 
         with open(file, 'w') as file:

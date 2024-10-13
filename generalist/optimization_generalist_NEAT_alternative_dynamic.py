@@ -4,7 +4,7 @@
 from evoman.environment import Environment
 from neat_controller import PlayerControllerNEAT
 from neat_population import CustomPopulation
-from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str
+from constants import ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str
 
 # imports other libs
 import time
@@ -86,14 +86,18 @@ for i_run in range(num_runs):
 
     # first implemenattion of dynamic mutation and crossover rates
     def adjust_mutation_and_crossover_rates(config, current_generation, max_generations):
-        # we can change these later to what we'd like 
+        # we can change these later to what we'd like
         initial_mutation_rate = 0.5
         final_mutation_rate = 0.1
         initial_crossover_rate = 0.7
         final_crossover_rate = 0.3
         # Linear decrease of mutation rate over generations
-        new_mutation_rate = initial_mutation_rate - (initial_mutation_rate - final_mutation_rate) * (current_generation / max_generations)
-        new_crossover_rate = initial_crossover_rate - (initial_crossover_rate - final_crossover_rate) * (current_generation / max_generations)
+        new_mutation_rate = initial_mutation_rate - \
+            (initial_mutation_rate - final_mutation_rate) * \
+            (current_generation / max_generations)
+        new_crossover_rate = initial_crossover_rate - \
+            (initial_crossover_rate - final_crossover_rate) * \
+            (current_generation / max_generations)
 
         # Update mutation rates in the configuration
         config.genome_config.conn_add_prob = new_mutation_rate
@@ -102,13 +106,12 @@ for i_run in range(num_runs):
         config.genome_config.node_delete_prob = new_mutation_rate
         config.genome_config.weight_mutate_rate = new_mutation_rate
 
-        config.genome_config.single_structural_mutation = False  # Allow multiple structural mutations if needed
+        # Allow multiple structural mutations if needed
+        config.genome_config.single_structural_mutation = False
         config.genome_config.crossover_rate = new_crossover_rate
-        
-        print(f"Adjusted mutation rate to {new_mutation_rate:.4f} and crossover rate to {new_crossover_rate:.4f} for generation {current_generation}")
 
-
-
+        print(
+            f"Adjusted mutation rate to {new_mutation_rate:.4f} and crossover rate to {new_crossover_rate:.4f} for generation {current_generation}")
 
     # code adapted from https://neat-python.readthedocs.io/en/latest/xor_example.html
 
@@ -130,12 +133,14 @@ for i_run in range(num_runs):
 
             fitness_values.append(genome.fitness)
             gain_values.append(genome.gain)
-        
+
         # Check how many genomes have valid fitness values
         valid_fitness_values = [fv for fv in fitness_values if fv is not None]
 
-        print(f"Number of genomes including None scores: {len(fitness_values)}")
-        print(f"Number of genomes with valid fitness: {len(valid_fitness_values)}")
+        print(
+            f"Number of genomes including None scores: {len(fitness_values)}")
+        print(
+            f"Number of genomes with valid fitness: {len(valid_fitness_values)}")
         if valid_fitness_values:
             best_fitness = max(valid_fitness_values)
             mean_fitness = np.mean(valid_fitness_values)
@@ -143,18 +148,19 @@ for i_run in range(num_runs):
             best_gain = gain_values[fitness_values.index(best_fitness)]
 
             # Log the metrics to the file
-            fitness_log_file.write(f"{best_fitness},{mean_fitness},{std_fitness},{best_gain}\n")
+            fitness_log_file.write(
+                f"{best_fitness},{mean_fitness},{std_fitness},{best_gain}\n")
             fitness_log_file.flush()  # Ensure that the data is written to the file
 
             # Print statistics for the current generation
             print(f"Generation {current_generation}: Max Fitness = {best_fitness:.4f}, "
-                f"Average Fitness = {mean_fitness:.4f}, Std Dev = {std_fitness:.4f}")
+                  f"Average Fitness = {mean_fitness:.4f}, Std Dev = {std_fitness:.4f}")
 
         else:
-            print(f"Warning: No valid fitness values found in generation {current_generation}.")
+            print(
+                f"Warning: No valid fitness values found in generation {current_generation}.")
 
         current_generation += 1
-        
 
     def create_population(checkpoint_folder: str, config: neat.Config):
         # Create the population, which is the top-level object for a NEAT run.
@@ -214,19 +220,16 @@ for i_run in range(num_runs):
         # Load configuration.
         species_set = neat.DefaultSpeciesSet
         config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
-                            species_set, neat.DefaultStagnation,
-                            config_file)
+                             species_set, neat.DefaultStagnation,
+                             config_file)
 
         # Create the custom population
         # p = CustomPopulation(config)
         p = get_population(checkpoint_folder, config)
 
-
         # Add the statistics reporter to track stats over generations
         stats = neat.StatisticsReporter()
         p.add_reporter(stats)
-
-
 
         # Run for up to 26 generations. Estimated with optuna
         winner, best = p.run(eval_genomes, num_gens)
@@ -236,7 +239,7 @@ for i_run in range(num_runs):
 
         # Show output of the most fit genome against training data.
         # print('\nOutput:')
-        
+
         best_file_name = f'best_individual_run{i_run}'
 
         with open(os.path.join(experiment_name, best_file_name), 'wb') as file_out:
@@ -251,14 +254,15 @@ for i_run in range(num_runs):
               winner.individual_gain))
 
         winner_weights = get_weights_network(winner)
-        np.savetxt(os.path.join(experiment_name, best_file_name + ".txt"), winner_weights)
+        np.savetxt(os.path.join(experiment_name,
+                   best_file_name + ".txt"), winner_weights)
 
         # Print statistics overview
         print('\n=== Overall Evolution Statistics ===')
         for i in range(num_gens):
             gen_stats = stats.get_fitness_stdev(i)
             print(f"Generation {i}: Max Fitness = {stats.most_fit_genomes[i].fitness}, "
-                f"Avg Fitness = {gen_stats[0]}, Std Dev = {gen_stats[1]}")
+                  f"Avg Fitness = {gen_stats[0]}, Std Dev = {gen_stats[1]}")
 
         # Final save and cleanup
         fim = time.time()  # prints total execution time for experiment

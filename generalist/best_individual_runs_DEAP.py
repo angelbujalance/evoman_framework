@@ -6,14 +6,15 @@ import seaborn as sns
 
 from evoman.environment import Environment
 from demo_controller import player_controller
-from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str
+from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str,
+                       PATH_DEAP, OUTPUT_FOLDER_TRAINING,
+                       NUM_RUNS)
 
 N_GAMES = 5  # Specify the number of games to play
 
 
 def read_results(experiment_dir, num_runs):
     all_best_fitness = []
-    best_run_indices = []  # To store which run had the best fitness for each generation
 
     for i in range(num_runs):
         results_path = os.path.join(
@@ -34,7 +35,9 @@ def read_results(experiment_dir, num_runs):
         np.argmax(all_best_fitness), all_best_fitness.shape)
 
     print(
-        f"Highest Best Fitness: {max_fitness_value}, found in run {best_run_idx}, generation {best_generation_idx}")
+        f"Highest Best Fitness: {max_fitness_value}, "
+        f"found in run {best_run_idx}, "
+        f"generation {best_generation_idx}")
 
     return best_run_idx, best_generation_idx, max_fitness_value
 
@@ -92,7 +95,8 @@ def play_games(env, best_weights, n_games):
 # Function to generate a boxplot comparing two approaches for individual gains
 def plot_gain_boxplot(gains_approach_1, gains_approach_2, enemy_number):
     """
-    Plots a boxplot for individual gains for two approaches against a specific enemy.
+    Plots a boxplot for individual gains for two approaches against a
+    specific enemy.
      gains_approach_1: List or array of individual gains for Approach 1
      gains_approach_2: List or array of individual gains for Approach 2
      enemy_number: The enemy number for the plot title
@@ -127,13 +131,12 @@ if __name__ == '__main__':
         str_enemy_group = enemy_group_to_str(enemy_group)
 
         # Directory containing all run folders
-        experiment_dir = os.path.join('results', 'DEAP', 'trained',
+        experiment_dir = os.path.join(PATH_DEAP, OUTPUT_FOLDER_TRAINING,
                                       f'enemies_{str_enemy_group}')
-        num_runs = 10  # Number of runs
 
         # Find the best run and generation
         best_run_idx, best_generation_idx, max_fitness_value = read_results(
-            experiment_dir, num_runs)
+            experiment_dir, NUM_RUNS)
 
         # Retrieve the weights of the best individual from the best run
         best_weights = get_best_individual_weights(

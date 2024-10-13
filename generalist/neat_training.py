@@ -1,7 +1,6 @@
-from constants import ENEMY_GROUP_1, ENEMY_GROUP_2
+from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
+                       NUM_RUNS, NUM_GENERATIONS, OUTPUT_FOLDER_TRAINING)
 from neat_evolution import NeatRunner
-
-NUM_RUNS = 10
 
 # TODO: these are the old ones from task 1 and DEAP
 best_params = {
@@ -13,7 +12,7 @@ best_params = {
 
 
 def start_run(run_idx: int, enemies: list, num_generations: int,
-              output_base_folder: str = "trained"):
+              output_base_folder: str = OUTPUT_FOLDER_TRAINING):
     neatRunner = NeatRunner(train_enemies=enemies,
                             num_generations=num_generations,
                             training_base_folder=output_base_folder)
@@ -29,5 +28,5 @@ def start_runs(enemies: list, n_runs: int, num_generations: int):
 
 if __name__ == "__main__":
     for group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
-        start_runs(enemies=group, num_generations=2,  # TODO: change back to 30
+        start_runs(enemies=group, num_generations=NUM_GENERATIONS,
                    n_runs=NUM_RUNS, **best_params)

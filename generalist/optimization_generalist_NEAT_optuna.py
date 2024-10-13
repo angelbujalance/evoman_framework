@@ -11,7 +11,7 @@ import os
 import neat
 from neat_population import Population
 
-from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2
+from constants import ENEMY_GROUP_1, ENEMY_GROUP_2
 
 CURRENT_ENEMY_GROUP = ENEMY_GROUP_1
 

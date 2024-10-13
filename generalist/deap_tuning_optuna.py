@@ -1,10 +1,11 @@
 import numpy as np
 import optuna
 import time
-import sys
 import os
 
-from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2
+from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
+                       NUM_GENERATIONS,  NUM_TRIALS_DEAP,
+                       OUTPUT_FOLDER_TUNING, OUTPUT_FOLDER_TUNING_BEST)
 from deap_evolution import DeapRunner
 from deap_training import start_run
 
@@ -19,7 +20,7 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
     study = optuna.create_study(direction='maximize')
 
     deapRunner = DeapRunner(enemies, num_generations=num_generations,
-                            run_idx=0, training_base_folder="DEAP_tuning")
+                            training_base_folder=OUTPUT_FOLDER_TUNING)
 
     # Run trials of hyperparameter optimization
     study.optimize(lambda trial: objective(deapRunner, trial),
@@ -29,7 +30,8 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
     best_params = study.best_params
     print(f"Best Parameters for enemies {enemies}: {best_params}")
 
-    # Once best parameters are found, you can run the evolutionary algorithm again with the best parameters:
+    # Once best parameters are found, you can run the evolutionary algorithm
+    # again with the best parameters:
     deapRunner_best = start_run(enemies=enemies,
                                 run_idx=0,
                                 num_generations=num_generations,
@@ -37,7 +39,7 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
                                 mutpb=best_params['mutpb'],
                                 mu=best_params['mu'],
                                 lambda_=best_params['lambda_'],
-                                output_base_folder="DEAP_best_tuned")
+                                output_base_folder=OUTPUT_FOLDER_TUNING_BEST)
 
     final_pop, hof, logbook = deapRunner_best.get_results()
 
@@ -69,6 +71,7 @@ def objective(deapRunner: DeapRunner, trial: optuna.Trial):
     lambda_ = trial.suggest_int('lambda_', 100, 200)
 
     # Run the DEAP evolutionary algorithm
+    deapRunner.run_idx = trial.number
     deapRunner.set_params(cxpb=cxpb, mutpb=mutpb, mu=mu, lambda_=lambda_)
     final_pop, hof, logbook = deapRunner.run_evolutionary_algorithm()
     deapRunner.save_logbook()
@@ -81,13 +84,5 @@ def objective(deapRunner: DeapRunner, trial: optuna.Trial):
 
 if __name__ == "__main__":
     for group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
-        run_optuna(enemies=group, n_trials=26, num_generations=30)
-
-    # run_mode = 'train'  # or 'test'
-
-    # if run_mode == 'test':
-    #     bsol = np.loadtxt(experiment_name + '/best.txt')
-    #     print('\nRUNNING SAVED BEST SOLUTION\n')
-    #     env.update_parameter('speed', 'normal')
-    #     evaluate([bsol])
-    #     sys.exit(0)
+        run_optuna(enemies=group, n_trials=NUM_TRIALS_DEAP,
+                   num_generations=NUM_GENERATIONS)

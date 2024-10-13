@@ -1,16 +1,14 @@
-# import numpy as np
 import optuna
 # Tree-structured Parzen Estimator (TPE) sampler for better search efficiency
 from optuna.samplers import TPESampler
 import time
-# import sys
 import os
 
-from constants import ENEMY_GROUP_1, ENEMY_GROUP_2
+from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
+                       NUM_GENERATIONS, NUM_TRIALS_NEAT,
+                       OUTPUT_FOLDER_TUNING, OUTPUT_FOLDER_TUNING_BEST)
 from neat_evolution import NeatRunner
 from neat_training import start_run
-
-NUM_RUNS = 10
 
 
 def run_optuna(enemies: list, n_trials: int, num_generations: int):
@@ -22,7 +20,7 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
 
     neatRunner = NeatRunner(enemies,
                             num_generations=num_generations,
-                            training_base_folder="tuning")
+                            training_base_folder=OUTPUT_FOLDER_TUNING)
 
     # Run trials of hyperparameter optimization
     study.optimize(lambda trial: objective(neatRunner, trial),
@@ -37,7 +35,7 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
     neatRunner_best = start_run(enemies=enemies,
                                 run_idx=0,
                                 num_generations=num_generations,
-                                output_base_folder="tuned")
+                                output_base_folder=OUTPUT_FOLDER_TUNING_BEST)
 
     best_trial = study.best_trial
     print(f"Best trial: {best_trial.number}")
@@ -88,4 +86,5 @@ def objective(neatRunner: NeatRunner, trial: optuna.Trial):
 
 if __name__ == "__main__":
     for group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
-        run_optuna(enemies=group, n_trials=50, num_generations=30)
+        run_optuna(enemies=group, n_trials=NUM_TRIALS_NEAT,
+                   num_generations=NUM_GENERATIONS)

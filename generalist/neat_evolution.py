@@ -1,13 +1,13 @@
-from evoman.environment import Environment
-from neat_controller import PlayerControllerNEAT
-from neat_population import CustomPopulation
-from constants import enemy_group_to_str
-
 # import time
 import numpy as np
 import os
 import neat
 import pickle
+
+from evoman.environment import Environment
+from neat_controller import PlayerControllerNEAT
+from neat_population import CustomPopulation
+from constants import enemy_group_to_str, PATH_NEAT
 
 
 # choose this for not using visuals and thus making experiments faster
@@ -32,9 +32,9 @@ class NeatRunner:
         self.train_enemies = train_enemies
         self.test_enemies = test_enemies
         self.num_generations = num_generations
-        self.training_base_folder = os.path.join("results", "NEAT",
+        self.training_base_folder = os.path.join(PATH_NEAT,
                                                  training_base_folder)
-        self.testing_base_folder = os.path.join("results", "NEAT",
+        self.testing_base_folder = os.path.join(PATH_NEAT,
                                                 testing_base_folder)
 
         self.config_file = config_file
@@ -94,6 +94,7 @@ class NeatRunner:
                            self.config_file)
 
     def evaluate_from_genome_file(self, file):
+        self.env, self.n_vars = self._create_environment()
         os.makedirs(os.path.dirname(file), exist_ok=True)
 
         with open(file, "rb") as f:

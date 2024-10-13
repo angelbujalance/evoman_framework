@@ -2,9 +2,9 @@ import numpy as np
 import os
 import pandas as pd
 
-from constants import PATH_DEAP
+from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES,
+                       PATH_DEAP)
 from deap_evolution import DeapRunner
-from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES
 from general_testing_create_tables_plots import save_table_for_enemy_group
 # from best_individual_runs_DEAP import read_results
 

@@ -4,7 +4,7 @@ import numpy as np
 from scipy import stats
 import os
 
-from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str
+from constants import ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str
 
 ENEMIES = ENEMY_GROUP_1
 

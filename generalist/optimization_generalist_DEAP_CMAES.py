@@ -9,16 +9,14 @@
 import sys
 from evoman.environment import Environment
 from demo_controller import player_controller
-from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2
+from constants import ENEMY_GROUP_1, ENEMY_GROUP_2
 
 # imports other libs
 import time
 import numpy as np
 import os
 from deap import base, creator, tools, algorithms, cma
-import random
 import csv
-# import optuna  # Import Optuna
 
 CURRENT_ENEMY_GROUP = ENEMY_GROUP_1
 
@@ -107,7 +105,8 @@ for i_run in range(3):
         hof = tools.HallOfFame(1)
 
         # Run the DEAP evolutionary algorithm (Mu, Lambda)
-        final_pop, logbook = algorithms.eaGenerateUpdate(toolbox, ngen=gens, stats=stats, halloffame=hof, verbose=True)
+        final_pop, logbook = algorithms.eaGenerateUpdate(
+            toolbox, ngen=gens, stats=stats, halloffame=hof, verbose=True)
 
         return final_pop, hof, logbook
 

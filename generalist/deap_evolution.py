@@ -4,10 +4,10 @@ from deap import base, creator, tools, algorithms
 import random
 import csv
 
-from constants import PATH_DEAP
+from constants import (enemy_group_to_str, PATH_DEAP,
+                       OUTPUT_FOLDER_TRAINING, OUTPUT_FOLDER_TESTING)
 from evoman.environment import Environment
 from demo_controller import player_controller
-from enemy_groups import enemy_group_to_str
 
 
 # choose this for not using visuals and thus making experiments faster
@@ -18,8 +18,8 @@ if headless:
 
 class DeapRunner:
     def __init__(self, train_enemies: list, num_generations: int, run_idx: int,
-                 training_base_folder: str = "trained",
-                 testing_base_folder: str = "tested",
+                 training_base_folder: str = OUTPUT_FOLDER_TRAINING,
+                 testing_base_folder: str = OUTPUT_FOLDER_TESTING,
                  test_enemies: list = None, n_hidden_neurons=10):
         self.train_enemies = train_enemies
         self.test_enemies = test_enemies
@@ -35,13 +35,6 @@ class DeapRunner:
         self.mutpb = None
         self.mu = None
         self.lambda_ = None
-
-        self.env, self.n_vars = self._create_environment()
-
-        if self.is_training:
-            # Only activate deap in training mode
-            self._init_deap_training()
-            self.toolbox = self._create_toolbox()
 
         # Results
         self.final_pop = None
@@ -117,6 +110,9 @@ class DeapRunner:
         return f
 
     def run_game(self, pcont):
+        if self.env is None:
+            self.env, self.n_vars = self._create_environment()
+
         f, p, e, t = self.env.play(pcont=np.array(pcont))
         return f, p, e, t
 
@@ -141,7 +137,14 @@ class DeapRunner:
         return self.train_enemies if self.is_training else self.test_enemies
 
     # Initializes the population
-    def run_evolutionary_algorithm(self):
+    def run_evolutionary_algorithm(self, run_idx):
+        self.env, self.n_vars = self._create_environment()
+        self.run_idx = run_idx
+
+        # Only activate deap in training mode
+        self._init_deap_training()
+        self.toolbox = self._create_toolbox()
+
         npop = self.mu  # Use mu as the population size
 
         pop = self.toolbox.population(n=npop)

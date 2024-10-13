@@ -1,6 +1,6 @@
 import os
 
-from enemy_groups import enemy_group_to_str
+from constants import enemy_group_to_str
 
 
 def create_table_for_enemy_group(stats_per_enemy_all_runs: dict):
@@ -13,7 +13,8 @@ def create_table_for_enemy_group(stats_per_enemy_all_runs: dict):
     amount_columns = 1 + len(test_enemies)
     columns_code = "|".join(amount_columns * "c")
 
-    latex_lines.append(r"\begin{tabular}{|"+columns_code+"|}\n\hline")
+    latex_lines.append(r"\begin{tabular}{|"+columns_code+"|}")
+    latex_lines.append(r"\hline")
     enemies_code = " & ".join(map(str, test_enemies))
     latex_lines.append(fr"Enemy & {enemies_code}\\")
 
@@ -44,7 +45,6 @@ def save_table_for_enemy_group(stats_per_enemy_all_runs: dict, name_EA: str,
     tabular_line = create_table_for_enemy_group(stats_per_enemy_all_runs)
 
     latex_lines.append(r"\begin{table}[ht]")
-    latex_lines.append("\n")
     latex_lines.append(r"\centering")
     latex_lines += "\n" + tabular_line + "\n"
     caption = f"Final healths of player and enemy. With {name_EA} model " + \

@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str
+from constants import ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str
 
 # Function to compute confidence intervals
 
