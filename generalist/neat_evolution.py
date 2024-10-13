@@ -164,7 +164,7 @@ class NeatRunner:
 
     def _construct_path(self, base_folder, enemy_group):
         return os.path.join(f'{base_folder}',
-                            enemy_folder(enemy_group)
+                            enemy_folder(enemy_group),
                             f'run_{self.run_idx}')
 
     def get_run_enemies(self):

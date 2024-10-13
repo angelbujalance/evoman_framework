@@ -2,8 +2,9 @@ import numpy as np
 import os
 import pandas as pd
 
-from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES,
-                       PATH_DEAP)
+from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES, enemy_folder,
+                       PATH_DEAP, NUM_RUNS,
+                       OUTPUT_FOLDER_TRAINING, OUTPUT_FOLDER_TESTING)
 from deap_evolution import DeapRunner
 from general_testing_create_tables_plots import save_table_for_enemy_group
 # from best_individual_runs_DEAP import read_results
@@ -24,20 +25,30 @@ def eval_enemies(train_enemies: list, test_enemies: list,
     return fitness, player_energy, enemy_energy, time
 
 
-def get_best_run_idx(folder, num_runs):
-    all_best_fitness = []
+def get_best_run_idx(enemy_group):
+    relpath = os.path.join(PATH_DEAP, OUTPUT_FOLDER_TRAINING,
+                           enemy_folder(enemy_group))
 
-    for i in range(num_runs):
-        results_path = os.path.join(
-            folder, 'logbook.csv')
+    all_best_fitness = []
+    best_run_idx = 0
+
+    for run_idx in range(NUM_RUNS):
+        results_file = os.path.join(relpath, f"run_{run_idx}", "logbook.csv")
+
         try:
-            data = pd.read_csv(results_path)
+            data = pd.read_csv(results_file)
             best_fitness = data['max'].tolist()
 
             # Collect data for all generations
             all_best_fitness.append(best_fitness)
         except Exception as e:
-            print(f"Error reading {results_path}: {e}")
+            print(f"Error reading {results_file}: {e}")
+
+    #     if best_fitness > all_best_fitness:
+    #         run_idx = dir.removeprefix("run_")
+    #         best_run_idx = run_idx
+
+    # return int(best_run_idx)
 
     # Find the best run by max fitness across all generations and runs
     all_best_fitness = np.array(all_best_fitness)
@@ -53,20 +64,59 @@ def get_best_run_idx(folder, num_runs):
 
 
 if __name__ == "__main__":
-    num_runs = 10
 
+    amount_runs = 10
     groups = [ENEMY_GROUP_1, ENEMY_GROUP_2]
     enemies = ALL_ENEMIES
 
-    best_run_idx, _, _ = get_best_run_idx(PATH_DEAP, num_runs)
-
     for group in groups:
         all_results = {}
+        best_run_idx, best_generation_idx, max_fitness_value = \
+            get_best_run_idx(group)
 
-        for enemy in enemies:
-            results = eval_enemies(train_enemies=group, test_enemies=[enemy],
-                                   run_idx=best_run_idx)
+        for run_idx in range(amount_runs):
+            file = os.path.join(PATH_DEAP, OUTPUT_FOLDER_TESTING,
+                                enemy_folder(group), f"run_{run_idx}",
+                                "results.csv")
 
-            all_results[enemy] = results
+            os.makedirs(os.path.dirname(file), exist_ok=True)
+            with open(file, "w") as f:
+                f.write("enemy,fitness,player_energy,enemy_energy,gain\n")
 
-        save_table_for_enemy_group(all_results, "DEAP", group)
+            for enemy in enemies:
+                fitness, player_energy, enemy_energy, gain = \
+                    eval_enemies(train_enemies=group, test_enemies=[enemy],
+                                 run_idx=best_run_idx)
+
+                with open(file, "a") as f:
+                    f.write(
+                        ",".join(map(str, [enemy, fitness, player_energy,
+                                           enemy_energy, gain]))
+                        + "\n")
+
+                all_results[enemy] = (
+                    fitness, player_energy, enemy_energy, gain)
+
+            if run_idx == best_run_idx:
+                # Only save the best run as a table.
+                save_table_for_enemy_group(all_results, "DEAP", group)
+
+    # groups = [ENEMY_GROUP_1, ENEMY_GROUP_2]
+    # enemies = ALL_ENEMIES
+
+    # best_run_idx, _, _ = get_best_run_idx(os.path.join(PATH_DEAP, ),
+    #                                       num_runs)
+
+    # for group in groups:
+    #     all_results = {}
+    #     file = os.path.join(PATH_DEAP, OUTPUT_FOLDER_TESTING,
+    #                         enemy_folder(group), f"run_{run_idx}",
+    #                         "results.csv")
+
+    #     for enemy in enemies:
+    #         results = eval_enemies(train_enemies=group, test_enemies=[enemy],
+    #                                run_idx=best_run_idx)
+
+    #         all_results[enemy] = results
+
+    #     save_table_for_enemy_group(all_results, "DEAP", group)

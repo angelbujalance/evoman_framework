@@ -2,7 +2,8 @@ import numpy as np
 import os
 
 from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES,
-                       enemy_folder, PATH_NEAT, OUTPUT_FOLDER_TESTING)
+                       enemy_folder, PATH_NEAT,
+                       OUTPUT_FOLDER_TRAINING, OUTPUT_FOLDER_TESTING)
 from neat_evolution import NeatRunner
 from general_testing_create_tables_plots import save_table_for_enemy_group
 
@@ -24,7 +25,7 @@ def eval_enemies(train_enemies: list, test_enemies: list,
 
 
 def get_best_run_idx(enemy_group):
-    relpath = os.path.join(PATH_NEAT, "trained",
+    relpath = os.path.join(PATH_NEAT, OUTPUT_FOLDER_TRAINING,
                            enemy_folder(enemy_group))
 
     best_run_idx = 0

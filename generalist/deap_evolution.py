@@ -41,6 +41,7 @@ class DeapRunner:
         self.logbook = None
 
         self.run_idx = None
+        self.env = None
 
     @property
     def is_training(self):
@@ -178,6 +179,14 @@ class DeapRunner:
         self.final_pop = final_pop
         self.hof = hof
         self.logbook = logbook
+
+        experiment_name = self.get_input_folder()
+
+        best_weights = hof[0]
+        np.savetxt(os.path.join(experiment_name, "best.txt"), best_weights)
+
+        file = open(os.path.join(experiment_name, 'neuroended'), 'w')
+        file.close()
         return final_pop, hof, logbook
 
     def get_results(self):
