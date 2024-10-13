@@ -1,9 +1,10 @@
 import numpy as np
 import os
-import pickle
 
+from constants import PATH_NEAT
 from neat_evolution import NeatRunner
-from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES, enemy_group_to_str
+from enemy_groups import (ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES,
+                          enemy_group_to_str)
 from general_testing_create_tables_plots import save_table_for_enemy_group
 
 
@@ -17,15 +18,15 @@ def eval_enemies(train_enemies: list, test_enemies: list,
 
     print(f'\nRUNNING SAVED BEST SOLUTION OF RUN {run_idx}\n')
     best_file = os.path.join(folder, f'best_individual_run{run_idx}')
-    fitness, player_energy, enemy_energy, gain = neatRunner.evaluate_from_genome_file(
-        best_file)
+    fitness, player_energy, enemy_energy, gain = \
+        neatRunner.evaluate_from_genome_file(best_file)
 
     return fitness, player_energy, enemy_energy, gain
 
 
 def get_best_run_idx(enemy_group):
     str_enemy_group = enemy_group_to_str(enemy_group)
-    relpath = os.path.join("results", "NEAT", "trained",
+    relpath = os.path.join(PATH_NEAT, "trained",
                            f"enemies_{str_enemy_group}")
 
     best_run_idx = 0
@@ -37,7 +38,7 @@ def get_best_run_idx(enemy_group):
         lines = np.genfromtxt(results_file, skip_header=True, delimiter=",")
         # last generation
         line = lines[-1] if hasattr(lines[0], "__len__") else lines
-        best_fitness, mean_fitness, std_fitness, gain = line
+        generation, best_fitness, mean_fitness, std_fitness, gain = line
 
         if best_fitness > all_best_fitness:
             run_idx = dir.removeprefix("run_")
@@ -66,12 +67,15 @@ if __name__ == "__main__":
                 f.write("enemy,fitness,player_energy,enemy_energy,gain\n")
 
             for enemy in enemies:
-                fitness, player_energy, enemy_energy, gain = eval_enemies(train_enemies=group, test_enemies=[enemy],
-                                                                          run_idx=best_run_idx)
+                fitness, player_energy, enemy_energy, gain = \
+                    eval_enemies(train_enemies=group, test_enemies=[enemy],
+                                 run_idx=best_run_idx)
 
                 with open(file, "a") as f:
                     f.write(
-                        ",".join(map(str, [enemy, fitness, player_energy, enemy_energy, gain])) + "\n")
+                        ",".join(map(str, [enemy, fitness, player_energy,
+                                           enemy_energy, gain]))
+                        + "\n")
 
                 all_results[enemy] = (
                     fitness, player_energy, enemy_energy, gain)

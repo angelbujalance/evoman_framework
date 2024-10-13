@@ -1,9 +1,9 @@
-import numpy as np
+# import numpy as np
 import optuna
 # Tree-structured Parzen Estimator (TPE) sampler for better search efficiency
 from optuna.samplers import TPESampler
 import time
-import sys
+# import sys
 import os
 
 from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2
@@ -32,7 +32,8 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
     best_params = study.best_params
     print(f"Best Parameters for enemies {enemies}: {best_params}")
 
-    # Once best parameters are found, you can run the evolutionary algorithm again with the best parameters:
+    # Once best parameters are found, you can run the evolutionary algorithm
+    # again with the best parameters:
     neatRunner_best = start_run(enemies=enemies,
                                 run_idx=0,
                                 num_generations=num_generations,

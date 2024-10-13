@@ -5,7 +5,7 @@ import pandas as pd
 from deap_evolution import DeapRunner
 from enemy_groups import ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES
 from general_testing_create_tables_plots import save_table_for_enemy_group
-from best_individual_runs_DEAP import read_results
+# from best_individual_runs_DEAP import read_results
 
 
 def eval_enemies(train_enemies: list, test_enemies: list,
@@ -44,7 +44,8 @@ def get_best_run_idx(folder, num_runs):
         np.argmax(all_best_fitness), all_best_fitness.shape)
 
     print(
-        f"Highest Best Fitness: {max_fitness_value}, found in run {best_run_idx}, generation {best_generation_idx}")
+        f"Highest Best Fitness: {max_fitness_value}, found in run " +
+        "{best_run_idx}, generation {best_generation_idx}")
 
     return best_run_idx, best_generation_idx, max_fitness_value
 

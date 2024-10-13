@@ -3,7 +3,7 @@ from neat_controller import PlayerControllerNEAT
 from neat_population import CustomPopulation
 from enemy_groups import enemy_group_to_str
 
-import time
+# import time
 import numpy as np
 import os
 import neat
@@ -24,9 +24,9 @@ class NeatRunner:
                  config_file: str = "config_generalist_NEAT",
                  n_hidden_neurons: int = 10,
                  genome_type: type[neat.DefaultGenome] = neat.DefaultGenome,
-                 reproduction_type: type[neat.DefaultReproduction] = neat.DefaultReproduction,
-                 species_set_type: type[neat.DefaultSpeciesSet] = neat.DefaultSpeciesSet,
-                 stagnation_type: type[neat.DefaultStagnation] = neat.DefaultStagnation,
+                 reproduction_type=neat.DefaultReproduction,
+                 species_set_type=neat.DefaultSpeciesSet,
+                 stagnation_type=neat.DefaultStagnation,
                  use_adjusted_mutation_rate: bool = False
                  ):
         self.train_enemies = train_enemies
@@ -62,7 +62,8 @@ class NeatRunner:
         if not os.path.exists(experiment_name):
             os.makedirs(experiment_name, exist_ok=True)
 
-        # initializes simulation in individual evolution mode, for single static enemy.
+        # initializes simulation in individual evolution mode,
+        # for single static enemy.
         enemies = self.get_run_enemies()
         multiplemode = "yes" if len(enemies) > 1 else "no"
 
@@ -126,16 +127,20 @@ class NeatRunner:
             std_fitness = np.std(valid_fitness_values)
             best_gain = gain_values[fitness_values.index(best_fitness)]
             # Print statistics for the current generation
-            print(f"Generation {self.current_generation}: Max Fitness = {best_fitness:.4f}, "
-                  f"Average Fitness = {mean_fitness:.4f}, Std Dev = {std_fitness:.4f}")
+            print(f"Generation {self.current_generation}: " +
+                  f"Max Fitness = {best_fitness:.4f}, " +
+                  f"Average Fitness = {mean_fitness:.4f}, " +
+                  f"Std Dev = {std_fitness:.4f}")
 
             with open(self.results_file, 'a') as f:
                 f.write(
-                    f"{best_fitness},{mean_fitness},{std_fitness},{best_gain}\n")
+                    f"{self.current_generation},{best_fitness}," +
+                    f"{mean_fitness},{std_fitness},{best_gain}\n")
 
         else:
             print(
-                f"Warning: No valid fitness values found in generation {self.current_generation}.")
+                "Warning: No valid fitness values found in generation " +
+                f"{self.current_generation}.")
 
         self.current_generation += 1
 
@@ -153,7 +158,9 @@ class NeatRunner:
 
     def get_output_folder(self):
         enemies = self.get_run_enemies()
-        base_folder = self.training_base_folder if self.is_training else self.testing_base_folder
+        base_folder = (self.training_base_folder
+                       if self.is_training
+                       else self.testing_base_folder)
         return self._construct_path(base_folder, enemies)
 
     def _construct_path(self, base_folder, enemy_group):
@@ -198,18 +205,20 @@ class NeatRunner:
         self.config.genome_config.crossover_rate = new_crossover_rate
 
         print(
-            f"Adjusted mutation rate to {new_mutation_rate:.4f} and crossover rate to {new_crossover_rate:.4f} for generation {self.current_generation}")
+            f"Adjusted mutation rate to {new_mutation_rate:.4f} and " +
+            "crossover rate to {new_crossover_rate:.4f} " +
+            "for generation {self.current_generation}")
 
     def run_evolutionary_algorithm(self, run_idx):
         self.run_idx = run_idx
-        ini = time.time()
+        # ini = time.time()
         self.env, self.n_vars = self._create_environment()
 
         experiment_name = self.get_input_folder()
         self.results_file = os.path.join(experiment_name, "results.txt")
 
         with open(self.results_file, 'w') as f:
-            f.write("best_fitness,mean_fitness,std_fitness,gain\n")
+            f.write("generation,best_fitness,mean_fitness,std_fitness,gain\n")
 
         p = CustomPopulation(self.config)
         winner, best = p.run(self.eval_genomes, self.num_generations)
@@ -221,8 +230,9 @@ class NeatRunner:
         with open(file, 'wb') as f:
             pickle.dump(best, f)
 
-        fim = time.time()  # prints total execution time for experiment
-        # print('\nExecution time: ' + str(round((fim - ini) / 60)) + ' minutes \n')
+        # fim = time.time()  # prints total execution time for experiment
+        # print('\nExecution time: ' + str(round((fim - ini) / 60)) +
+        #       ' minutes \n')
         # print('\nExecution time: ' + str(round((fim - ini))) + ' seconds \n')
 
         self.env.state_to_log()
@@ -247,7 +257,8 @@ class NeatRunner:
 
         return weights
 
-    def set_params(self, n_hidden_neurons=None, mutation_rate=None, pop_size=None, elitism=None, num_generations=None):
+    def set_params(self, n_hidden_neurons=None, mutation_rate=None,
+                   pop_size=None, elitism=None, num_generations=None):
         """
         Override the values from the given config file by these values.
         """

@@ -21,7 +21,8 @@ def create_table_for_enemy_group(stats_per_enemy_all_runs: dict):
     enemy_healths = []
 
     for enemy in test_enemies:
-        fitness, player_energy, enemy_energy, gain = stats_per_enemy_all_runs[enemy]
+        fitness, player_energy, enemy_energy, gain = \
+            stats_per_enemy_all_runs[enemy]
         player_healths.append(round(player_energy))
         enemy_healths.append(round(enemy_energy))
 
@@ -36,7 +37,8 @@ def create_table_for_enemy_group(stats_per_enemy_all_runs: dict):
     return "\n".join(latex_lines)
 
 
-def save_table_for_enemy_group(stats_per_enemy_all_runs: dict, name_EA: str, train_enemy_group: list):
+def save_table_for_enemy_group(stats_per_enemy_all_runs: dict, name_EA: str,
+                               train_enemy_group: list):
     latex_lines = []
 
     tabular_line = create_table_for_enemy_group(stats_per_enemy_all_runs)
@@ -44,7 +46,8 @@ def save_table_for_enemy_group(stats_per_enemy_all_runs: dict, name_EA: str, tra
     latex_lines.append(r"\begin{table}[ht]")
     latex_lines.append("\n\centering")
     latex_lines += "\n" + tabular_line + "\n"
-    caption = f"Final healths of player and enemy. With {name_EA} model trained on group {train_enemy_group}."
+    caption = f"Final healths of player and enemy. With {name_EA} model " + \
+        "trained on group {train_enemy_group}."
     latex_lines.append(r"\caption{" + caption + "}\n")
 
     str_enemy_group = enemy_group_to_str(train_enemy_group)

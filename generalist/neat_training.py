@@ -29,5 +29,5 @@ def start_runs(enemies: list, n_runs: int, num_generations: int):
 
 if __name__ == "__main__":
     for group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
-        start_runs(enemies=group, num_generations=30,
+        start_runs(enemies=group, num_generations=2,  # TODO: change back to 30
                    n_runs=NUM_RUNS, **best_params)

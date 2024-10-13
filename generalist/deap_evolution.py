@@ -4,6 +4,7 @@ from deap import base, creator, tools, algorithms
 import random
 import csv
 
+from constants import PATH_DEAP
 from evoman.environment import Environment
 from demo_controller import player_controller
 from enemy_groups import enemy_group_to_str
@@ -25,10 +26,9 @@ class DeapRunner:
         self.run_idx = run_idx
         self.num_generations = num_generations
         self.n_hidden_neurons = n_hidden_neurons
-        self.training_base_folder = os.path.join("results", "DEAP",
+        self.training_base_folder = os.path.join(PATH_DEAP,
                                                  training_base_folder)
-        self.testing_base_folder = os.path.join("results", "DEAP",
-                                                testing_base_folder)
+        self.testing_base_folder = os.path.join(PATH_DEAP, testing_base_folder)
 
         # Params to be set using `set_params`
         self.cxpb = None
@@ -69,7 +69,8 @@ class DeapRunner:
         if not os.path.exists(experiment_name):
             os.makedirs(experiment_name)
 
-        # initializes simulation in individual evolution mode, for single static enemy.
+        # initializes simulation in individual evolution mode,
+        # for single static enemy.
         enemies = self.get_run_enemies()
         multiplemode = "yes" if len(enemies) > 1 else "no"
         env = Environment(experiment_name=experiment_name,
@@ -125,7 +126,9 @@ class DeapRunner:
 
     def get_output_folder(self):
         enemies = self.get_run_enemies()
-        base_folder = self.training_base_folder if self.is_training else self.testing_base_folder
+        base_folder = (self.training_base_folder
+                       if self.is_training
+                       else self.testing_base_folder)
         return self._construct_path(base_folder, enemies)
 
     def _construct_path(self, base_folder, enemy_group):
@@ -168,8 +171,10 @@ class DeapRunner:
 
     # Save logbook results to a CSV file
     def save_logbook(self, filename="logbook.csv"):
-        # Extract the relevant keys (such as 'gen', 'nevals', 'avg', 'std', 'min', 'max') from the logbook
-        # Use the keys from the first logbook entry (assuming all entries have the same keys)
+        # Extract the relevant keys (such as 'gen', 'nevals', 'avg', 'std',
+        # 'min', 'max') from the logbook
+        # Use the keys from the first logbook entry (assuming all entries
+        # have the same keys)
         if self.logbook is None:
             return
 
