@@ -60,7 +60,7 @@ def save_table_for_enemy_group(stats_per_enemy_all_runs: dict, name_EA: str,
     results_folder = PATH_NEAT if name_EA == "NEAT" else PATH_DEAP
     relpath = os.path.join(results_folder, "tables")
     os.makedirs(relpath, exist_ok=True)
-    file = os.path.join(relpath, str_enemy_group) + ".tex"
+    file = os.path.join(relpath, str_enemy_group + ".tex")
     print(latex_lines)
     with open(file, "w") as f:
         f.writelines(latex_lines)

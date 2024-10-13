@@ -7,7 +7,7 @@ import pickle
 from evoman.environment import Environment
 from neat_controller import PlayerControllerNEAT
 from neat_population import CustomPopulation
-from constants import enemy_group_to_str, PATH_NEAT
+from constants import enemy_folder, PATH_NEAT
 
 
 # choose this for not using visuals and thus making experiments faster
@@ -163,9 +163,8 @@ class NeatRunner:
         return self._construct_path(base_folder, enemies)
 
     def _construct_path(self, base_folder, enemy_group):
-        str_enemy_group = enemy_group_to_str(enemy_group)
         return os.path.join(f'{base_folder}',
-                            f'enemies_{str_enemy_group}',
+                            enemy_folder(enemy_group)
                             f'run_{self.run_idx}')
 
     def get_run_enemies(self):

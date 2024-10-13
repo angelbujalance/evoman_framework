@@ -4,7 +4,7 @@ from deap import base, creator, tools, algorithms, cma
 import random
 import csv
 
-from constants import (enemy_group_to_str, PATH_DEAP,
+from constants import (enemy_folder, PATH_DEAP,
                        OUTPUT_FOLDER_TRAINING, OUTPUT_FOLDER_TESTING)
 from evoman.environment import Environment
 from demo_controller import player_controller
@@ -140,9 +140,8 @@ class DeapRunner:
         return self._construct_path(base_folder, enemies)
 
     def _construct_path(self, base_folder, enemy_group):
-        str_enemy_group = enemy_group_to_str(enemy_group)
         return os.path.join(f'{base_folder}',
-                            f'enemies_{str_enemy_group}',
+                            enemy_folder(enemy_group),
                             f'run_{self.run_idx}')
 
     def get_run_enemies(self):

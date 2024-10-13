@@ -4,9 +4,10 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-from constants import ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str
-
-# Function to compute confidence intervals
+from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
+                       enemy_folder, enemy_group_to_str,
+                       PATH_NEAT, PATH_DEAP, NUM_RUNS,
+                       OUTPUT_FOLDER_TRAINING)
 
 
 def confidence_interval(data, confidence=0.95):
@@ -17,7 +18,7 @@ def confidence_interval(data, confidence=0.95):
     return mean, mean - h, mean + h
 
 
-def read_results(experiment_dir, num_runs, enemy):
+def read_results(experiment_dir, num_runs):
     all_best_fitness = []
     all_mean_fitness = []
     all_std_fitness = []
@@ -43,12 +44,14 @@ def read_results(experiment_dir, num_runs, enemy):
     return all_best_fitness, all_mean_fitness, all_std_fitness
 
 
-def NEAT_results(enemy):
+def NEAT_results(enemy_group, num_runs=NUM_RUNS):
 
     # Generate file names for the different runs
-    files = [os.path.join('results', 'NEAT', 'trained', f'enemy_{enemy}',
-                          f'run_{run}', 'results_clean.txt')
-             for run in range(10)]
+    files = [os.path.join(PATH_NEAT, OUTPUT_FOLDER_TRAINING,
+                          enemy_folder(enemy_group),
+                          f'run_{run}',
+                          'results_clean.txt')
+             for run in range(num_runs)]
 
     # Read the files and append them to a list of dataframes
     dfs = []
@@ -76,8 +79,6 @@ def NEAT_results(enemy):
 
     return mean_fitness_means, mean_fitness_conf_ints, best_fitness_means, best_fitness_conf_ints
 
-
-# TODO: is the best fitness the average of the ten runs?
 
 def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment_dir, enemy_group: list):
     num_generations = len(all_mean_fitness[0])
@@ -112,7 +113,7 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
                      color='blue', alpha=0.2)
 
     # Plot the average fitness with standard deviation for NEAT
-    plt.plot(generations[:25], average_fitness_NEAT,
+    plt.plot(generations, average_fitness_NEAT,
              label='Average NEAT', color='green', ls="--")
     plt.fill_between(average_fitness_NEAT.index, mean_ci_lower, mean_ci_upper,
                      color='green', alpha=0.2)
@@ -125,7 +126,7 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
                      color='blue', alpha=0.2)
 
     # Plot the best fitness for NEAT
-    plt.plot(generations[:25], best_fitness_NEAT,
+    plt.plot(generations, best_fitness_NEAT,
              label='Best NEAT', color='green')
     plt.fill_between(best_fitness_NEAT.index, best_ci_lower, best_ci_upper,
                      color='green', alpha=0.2)
@@ -134,13 +135,13 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
     plt.xlabel('Generations')
     plt.ylabel('Fitness')
     plt.title(
-        f'Fitness Over Generations for Enemy {enemy_group_to_str(enemy_group)}')
+        f'Fitness Over Generations for Enemies {enemy_group}')
     plt.legend()
     plt.grid(True)
 
     # Save the plot
     plt.savefig(os.path.join(experiment_dir,
-                             f'fitness_plot_enemy_{enemy_group_to_str(enemy_group)}.png'))
+                             f'fitness_plot_enemies_{enemy_group_to_str(enemy_group)}.png'))
     plt.show()
 
 
@@ -148,13 +149,13 @@ if __name__ == '__main__':
     for enemy_group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
         # Directory containing all run folders
         experiment_dir = os.path.join(
-            'results', 'DEAP', 'trained',
-            f'enemies_{enemy_group_to_str(enemy_group)}')
-        num_runs = 10  # Number of runs
+            PATH_DEAP,
+            OUTPUT_FOLDER_TRAINING,
+            enemy_folder(enemy_group))
 
         # Read the results from the files
         all_best_fitness, all_mean_fitness, all_std_fitness = read_results(
-            experiment_dir, num_runs, enemy_group)
+            experiment_dir, NUM_RUNS)
 
         # Plot the fitness results
         plot_fitness(all_best_fitness, all_mean_fitness,

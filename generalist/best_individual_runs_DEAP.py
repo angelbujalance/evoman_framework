@@ -6,7 +6,7 @@ import seaborn as sns
 
 from evoman.environment import Environment
 from demo_controller import player_controller
-from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str,
+from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_folder,
                        PATH_DEAP, OUTPUT_FOLDER_TRAINING,
                        NUM_RUNS)
 
@@ -128,11 +128,9 @@ def plot_gain_boxplot(gains_approach_1, gains_approach_2, enemy_number):
 if __name__ == '__main__':
     # for enemy in [1, 2, 3, 4, 5, 6, 7, 8]:
     for enemy_group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
-        str_enemy_group = enemy_group_to_str(enemy_group)
-
         # Directory containing all run folders
         experiment_dir = os.path.join(PATH_DEAP, OUTPUT_FOLDER_TRAINING,
-                                      f'enemies_{str_enemy_group}')
+                                      enemy_folder(enemy_group))
 
         # Find the best run and generation
         best_run_idx, best_generation_idx, max_fitness_value = read_results(

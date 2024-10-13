@@ -2,7 +2,7 @@ import numpy as np
 import os
 
 from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES,
-                       enemy_group_to_str, PATH_NEAT, OUTPUT_FOLDER_TESTING)
+                       enemy_folder, PATH_NEAT, OUTPUT_FOLDER_TESTING)
 from neat_evolution import NeatRunner
 from general_testing_create_tables_plots import save_table_for_enemy_group
 
@@ -24,9 +24,8 @@ def eval_enemies(train_enemies: list, test_enemies: list,
 
 
 def get_best_run_idx(enemy_group):
-    str_enemy_group = enemy_group_to_str(enemy_group)
     relpath = os.path.join(PATH_NEAT, "trained",
-                           f"enemies_{str_enemy_group}")
+                           enemy_folder(enemy_group))
 
     best_run_idx = 0
     all_best_fitness = 0
@@ -56,9 +55,8 @@ if __name__ == "__main__":
         best_run_idx = get_best_run_idx(group)
 
         for run_idx in range(amount_runs):
-            str_enemy_group = enemy_group_to_str(group)
             file = os.path.join(PATH_NEAT, OUTPUT_FOLDER_TESTING,
-                                f"enemy_{str_enemy_group}", f"run_{run_idx}",
+                                enemy_folder(group), f"run_{run_idx}",
                                 "results.csv")
 
             os.makedirs(os.path.dirname(file), exist_ok=True)
@@ -66,8 +64,9 @@ if __name__ == "__main__":
                 f.write("enemy,fitness,player_energy,enemy_energy,gain\n")
 
             for enemy in enemies:
-                fitness, player_energy, enemy_energy, gain = eval_enemies(train_enemies=group, test_enemies=[enemy],
-                                                                          run_idx=best_run_idx)
+                fitness, player_energy, enemy_energy, gain = \
+                    eval_enemies(train_enemies=group, test_enemies=[enemy],
+                                 run_idx=best_run_idx)
 
                 with open(file, "a") as f:
                     f.write(

@@ -68,10 +68,14 @@ def objective(neatRunner: NeatRunner, trial: optuna.Trial):
     Optuna Objective Function
     """
     # Suggest hyperparameters
+
     mutation_rate = trial.suggest_float(
         'mutation_rate', 0.01, 0.5)
+
+    # Population size
     pop_size = trial.suggest_int(
-        'pop_size', TUNING_POP_SIZE_MIN, TUNING_POP_SIZE_MAX)  # Population size
+        'pop_size', TUNING_POP_SIZE_MIN, TUNING_POP_SIZE_MAX)
+
     elitism = trial.suggest_int('elitism', 1, 30)
 
     # Run the NEAT evolutionary algorithm

@@ -20,8 +20,12 @@ ENEMY_GROUP_2 = [1, 2, 6, 7, 8]
 ALL_ENEMIES = [1, 2, 3, 4, 5, 6, 7, 8]
 
 
-def enemy_group_to_str(arr: list):
-    return "_".join([str(x) for x in arr])
+def enemy_folder(enemy_group: list):
+    return "enemies_" + enemy_group_to_str(enemy_group)
+
+
+def enemy_group_to_str(enemy_group: list):
+    return "_".join([str(x) for x in enemy_group])
 
 
 # TUNING parameters
