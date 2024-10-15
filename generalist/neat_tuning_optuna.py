@@ -29,7 +29,8 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
     neatRunner = NeatRunner(enemies,
                             num_generations=num_generations,
                             model_folder=OUTPUT_FOLDER_TUNING,
-                            results_folder=OUTPUT_FOLDER_TUNING)
+                            results_folder=OUTPUT_FOLDER_TUNING,
+                            use_adjusted_mutation_rate=args.use_adjusted_mutation_rate)
 
     # Run trials of hyperparameter optimization
     study.optimize(lambda trial: objective(neatRunner, trial),
@@ -116,6 +117,9 @@ if __name__ == "__main__":
 
     parser.add_argument('group', type=str,
                         help='The group used to train the model')
+    parser.add_argument('use_adjusted_mutation_rate',
+                        type=bool, default=True,
+                        help='Set to true to use the extension for task 2')
 
     args = parser.parse_args()
     group = ast.literal_eval(args.group)
