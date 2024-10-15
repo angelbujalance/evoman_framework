@@ -20,7 +20,8 @@ class DeapRunner:
     def __init__(self, train_enemies: list, num_generations: int,
                  test_enemies: list = None, n_hidden_neurons=10,
                  model_folder: str = OUTPUT_FOLDER_TRAINING,
-                 results_folder: str = OUTPUT_FOLDER_TESTING):
+                 results_folder: str = OUTPUT_FOLDER_TESTING,
+                 use_cma: bool = True):
         self.train_enemies = train_enemies
         self.test_enemies = test_enemies
         self.num_generations = num_generations
@@ -33,7 +34,7 @@ class DeapRunner:
         self.mutpb = None
         self.mu = None
         self.lambda_ = None
-        self.use_cma = None
+        self.use_cma = use_cma
 
         # Results
         self.final_pop = None
@@ -47,13 +48,11 @@ class DeapRunner:
     def is_training(self):
         return self.test_enemies is None
 
-    def set_params(self, cxpb: float, mutpb: float, mu: float, lambda_: float,
-                   use_cma: bool = False):
+    def set_params(self, cxpb: float, mutpb: float, mu: float, lambda_: float):
         self.cxpb = cxpb
         self.mutpb = mutpb
         self.mu = mu
         self.lambda_ = lambda_
-        self.use_cma = use_cma
 
     def _init_deap_training(self):
         # DEAP setup for evolutionary algorithm
@@ -98,7 +97,7 @@ class DeapRunner:
                 centroid=[0.0] * self.n_vars, sigma=1.0, lambda_=self.lambda_)
             toolbox.register("generate", strategy.generate, creator.Individual)
             toolbox.register("update", strategy.update)
-            return
+            return toolbox
 
         toolbox.register("attr_float", random.uniform, -1, 1)
         toolbox.register("individual", tools.initRepeat,

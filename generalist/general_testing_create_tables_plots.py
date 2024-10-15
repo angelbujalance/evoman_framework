@@ -39,7 +39,7 @@ def create_table_for_enemy_group(stats_per_enemy_all_runs: dict):
 
 
 def save_table_for_enemy_group(stats_per_enemy_all_runs: dict, name_EA: str,
-                               train_enemy_group: list):
+                               train_enemy_group: list, use_cma: bool = False):
     latex_lines = []
 
     tabular_line = create_table_for_enemy_group(stats_per_enemy_all_runs)
@@ -47,8 +47,9 @@ def save_table_for_enemy_group(stats_per_enemy_all_runs: dict, name_EA: str,
     latex_lines.append(r"\begin{table}[ht]")
     latex_lines.append(r"\centering")
     latex_lines += "\n" + tabular_line + "\n"
-    caption = f"Final healths of player and enemy. With {name_EA} model " + \
-        f"trained on group {train_enemy_group}."
+    cma_text = " with CMA-ES " if use_cma else ""
+    caption = f"Final healths of player and enemy. With {name_EA}" \
+        f"{cma_text} model trained on group {train_enemy_group}."
     latex_lines.append(r"\caption{" + caption + "}\n")
 
     str_enemy_group = enemy_group_to_str(train_enemy_group)
