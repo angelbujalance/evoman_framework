@@ -28,7 +28,11 @@ class NeatRunner:
                  reproduction_type=neat.DefaultReproduction,
                  species_set_type=neat.DefaultSpeciesSet,
                  stagnation_type=neat.DefaultStagnation,
-                 use_adjusted_mutation_rate: bool = False
+                 use_adjusted_mutation_rate: bool = True,
+                 initial_mutation_rate=0.5,
+                 final_mutation_rate=0.1,
+                 initial_crossover_rate=0.7,
+                 final_crossover_rate=.3
                  ):
         self.train_enemies = train_enemies
         self.test_enemies = test_enemies
@@ -52,6 +56,11 @@ class NeatRunner:
         self.run_idx = None
 
         self.logger = {}  # gen_id: [max_fitness, mean_fitness, std_fitness]
+
+        self.initial_mutation_rate = initial_mutation_rate
+        self.final_mutation_rate = final_mutation_rate
+        self.initial_crossover_rate = initial_crossover_rate
+        self.final_crossover_rate = final_crossover_rate
 
     @property
     def is_training(self):
@@ -180,10 +189,10 @@ class NeatRunner:
             return
 
         # TODO: we can change these later to what we'd like
-        initial_mutation_rate = 0.5
-        final_mutation_rate = 0.1
-        initial_crossover_rate = 0.7
-        final_crossover_rate = 0.3
+        initial_mutation_rate = self.initial_mutation_rate
+        final_mutation_rate = self.final_mutation_rate
+        initial_crossover_rate = self.initial_crossover_rate
+        final_crossover_rate = self.final_crossover_rate
 
         # Linear decrease of mutation rate over generations
         new_mutation_rate = initial_mutation_rate - \
@@ -270,8 +279,10 @@ class NeatRunner:
 
         return weights
 
-    def set_params(self, n_hidden_neurons=None, mutation_rate=None,
-                   pop_size=None, elitism=None):
+    def set_params(self, n_hidden_neurons=None, bias_mutate_rate=None,
+                   pop_size=None, elitism=None, response_mutate_rate=None,
+                   weight_mutate_rate=None
+                   ):
         """
         Override the values from the given config file by these values.
         """
@@ -279,8 +290,14 @@ class NeatRunner:
         if n_hidden_neurons is not None:
             self.config.genome_config.num_hidden = n_hidden_neurons
 
-        if mutation_rate is not None:
-            self._update_mutation_rate(mutation_rate)
+        if bias_mutate_rate is not None:
+            self.config.genome_config.bias_mutate_rate = bias_mutate_rate
+
+        if response_mutate_rate is not None:
+            self.config.genome_config.response_mutate_rate = response_mutate_rate
+
+        if weight_mutate_rate is not None:
+            self.config.genome_config.weight_mutate_rate = weight_mutate_rate
 
         if pop_size is not None:
             self.config.pop_size = pop_size
