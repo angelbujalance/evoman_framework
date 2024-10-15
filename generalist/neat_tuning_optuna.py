@@ -1,3 +1,6 @@
+import argparse
+import ast
+
 import optuna
 # Tree-structured Parzen Estimator (TPE) sampler for better search efficiency
 from optuna.samplers import TPESampler
@@ -10,6 +13,10 @@ from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
                        TUNING_POP_SIZE_MIN, TUNING_POP_SIZE_MAX)
 from neat_evolution import NeatRunner
 from neat_training import start_run
+
+# values for testing. Uncomment just to test the file
+#NUM_TRIALS_NEAT = 1
+#NUM_GENERATIONS = 1
 
 
 def run_optuna(enemies: list, n_trials: int, num_generations: int):
@@ -68,18 +75,34 @@ def objective(neatRunner: NeatRunner, trial: optuna.Trial):
     Optuna Objective Function
     """
     # Suggest hyperparameters
-
-    mutation_rate = trial.suggest_float(
-        'mutation_rate', 0.01, 0.5)
-
-    # Population size
     pop_size = trial.suggest_int(
         'pop_size', TUNING_POP_SIZE_MIN, TUNING_POP_SIZE_MAX)
+    bias_mutate_rate = trial.suggest_float(
+        'bias_mutate_rate', 0.01, 0.6)  # Mutation rate
+    response_mutate_rate = trial.suggest_float(
+        'response_mutate_rate', 0.01, 0.6)  # Mutation rate
+    weight_mutate_rate = trial.suggest_float(
+        'weight_mutate_rate', 0.01, 0.6)
+    elitism = trial.suggest_int('elitism', 0, 6)  # Number of elitism
 
-    elitism = trial.suggest_int('elitism', 1, 30)
+    initial_mutation_rate = trial.suggest_float(
+        'initial_mutation_rate', 0.01, 0.6)
+    final_mutation_rate = trial.suggest_float(
+        'final_mutation_rate', 0.01, 0.6)
+    initial_crossover_rate = trial.suggest_float(
+        'initial_crossover_rate', 0.01, 0.6)
+    final_crossover_rate = trial.suggest_float(
+        'final_crossover_rate', 0.01, 0.6)
+
+    neatRunner.initial_mutation_rate = initial_mutation_rate
+    neatRunner.final_mutation_rate = final_mutation_rate
+    neatRunner.initial_crossover_rate = initial_crossover_rate
+    neatRunner.final_crossover_rate = final_crossover_rate
 
     # Run the NEAT evolutionary algorithm
-    neatRunner.set_params(mutation_rate=mutation_rate,
+    neatRunner.set_params(bias_mutate_rate=bias_mutate_rate,
+                          response_mutate_rate=response_mutate_rate,
+                          weight_mutate_rate=weight_mutate_rate,
                           pop_size=pop_size,
                           elitism=elitism)
 
@@ -88,6 +111,16 @@ def objective(neatRunner: NeatRunner, trial: optuna.Trial):
 
 
 if __name__ == "__main__":
-    for group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
-        run_optuna(enemies=group, n_trials=NUM_TRIALS_NEAT,
-                   num_generations=NUM_GENERATIONS)
+    #for group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
+    parser = argparse.ArgumentParser(description='Parser to choose the group')
+
+    parser.add_argument('group', type=str,
+                        help='The group used to train the model')
+
+    args = parser.parse_args()
+    group = ast.literal_eval(args.group)
+
+    print('-----------')
+    print(f'START THE OPTUNA TUNNING OF GROUP 0F ENEMIES: {group}')
+    run_optuna(enemies=group, n_trials=NUM_TRIALS_NEAT,
+               num_generations=NUM_GENERATIONS)
