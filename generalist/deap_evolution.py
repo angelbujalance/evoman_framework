@@ -158,7 +158,9 @@ class DeapRunner:
 
         npop = self.mu  # Use mu as the population size
 
-        pop = self.toolbox.population(n=npop)
+        pop = (self.toolbox.generate()
+               if self.use_cma
+               else self.toolbox.population(n=npop))
 
         # Configure statistics and logbook
         stats = tools.Statistics(lambda ind: ind.fitness.values)
