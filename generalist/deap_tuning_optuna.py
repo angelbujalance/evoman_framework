@@ -75,16 +75,23 @@ def objective(deapRunner: DeapRunner, trial: optuna.Trial):
     """
     Optuna Objective Function
     """
-    # Suggest hyperparameters
-    cxpb = trial.suggest_float('cxpb', 0.0, 0.9)
-    mutpb = trial.suggest_float('mutpb', 0.0, 1.0 - cxpb)
-    mu = trial.suggest_int('mu', TUNING_POP_SIZE_MIN, TUNING_POP_SIZE_MAX)
-    lambda_ = trial.suggest_int('lambda_', 100, 200)
+    if deapRunner.use_cma:
+        # For CMA-ES optimization, suggest sigma and lambda
+        sigma = trial.suggest_float('sigma', 0.1, 2.0)
+        mu = trial.suggest_int('mu', 10, 200)
+        lambda_ = trial.suggest_int('lambda_', 50, 200)
+        deapRunner.set_params(mu=mu, lambda_=lambda_, sigma=sigma)
+    else:
+        # Suggest hyperparameters
+        cxpb = trial.suggest_float('cxpb', 0.0, 0.9)
+        mutpb = trial.suggest_float('mutpb', 0.0, 1.0 - cxpb)
+        mu = trial.suggest_int('mu', TUNING_POP_SIZE_MIN, TUNING_POP_SIZE_MAX)
+        lambda_ = trial.suggest_int('lambda_', 100, 200)
+        deapRunner.set_params(cxpb=cxpb, mutpb=mutpb, mu=mu, lambda_=lambda_)
 
     # Run the DEAP evolutionary algorithm
-    deapRunner.set_params(cxpb=cxpb, mutpb=mutpb, mu=mu, lambda_=lambda_)
-    final_pop, hof, logbook = deapRunner.run_evolutionary_algorithm(
-        trial.number)
+    
+    final_pop, hof, logbook = deapRunner.run_evolutionary_algorithm(trial.number)
     deapRunner.save_logbook()
 
     _, hof, _ = deapRunner.get_results()

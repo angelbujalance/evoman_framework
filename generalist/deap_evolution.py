@@ -1,6 +1,7 @@
 import numpy as np
 import os
 from deap import base, creator, tools, algorithms, cma
+from deap.benchmarks.tools import hypervolume
 import random
 import csv
 
@@ -8,6 +9,7 @@ from constants import (enemy_folder, PATH_DEAP,
                        OUTPUT_FOLDER_TRAINING, OUTPUT_FOLDER_TESTING)
 from evoman.environment import Environment
 from demo_controller import player_controller
+
 
 
 # choose this for not using visuals and thus making experiments faster
@@ -47,13 +49,16 @@ class DeapRunner:
     def is_training(self):
         return self.test_enemies is None
 
-    def set_params(self, cxpb: float, mutpb: float, mu: float, lambda_: float,
-                   use_cma: bool = False):
+    # def set_params(self, cxpb: float, mutpb: float, mu: float, lambda_: float,
+    #                use_cma: bool = False):
+    def set_params(self, cxpb: float = None, mutpb: float = None, mu: float = None, lambda_: float = None,
+                        use_cma: bool = False, sigma: float = 1.0):
         self.cxpb = cxpb
         self.mutpb = mutpb
         self.mu = mu
         self.lambda_ = lambda_
         self.use_cma = use_cma
+        self.sigma = sigma  # Add sigma for CMA-ES
 
     def _init_deap_training(self):
         # DEAP setup for evolutionary algorithm
@@ -92,10 +97,12 @@ class DeapRunner:
         toolbox.register("evaluate", self.evaluate)
 
         if self.use_cma:
-            # Genetic operators for CMA-ES
-            # https://deap.readthedocs.io/en/master/examples/cmaes.html
-            strategy = cma.Strategy(
-                centroid=[0.0] * self.n_vars, sigma=1.0, lambda_=self.lambda_)
+            strategy = cma.StrategyMultiObjective(population=[[0.0] * self.n_vars for _ in range(self.mu)],  # Initial population
+                                                  sigma=1.0,  # Initial step size
+                                                  mu=self.mu, 
+                                                  lambda_=self.lambda_, 
+                                                  indicator=hypervolume)  # Optional, for multi-objective tracking)
+            
             toolbox.register("generate", strategy.generate, creator.Individual)
             toolbox.register("update", strategy.update)
             return
