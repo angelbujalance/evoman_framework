@@ -189,10 +189,10 @@ class NeatRunner:
             return
 
         # TODO: we can change these later to what we'd like
-        initial_mutation_rate = self.initial_mutation_rate
-        final_mutation_rate = self.final_mutation_rate
-        initial_crossover_rate = self.initial_crossover_rate
-        final_crossover_rate = self.final_crossover_rate
+        initial_mutation_rate = 1.0
+        final_mutation_rate = 0.0
+        initial_crossover_rate = 0.0
+        final_crossover_rate = 1.0
 
         # Linear decrease of mutation rate over generations
         new_mutation_rate = initial_mutation_rate - \
@@ -203,11 +203,16 @@ class NeatRunner:
             (self.current_generation / self.num_generations)
 
         # Update mutation rates in the configuration
-        self._update_mutation_rate(new_mutation_rate)
+        #self._update_mutation_rate(new_mutation_rate)
 
         # Allow multiple structural mutations if needed
         self.config.genome_config.single_structural_mutation = False
-        self.config.genome_config.crossover_rate = new_crossover_rate
+
+        self.config.genome_config.weight_mutate_rate = new_mutation_rate
+        self.config.genome_config.bias_mutate_rate = new_mutation_rate
+        self.config.genome_config.activation_mutate_rate  = new_mutation_rate
+        self.config.genome_config.response_mutate_rate = new_mutation_rate
+        self.config.reproduction_config.survival_threshold = new_crossover_rate
 
         print(
             f"Adjusted mutation rate to {new_mutation_rate:.4f} and " +
