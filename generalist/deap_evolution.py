@@ -6,7 +6,7 @@ import random
 import csv
 
 from constants import (enemy_folder, PATH_DEAP,
-                       OUTPUT_FOLDER_TRAINING, OUTPUT_FOLDER_TESTING)
+                       OUTPUT_FOLDER_TRAINING, OUTPUT_FOLDER_TESTING, USE_CMA)
 from evoman.environment import Environment
 from demo_controller import player_controller
 
@@ -23,7 +23,7 @@ class DeapRunner:
                  test_enemies: list = None, n_hidden_neurons=10,
                  model_folder: str = OUTPUT_FOLDER_TRAINING,
                  results_folder: str = OUTPUT_FOLDER_TESTING,
-                 use_cma: bool = True):
+                 use_cma: bool = USE_CMA):
         self.train_enemies = train_enemies
         self.test_enemies = test_enemies
         self.num_generations = num_generations
@@ -37,6 +37,7 @@ class DeapRunner:
         self.mu = None
         self.lambda_ = None
         self.use_cma = use_cma
+        print(f"\n\n\nUSE_CMA: {use_cma}\n\n\n")
 
         # Results
         self.final_pop = None
@@ -50,16 +51,21 @@ class DeapRunner:
     def is_training(self):
         return self.test_enemies is None
 
-    # def set_params(self, cxpb: float, mutpb: float, mu: float, lambda_: float,
-    #                use_cma: bool = False):
-    def set_params(self, cxpb: float = None, mutpb: float = None, mu: float = None, lambda_: float = None,
+    def set_params(self, cxpb: float = None, mutpb: float = None, mu: float = None, lambda_: float = None, 
                         use_cma: bool = False, sigma: float = 1.0):
-        self.cxpb = cxpb
-        self.mutpb = mutpb
+        # Set shared parameters
         self.mu = mu
         self.lambda_ = lambda_
         self.use_cma = use_cma
-        self.sigma = sigma  # Add sigma for CMA-ES
+
+        if use_cma:
+            # Only relevant for CMA-ES
+            self.sigma = sigma
+        else:
+            # Only relevant for MuCommaLambda
+            self.cxpb = cxpb
+            self.mutpb = mutpb
+
 
     def _init_deap_training(self):
         # DEAP setup for evolutionary algorithm
@@ -98,14 +104,21 @@ class DeapRunner:
         toolbox.register("evaluate", self.evaluate)
 
         if self.use_cma:
-            strategy = cma.StrategyMultiObjective(population=[[0.0] * self.n_vars for _ in range(self.mu)],  # Initial population
-                                                  sigma=1.0,  # Initial step size
-                                                  mu=self.mu, 
-                                                  lambda_=self.lambda_, 
-                                                  indicator=hypervolume)  # Optional, for multi-objective tracking)
+            print("\n\n\nWENT INTO THE RIGHT TOOLBOX\n\n\n")
+            # Correctly initialize individuals using creator.Individual
+            initial_population = [creator.Individual([0.0] * self.n_vars) for _ in range(self.mu)]
+            
+            strategy = cma.StrategyMultiObjective(
+                population=initial_population,  # Use creator.Individual instead of raw lists
+                sigma=self.sigma,  # Initial step size
+                mu=self.mu, 
+                lambda_=self.lambda_,
+                indicator=hypervolume  # Optional, for multi-objective tracking
+            )
             
             toolbox.register("generate", strategy.generate, creator.Individual)
             toolbox.register("update", strategy.update)
+            self.strategy = strategy
             return toolbox
 
         toolbox.register("attr_float", random.uniform, -1, 1)
@@ -167,9 +180,11 @@ class DeapRunner:
 
         npop = self.mu  # Use mu as the population size
 
-        pop = (self.toolbox.generate()
-               if self.use_cma
-               else self.toolbox.population(n=npop))
+        # Create population based on algorithm type
+        if self.use_cma:
+            pop = self.toolbox.generate()
+        else:
+            pop = self.toolbox.population(n=npop)
 
         # Configure statistics and logbook
         stats = tools.Statistics(lambda ind: ind.fitness.values)
@@ -181,10 +196,29 @@ class DeapRunner:
         # Hall of Fame to keep track of the best individual
         hof = tools.HallOfFame(1)
 
-        # Run the DEAP evolutionary algorithm (Mu, Lambda)
-        final_pop, logbook = algorithms.eaMuCommaLambda(
-            pop, self.toolbox, self.mu, self.lambda_, self.cxpb, self.mutpb,
-            self.num_generations, stats=stats, halloffame=hof, verbose=True)
+        print(f"\n\n\nRUN_EVOLUTIONARY_ALGORITHM: USE_CMA: {self.use_cma}\n\n\n")
+        if self.use_cma:
+            print("\n\n\nRUN_EVOLUTIONARY_ALGORITHM: USE_CMA\n\n\n")
+            # CMA-ES: Use the generate-update scheme for multi-objective optimization
+            for gen in range(self.num_generations):
+                offspring = self.toolbox.generate()
+                fits = self.toolbox.map(self.toolbox.evaluate, offspring)
+                for fit, ind in zip(fits, offspring):
+                    ind.fitness.values = fit
+                self.toolbox.update(offspring)
+
+                # Update logbook and track best solutions
+                record = stats.compile(pop)
+                logbook.record(gen=gen, **record)
+                hof.update(offspring)
+
+            final_pop = offspring  # Final population in CMA-ES
+        else:
+            print("\n\n\nRUN_EVOLUTIONARY_ALGORITHM: WRONG BLOCK\n\n\n")
+            # Run the DEAP evolutionary algorithm (Mu, Lambda)
+            final_pop, logbook = algorithms.eaMuCommaLambda(
+                pop, self.toolbox, self.mu, self.lambda_, self.cxpb, self.mutpb,
+                self.num_generations, stats=stats, halloffame=hof, verbose=True)
 
         self.final_pop = final_pop
         self.hof = hof

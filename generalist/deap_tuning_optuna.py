@@ -3,7 +3,7 @@ import optuna
 import time
 import os
 
-from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
+from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2, USE_CMA,
                        NUM_GENERATIONS,  NUM_TRIALS_DEAP,
                        OUTPUT_FOLDER_TUNING, OUTPUT_FOLDER_TUNING_BEST,
                        TUNING_POP_SIZE_MIN, TUNING_POP_SIZE_MAX)
@@ -22,7 +22,8 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
 
     deapRunner = DeapRunner(enemies, num_generations=num_generations,
                             model_folder=OUTPUT_FOLDER_TUNING,
-                            results_folder=OUTPUT_FOLDER_TUNING)
+                            results_folder=OUTPUT_FOLDER_TUNING,
+                            use_cma=USE_CMA)
 
     # Run trials of hyperparameter optimization
     study.optimize(lambda trial: objective(deapRunner, trial),
@@ -32,17 +33,30 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
     best_params = study.best_params
     print(f"Best Parameters for enemies {enemies}: {best_params}")
 
-    # Once best parameters are found, you can run the evolutionary algorithm
-    # again with the best parameters:
-    deapRunner_best = start_run(enemies=enemies,
-                                run_idx=0,
-                                num_generations=num_generations,
-                                cxpb=best_params['cxpb'],
-                                mutpb=best_params['mutpb'],
-                                mu=best_params['mu'],
-                                lambda_=best_params['lambda_'],
-                                model_folder=OUTPUT_FOLDER_TUNING_BEST,
-                                results_folder=OUTPUT_FOLDER_TUNING_BEST)
+    # Handle best_params based on whether CMA-ES is used or not
+    if USE_CMA:
+        # Pass parameters relevant for CMA-ES
+        deapRunner_best = start_run(enemies=enemies,
+                                    run_idx=0,
+                                    num_generations=num_generations,
+                                    mu=best_params['mu'],
+                                    lambda_=best_params['lambda_'],
+                                    sigma=best_params['sigma'],  # Add sigma for CMA-ES
+                                    model_folder=OUTPUT_FOLDER_TUNING_BEST,
+                                    results_folder=OUTPUT_FOLDER_TUNING_BEST,
+                                    use_cma=USE_CMA)
+    else:
+        # Pass parameters relevant for MuCommaLambda
+        deapRunner_best = start_run(enemies=enemies,
+                                    run_idx=0,
+                                    num_generations=num_generations,
+                                    cxpb=best_params['cxpb'],
+                                    mutpb=best_params['mutpb'],
+                                    mu=best_params['mu'],
+                                    lambda_=best_params['lambda_'],
+                                    model_folder=OUTPUT_FOLDER_TUNING_BEST,
+                                    results_folder=OUTPUT_FOLDER_TUNING_BEST,
+                                    use_cma=USE_CMA)
 
     final_pop, hof, logbook = deapRunner_best.get_results()
 
@@ -52,9 +66,6 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
     print(f"Best trial: {best_trial.number}")
     print(f"Best fitness: {best_trial.value}")
     print(f"Best hyperparameters: {best_trial.params}")
-
-    path = deapRunner_best.get_input_folder()
-    file = os.path.join(path, "optuna_study_results.csv")
 
     # Save the best individual
     np.savetxt(os.path.join(path, 'best.txt'), hof[0])
@@ -71,16 +82,18 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
         file.write('')
 
 
+
 def objective(deapRunner: DeapRunner, trial: optuna.Trial):
     """
     Optuna Objective Function
     """
     if deapRunner.use_cma:
+        print("\n\n\nCAME IN HERE FOR THE OPTUNA PARAM SETUP\n\n\n")
         # For CMA-ES optimization, suggest sigma and lambda
         sigma = trial.suggest_float('sigma', 0.1, 2.0)
         mu = trial.suggest_int('mu', 10, 200)
         lambda_ = trial.suggest_int('lambda_', 50, 200)
-        deapRunner.set_params(mu=mu, lambda_=lambda_, sigma=sigma)
+        deapRunner.set_params(mu=mu, lambda_=lambda_, sigma=sigma, use_cma=True)
     else:
         # Suggest hyperparameters
         cxpb = trial.suggest_float('cxpb', 0.0, 0.9)
@@ -91,7 +104,7 @@ def objective(deapRunner: DeapRunner, trial: optuna.Trial):
 
     # Run the DEAP evolutionary algorithm
     
-    final_pop, hof, logbook = deapRunner.run_evolutionary_algorithm(trial.number)
+    _, hof, _ = deapRunner.run_evolutionary_algorithm(trial.number)
     deapRunner.save_logbook()
 
     _, hof, _ = deapRunner.get_results()
@@ -101,6 +114,6 @@ def objective(deapRunner: DeapRunner, trial: optuna.Trial):
 
 
 if __name__ == "__main__":
-    for group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
+    for group in [ENEMY_GROUP_1]:
         run_optuna(enemies=group, n_trials=NUM_TRIALS_DEAP,
                    num_generations=NUM_GENERATIONS)
