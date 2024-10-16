@@ -30,7 +30,7 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
                             num_generations=num_generations,
                             model_folder=OUTPUT_FOLDER_TUNING,
                             results_folder=OUTPUT_FOLDER_TUNING,
-                            use_adjusted_mutation_rate=args.use_adjusted_mutation_rate)
+                            use_adjusted_mutation_rate=use_adjusted_mutation_rate)
 
     # Run trials of hyperparameter optimization
     study.optimize(lambda trial: objective(neatRunner, trial),
@@ -79,33 +79,35 @@ def objective(neatRunner: NeatRunner, trial: optuna.Trial):
     pop_size = trial.suggest_int(
         'pop_size', TUNING_POP_SIZE_MIN, TUNING_POP_SIZE_MAX)
     bias_mutate_rate = trial.suggest_float(
-        'bias_mutate_rate', 0.01, 0.6)  # Mutation rate
+        'bias_mutate_rate', 0.1, 0.7)  # Mutation rate
     response_mutate_rate = trial.suggest_float(
-        'response_mutate_rate', 0.01, 0.6)  # Mutation rate
+        'response_mutate_rate', 0.1, 0.7)  # Mutation rate
     weight_mutate_rate = trial.suggest_float(
-        'weight_mutate_rate', 0.01, 0.6)
+        'weight_mutate_rate', 0.1, 0.7)
     elitism = trial.suggest_int('elitism', 0, 6)  # Number of elitism
+    num_hidden = trial.suggest_int('num_hidden', 5, 30)
 
-    initial_mutation_rate = trial.suggest_float(
-        'initial_mutation_rate', 0.01, 0.6)
-    final_mutation_rate = trial.suggest_float(
-        'final_mutation_rate', 0.01, 0.6)
-    initial_crossover_rate = trial.suggest_float(
-        'initial_crossover_rate', 0.01, 0.6)
-    final_crossover_rate = trial.suggest_float(
-        'final_crossover_rate', 0.01, 0.6)
+    #initial_mutation_rate = trial.suggest_float(
+    #    'initial_mutation_rate', 0.01, 0.6)
+    #final_mutation_rate = trial.suggest_float(
+    #    'final_mutation_rate', 0.01, 0.6)
+    #initial_crossover_rate = trial.suggest_float(
+    #    'initial_crossover_rate', 0.01, 0.6)
+    #final_crossover_rate = trial.suggest_float(
+    #    'final_crossover_rate', 0.01, 0.6)
 
-    neatRunner.initial_mutation_rate = initial_mutation_rate
-    neatRunner.final_mutation_rate = final_mutation_rate
-    neatRunner.initial_crossover_rate = initial_crossover_rate
-    neatRunner.final_crossover_rate = final_crossover_rate
+    #neatRunner.initial_mutation_rate = initial_mutation_rate
+    #neatRunner.final_mutation_rate = final_mutation_rate
+    #neatRunner.initial_crossover_rate = initial_crossover_rate
+    #neatRunner.final_crossover_rate = final_crossover_rate
 
     # Run the NEAT evolutionary algorithm
     neatRunner.set_params(bias_mutate_rate=bias_mutate_rate,
                           response_mutate_rate=response_mutate_rate,
                           weight_mutate_rate=weight_mutate_rate,
                           pop_size=pop_size,
-                          elitism=elitism)
+                          elitism=elitism,
+                          n_hidden_neurons=num_hidden)
 
     winner = neatRunner.run_evolutionary_algorithm(trial.number)
     return winner.fitness
@@ -123,6 +125,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     group = ast.literal_eval(args.group)
+
+    use_adjusted_mutation_rate = args.use_adjusted_mutation_rate == True or args.use_adjusted_mutation_rate == "True"
 
     print('-----------')
     print(f'START THE OPTUNA TUNNING OF GROUP 0F ENEMIES: {group}')
