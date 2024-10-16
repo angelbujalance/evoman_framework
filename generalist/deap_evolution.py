@@ -22,7 +22,8 @@ class DeapRunner:
     def __init__(self, train_enemies: list, num_generations: int,
                  test_enemies: list = None, n_hidden_neurons=10,
                  model_folder: str = OUTPUT_FOLDER_TRAINING,
-                 results_folder: str = OUTPUT_FOLDER_TESTING):
+                 results_folder: str = OUTPUT_FOLDER_TESTING,
+                 use_cma: bool = True):
         self.train_enemies = train_enemies
         self.test_enemies = test_enemies
         self.num_generations = num_generations
@@ -35,7 +36,7 @@ class DeapRunner:
         self.mutpb = None
         self.mu = None
         self.lambda_ = None
-        self.use_cma = None
+        self.use_cma = use_cma
 
         # Results
         self.final_pop = None
@@ -105,7 +106,7 @@ class DeapRunner:
             
             toolbox.register("generate", strategy.generate, creator.Individual)
             toolbox.register("update", strategy.update)
-            return
+            return toolbox
 
         toolbox.register("attr_float", random.uniform, -1, 1)
         toolbox.register("individual", tools.initRepeat,
@@ -166,7 +167,9 @@ class DeapRunner:
 
         npop = self.mu  # Use mu as the population size
 
-        pop = self.toolbox.population(n=npop)
+        pop = (self.toolbox.generate()
+               if self.use_cma
+               else self.toolbox.population(n=npop))
 
         # Configure statistics and logbook
         stats = tools.Statistics(lambda ind: ind.fitness.values)
