@@ -104,16 +104,12 @@ class DeapRunner:
         toolbox.register("evaluate", self.evaluate)
 
         if self.use_cma:
-            print("\n\n\nWENT INTO THE RIGHT TOOLBOX\n\n\n")
-            # Correctly initialize individuals using creator.Individual
-            initial_population = [creator.Individual([0.0] * self.n_vars) for _ in range(self.mu)]
-            
-            strategy = cma.StrategyMultiObjective(
-                population=initial_population,  # Use creator.Individual instead of raw lists
-                sigma=self.sigma,  # Initial step size
-                mu=self.mu, 
-                lambda_=self.lambda_,
-                indicator=hypervolume  # Optional, for multi-objective tracking
+            print("\n\n\nUsing Single-Objective CMA-ES\n\n\n")
+            strategy = cma.Strategy(
+                centroid=[0.0] * self.n_vars,  # Initial centroid (can be set to zeros or other)
+                sigma=self.sigma,  # Step size (standard deviation)
+                lambda_=self.lambda_,  # Number of offspring
+                mu=self.mu  # Number of parents
             )
             
             toolbox.register("generate", strategy.generate, creator.Individual)
@@ -198,21 +194,9 @@ class DeapRunner:
 
         print(f"\n\n\nRUN_EVOLUTIONARY_ALGORITHM: USE_CMA: {self.use_cma}\n\n\n")
         if self.use_cma:
-            print("\n\n\nRUN_EVOLUTIONARY_ALGORITHM: USE_CMA\n\n\n")
-            # CMA-ES: Use the generate-update scheme for multi-objective optimization
-            for gen in range(self.num_generations):
-                offspring = self.toolbox.generate()
-                fits = self.toolbox.map(self.toolbox.evaluate, offspring)
-                for fit, ind in zip(fits, offspring):
-                    ind.fitness.values = fit
-                self.toolbox.update(offspring)
-
-                # Update logbook and track best solutions
-                record = stats.compile(pop)
-                logbook.record(gen=gen, **record)
-                hof.update(offspring)
-
-            final_pop = offspring  # Final population in CMA-ES
+            final_pop, logbook = algorithms.eaGenerateUpdate(
+            self.toolbox, ngen=self.num_generations, stats=stats,
+            halloffame=hof, verbose=True)
         else:
             print("\n\n\nRUN_EVOLUTIONARY_ALGORITHM: WRONG BLOCK\n\n\n")
             # Run the DEAP evolutionary algorithm (Mu, Lambda)

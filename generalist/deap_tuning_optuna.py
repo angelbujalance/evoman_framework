@@ -35,6 +35,8 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
 
     # Handle best_params based on whether CMA-ES is used or not
     if USE_CMA:
+        # Ensure best_params contain the right values for CMA-ES
+        assert 'mu' in best_params and 'lambda_' in best_params and 'sigma' in best_params, "Missing CMA-ES parameters."
         # Pass parameters relevant for CMA-ES
         deapRunner_best = start_run(enemies=enemies,
                                     run_idx=0,
@@ -46,6 +48,8 @@ def run_optuna(enemies: list, n_trials: int, num_generations: int):
                                     results_folder=OUTPUT_FOLDER_TUNING_BEST,
                                     use_cma=USE_CMA)
     else:
+        # Ensure best_params contain the right values for MuCommaLambda
+        assert 'cxpb' in best_params and 'mutpb' in best_params and 'mu' in best_params and 'lambda_' in best_params, "Missing MuCommaLambda parameters."
         # Pass parameters relevant for MuCommaLambda
         deapRunner_best = start_run(enemies=enemies,
                                     run_idx=0,
@@ -105,6 +109,11 @@ def objective(deapRunner: DeapRunner, trial: optuna.Trial):
     # Run the DEAP evolutionary algorithm
     
     _, hof, _ = deapRunner.run_evolutionary_algorithm(trial.number)
+    # Ensure mu and lambda_ are compatible with the problem size
+    if mu > deapRunner.n_vars:
+        raise ValueError(f"mu ({mu}) cannot be greater than the number of variables ({deapRunner.n_vars})")
+    if lambda_ <= mu:
+        raise ValueError(f"lambda_ ({lambda_}) must be greater than mu ({mu})")
     deapRunner.save_logbook()
 
     _, hof, _ = deapRunner.get_results()

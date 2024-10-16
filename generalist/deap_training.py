@@ -6,7 +6,7 @@ from deap_evolution import DeapRunner
 
 def start_run(run_idx: int, enemies: list,
               cxpb: float = None, mutpb: float = None, mu: float = None, lambda_: float = None,
-              sigma: float = 1.0,  # Add sigma for CMA-ES
+              sigma: float = None,  # Add sigma for CMA-ES
               num_generations: int = NUM_GENERATIONS,
               model_folder: str = OUTPUT_FOLDER_TRAINING,
               results_folder: str = OUTPUT_FOLDER_TESTING,
@@ -41,11 +41,11 @@ def start_runs(enemies: list, n_runs: int, num_generations: int,
                   use_cma=use_cma)
 
 
-if __name__ == "__main__":
-    for group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
-        start_runs(enemies=group, num_generations=NUM_GENERATIONS,
-                   use_cma=USE_CMA, n_runs=NUM_RUNS,
-                   **best_params)
+# if __name__ == "__main__":
+#     for group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
+#         start_runs(enemies=group, num_generations=NUM_GENERATIONS,
+#                    use_cma=USE_CMA, n_runs=NUM_RUNS,
+#                    **best_params)
 
 if __name__ == "__main__":
     # Set parameters based on whether we are using CMA-ES or MuCommaLambda
