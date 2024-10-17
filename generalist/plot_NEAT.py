@@ -8,6 +8,8 @@ from constants import ENEMY_GROUP_1, ENEMY_GROUP_2, enemy_group_to_str
 
 ENEMIES = ENEMY_GROUP_1
 
+dynamic = True
+
 # Function to compute confidence intervals
 
 
@@ -20,10 +22,16 @@ def confidence_interval(data, confidence=0.95):
 
 
 # Generate file names for the different runs
-files = [os.path.join('results', 'NEAT', 'trained',
+if dynamic:
+    files = [os.path.join('results', 'NEAT', 'trained_dynamic',
                       f'enemies_{enemy_group_to_str(ENEMIES)}',
                       f'run_{run_idx}', 'results.csv')
          for run_idx in range(10)]
+else:
+    files = [os.path.join('results', 'NEAT', 'trained',
+                        f'enemies_{enemy_group_to_str(ENEMIES)}',
+                        f'run_{run_idx}', 'results.csv')
+            for run_idx in range(10)]
 
 # Read the files and append them to a list of dataframes
 dfs = []
@@ -34,12 +42,13 @@ for run, file_name in enumerate(files):
 
 # Combine all DataFrames into a single DataFrame
 combined_df = pd.concat([df.assign(run=i+1) for i, df in enumerate(dfs)])
+print(combined_df)
 
 # Group the combined dataframe by generation to calculate the statistics
 grouped_mean_fitness = combined_df.groupby(
-    'generation')['mean_fitness'].apply(list)
+    'Generation')['Mean Fitness'].apply(list)
 grouped_best_fitness = combined_df.groupby(
-    'generation')['best_fitness'].apply(list)
+    'Generation')['Best Fitness'].apply(list)
 
 # Calculate the mean and confidence intervals for mean fitness per generation
 mean_fitness_means = grouped_mean_fitness.apply(np.mean)
@@ -80,8 +89,12 @@ plt.ylabel('Fitness')
 plt.title('Mean and Best Fitness Evolution with Confidence Intervals')
 plt.legend()
 
-plt.savefig("mean_best_fitness_evolution_with_CI.jpg",
-            dpi=300, bbox_inches='tight')
+if dynamic:
+    plt.savefig("mean_best_fitness_evolution_with_CI_dynamic.jpg",
+        dpi=300, bbox_inches='tight')
+else:
+    plt.savefig("mean_best_fitness_evolution_with_CI.jpg",
+        dpi=300, bbox_inches='tight')
 
 # Show the plot
 plt.tight_layout()
