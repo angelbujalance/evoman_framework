@@ -239,6 +239,8 @@ class NeatRunner:
 
         file = os.path.join(experiment_name, best_file_name)
 
+        print(file, 'file')
+
         with open(file, 'wb') as f:
             pickle.dump(best, f)
 
