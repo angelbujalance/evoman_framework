@@ -16,7 +16,6 @@ def eval_enemies(train_enemies: list, test_enemies: list,
     neatRunner.run_idx = run_idx
     folder = neatRunner.get_input_folder()
 
-    print(f'\nRUNNING SAVED BEST SOLUTION OF RUN {run_idx}\n')
     best_file = os.path.join(folder, f'best_individual_run{run_idx}')
     fitness, player_energy, enemy_energy, gain = \
         neatRunner.evaluate_from_genome_file(best_file)
