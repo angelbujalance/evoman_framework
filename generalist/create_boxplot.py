@@ -2,24 +2,22 @@ import numpy as np
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 from constants import (PATH_DEAP, PATH_NEAT, OUTPUT_FOLDER_TESTING, NUM_RUNS,
                        enemy_folder, enemy_group_to_str,
                        ENEMY_GROUP_1, ENEMY_GROUP_2)
 
+EA_NAMES = ["DEAP", "NEAT"]
+ENEMY_GROUPS = [ENEMY_GROUP_1, ENEMY_GROUP_2]
+
 
 def collect_gains():
-    name_EAs = ["DEAP", "NEAT"]
-    enemy_groups = [ENEMY_GROUP_1, ENEMY_GROUP_2]
-
-    all_gains = {(name_EA, enemy_group_to_str(enemy_group)): []
-                 for name_EA in name_EAs
-                 for enemy_group in enemy_groups}
+    dfs = []
 
     for name_EA, folder_EA in [("DEAP", PATH_DEAP), ("NEAT", PATH_NEAT)]:
-        for enemy_group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
-            str_enemy_group = enemy_group_to_str(enemy_group)
-            gains_enemy_group = []
+        for enemy_group in ENEMY_GROUPS:
+            str_enemy_group = str(enemy_group)
 
             for run_idx in range(NUM_RUNS):
                 results_file = os.path.join(folder_EA,
@@ -27,36 +25,29 @@ def collect_gains():
                                             enemy_folder(enemy_group),
                                             f"run_{run_idx}",
                                             "results.csv")
-                gain = pd.read_csv(results_file)["gain"].apply(np.mean)
-                gains_enemy_group.append(gain)
+                df = pd.read_csv(results_file)
+                df["EA"] = name_EA
+                df["enemy_group"] = str_enemy_group
+                dfs.append(df)
 
-            all_gains[name_EA, str_enemy_group].append(gains_enemy_group)
+    combined_df = pd.concat(dfs)
+    return combined_df
 
-    return all_gains
 
-
-def create_boxplot(gains_per_EA_and_enemy_group: dict, output_path: str):
-    # print(dfs_per_EA_per_enemy_group)
-    combis = list(gains_per_EA_and_enemy_group.keys())
-
-    # print(all_gains)
-
-    labels = combis
-
+def create_boxplot(data: pd.DataFrame, output_path: str):
     with open("testing.txt", "w")as f:
-        f.write(str(gains_per_EA_and_enemy_group))
+        f.write(str(data))
 
-    # for name_EA in name_EAs:
-    #     for enemy_group in enemy_groups:
-    #         gains = dfs_per_EA_per_enemy_group[name_EA][enemy_group]
-    plt.boxplot(gains_per_EA_and_enemy_group, patch_artist=True, labels=labels)
+    sns.boxplot(x="EA", y="gain", hue="enemy_group", data=data)
 
-    plt.xlabel('Evolutionary Algorithms')
-    plt.ylabel('Gain')
-    plt.title('Average gain of best individual for the trained models')
+    plt.xlabel("Evolutionary Algorithms")
+    plt.ylabel("Gain")
+    plt.title(
+        "Gain of best individuals, trained models on two enemy groups")
     plt.legend()
-    plt.grid(True)
-    plt.savefig(os.path.join(output_path, 'gains.png'))
+    plt.ylim((-100, 100))
+    os.makedirs(output_path, exist_ok=True)
+    plt.savefig(os.path.join(output_path, "gains.png"))
     plt.show()
 
 
