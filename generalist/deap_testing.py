@@ -22,7 +22,8 @@ def eval_enemies(train_enemies: list, test_enemies: list,
     fitness, player_energy, enemy_energy, time = deapRunner.run_game(
         best_solution)
 
-    return fitness, player_energy, enemy_energy, time
+    gain = player_energy - enemy_energy
+    return fitness, player_energy, enemy_energy, gain
 
 
 def get_best_run_idx(enemy_group):

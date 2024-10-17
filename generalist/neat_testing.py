@@ -2,7 +2,7 @@ import numpy as np
 import os
 
 from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2, ALL_ENEMIES,
-                       enemy_folder, PATH_NEAT,
+                       enemy_folder, PATH_NEAT, NUM_RUNS,
                        OUTPUT_FOLDER_TRAINING, OUTPUT_FOLDER_TESTING)
 from neat_evolution import NeatRunner
 from general_testing_create_tables_plots import save_table_for_enemy_group
@@ -37,7 +37,7 @@ def get_best_run_idx(enemy_group):
         lines = np.genfromtxt(results_file, skip_header=True, delimiter=",")
         # last generation
         line = lines[-1] if hasattr(lines[0], "__len__") else lines
-        generation, best_fitness, mean_fitness, std_fitness, gain = line
+        generation, best_fitness, mean_fitness, std_fitness = line
 
         if best_fitness > all_best_fitness:
             run_idx = dir.removeprefix("run_")
@@ -47,7 +47,6 @@ def get_best_run_idx(enemy_group):
 
 
 if __name__ == "__main__":
-    amount_runs = 10
     groups = [ENEMY_GROUP_1, ENEMY_GROUP_2]
     enemies = ALL_ENEMIES
 
@@ -55,7 +54,7 @@ if __name__ == "__main__":
         all_results = {}
         best_run_idx = get_best_run_idx(group)
 
-        for run_idx in range(amount_runs):
+        for run_idx in range(NUM_RUNS):
             file = os.path.join(PATH_NEAT, OUTPUT_FOLDER_TESTING,
                                 enemy_folder(group), f"run_{run_idx}",
                                 "results.csv")
