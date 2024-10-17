@@ -95,8 +95,8 @@ def objective(deapRunner: DeapRunner, trial: optuna.Trial):
         print("\n\n\nCAME IN HERE FOR THE OPTUNA PARAM SETUP\n\n\n")
         # For CMA-ES optimization, suggest sigma and lambda
         sigma = trial.suggest_float('sigma', 0.1, 2.0)
-        mu = trial.suggest_int('mu', 10, 200)
-        lambda_ = trial.suggest_int('lambda_', 50, 200)
+        mu = trial.suggest_int('mu', 10, 199) # Ensure mu < lambda 
+        lambda_ = trial.suggest_int('lambda_', mu + 1, 200)  # Ensure lambda_ > mu # before it was 50, 200
         deapRunner.set_params(mu=mu, lambda_=lambda_, sigma=sigma, use_cma=True)
     else:
         # Suggest hyperparameters
@@ -123,6 +123,6 @@ def objective(deapRunner: DeapRunner, trial: optuna.Trial):
 
 
 if __name__ == "__main__":
-    for group in [ENEMY_GROUP_1]:
+    for group in [ENEMY_GROUP_2]:
         run_optuna(enemies=group, n_trials=NUM_TRIALS_DEAP,
                    num_generations=NUM_GENERATIONS)

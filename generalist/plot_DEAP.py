@@ -91,20 +91,20 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
 
     generations = range(num_generations)
 
-    average_fitness_NEAT, average_fitness_NEAT_CI, best_fitness_NEAT, best_fitness_NEAT_CI, = NEAT_results(
-        enemy_group)
+    # average_fitness_NEAT, average_fitness_NEAT_CI, best_fitness_NEAT, best_fitness_NEAT_CI, = NEAT_results(
+    #     enemy_group)
 
-    # Separate the mean, lower, and upper confidence intervals for mean fitness
-    mean_fitness_values = [c[0] for c in average_fitness_NEAT_CI]
-    mean_ci_lower = [c[1] for c in average_fitness_NEAT_CI]
-    mean_ci_upper = [c[2] for c in average_fitness_NEAT_CI]
+    # # Separate the mean, lower, and upper confidence intervals for mean fitness
+    # mean_fitness_values = [c[0] for c in average_fitness_NEAT_CI]
+    # mean_ci_lower = [c[1] for c in average_fitness_NEAT_CI]
+    # mean_ci_upper = [c[2] for c in average_fitness_NEAT_CI]
 
-    # Separate the mean, lower, and upper confidence intervals for best fitness
-    best_fitness_values = [c[0] for c in best_fitness_NEAT_CI]
-    best_ci_lower = [c[1] for c in best_fitness_NEAT_CI]
-    best_ci_upper = [c[2] for c in best_fitness_NEAT_CI]
+    # # Separate the mean, lower, and upper confidence intervals for best fitness
+    # best_fitness_values = [c[0] for c in best_fitness_NEAT_CI]
+    # best_ci_lower = [c[1] for c in best_fitness_NEAT_CI]
+    # best_ci_upper = [c[2] for c in best_fitness_NEAT_CI]
 
-    # Plot the average fitness with standard deviation for DEAP
+    '''Plot the average fitness with standard deviation for DEAP'''
     plt.plot(generations, avg_mean_fitness,
              label='Average DEAP', color='blue', ls="--")
     plt.fill_between(generations,
@@ -112,25 +112,25 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
                      np.array(avg_mean_fitness) + np.array(avg_std_fitness),
                      color='blue', alpha=0.2)
 
-    # Plot the average fitness with standard deviation for NEAT
-    print(generations, average_fitness_NEAT)
-    plt.plot(generations, average_fitness_NEAT,
-             label='Average NEAT', color='green', ls="--")
-    plt.fill_between(average_fitness_NEAT.index, mean_ci_lower, mean_ci_upper,
-                     color='green', alpha=0.2)
+    '''Plot the average fitness with standard deviation for NEAT'''
+    # print(generations, average_fitness_NEAT)
+    # plt.plot(generations, average_fitness_NEAT,
+    #          label='Average NEAT', color='green', ls="--")
+    # plt.fill_between(average_fitness_NEAT.index, mean_ci_lower, mean_ci_upper,
+    #                  color='green', alpha=0.2)
 
-    # Plot the best fitness for DEAP
+    ''' Plot the best fitness for DEAP'''
     plt.plot(generations, avg_best_fitness, label='Best DEAP', color='blue')
     plt.fill_between(generations,
                      np.array(avg_best_fitness) - np.array(std_best_fitness),
                      np.array(avg_best_fitness) + np.array(std_best_fitness),
                      color='blue', alpha=0.2)
 
-    # Plot the best fitness for NEAT
-    plt.plot(generations, best_fitness_NEAT,
-             label='Best NEAT', color='green')
-    plt.fill_between(best_fitness_NEAT.index, best_ci_lower, best_ci_upper,
-                     color='green', alpha=0.2)
+    ''' Plot the best fitness for NEAT'''
+    # plt.plot(generations, best_fitness_NEAT,
+    #          label='Best NEAT', color='green')
+    # plt.fill_between(best_fitness_NEAT.index, best_ci_lower, best_ci_upper,
+    #                  color='green', alpha=0.2)
 
     # Add labels and title
     plt.xlabel('Generations')

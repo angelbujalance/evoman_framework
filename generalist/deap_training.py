@@ -52,10 +52,11 @@ if __name__ == "__main__":
     if USE_CMA:
         # For CMA-ES, no need for cxpb and mutpb
         best_params = {
-            'mu': 71,
-            'lambda_': 172,
-            'sigma': 1.0  # Example sigma for CMA-ES
+            'mu': 57,
+            'lambda_': 117,
+            'sigma': 1.36  # Example sigma for CMA-ES
         }
+        print("Using Optuna's CMA-ES params: ", best_params)
     else:
         # For MuCommaLambda, we use cxpb and mutpb
         best_params = {

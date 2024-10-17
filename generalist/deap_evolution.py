@@ -17,6 +17,13 @@ headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
+# Define the DEAP classes only once to avoid RuntimeWarnings
+if not hasattr(creator, "FitnessMax"):
+    creator.create("FitnessMax", base.Fitness, weights=(1.0,))
+if not hasattr(creator, "Individual"):
+    creator.create("Individual", list, fitness=creator.FitnessMax)
+
+
 
 class DeapRunner:
     def __init__(self, train_enemies: list, num_generations: int,
@@ -52,7 +59,11 @@ class DeapRunner:
         return self.test_enemies is None
 
     def set_params(self, cxpb: float = None, mutpb: float = None, mu: float = None, lambda_: float = None, 
-                        use_cma: bool = False, sigma: float = 1.0):
+                    use_cma: bool = False, sigma: float = 1.0):
+        # Ensure that mu <= lambda_
+        if use_cma and mu > lambda_:
+            raise ValueError(f"mu ({mu}) cannot be greater than lambda_ ({lambda_})")
+        
         # Set shared parameters
         self.mu = mu
         self.lambda_ = lambda_
@@ -65,7 +76,6 @@ class DeapRunner:
             # Only relevant for MuCommaLambda
             self.cxpb = cxpb
             self.mutpb = mutpb
-
 
     def _init_deap_training(self):
         # DEAP setup for evolutionary algorithm
@@ -104,13 +114,14 @@ class DeapRunner:
         toolbox.register("evaluate", self.evaluate)
 
         if self.use_cma:
-            print("\n\n\nUsing Single-Objective CMA-ES\n\n\n")
+            print("\n\n\nUsing Single-Objective CMA-ES")
             strategy = cma.Strategy(
                 centroid=[0.0] * self.n_vars,  # Initial centroid (can be set to zeros or other)
                 sigma=self.sigma,  # Step size (standard deviation)
                 lambda_=self.lambda_,  # Number of offspring
                 mu=self.mu  # Number of parents
             )
+            print(f"Strategy sigma: {strategy.sigma}, lambda: {strategy.lambda_}, mu: {strategy.mu}\n\n\n")
             
             toolbox.register("generate", strategy.generate, creator.Individual)
             toolbox.register("update", strategy.update)

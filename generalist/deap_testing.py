@@ -84,7 +84,7 @@ if __name__ == "__main__":
             for enemy in enemies:
                 fitness, player_energy, enemy_energy, gain = \
                     eval_enemies(train_enemies=group, test_enemies=[enemy],
-                                 run_idx=best_run_idx, use_cma=USE_CMA)
+                                 run_idx=run_idx, use_cma=USE_CMA)
 
                 with open(file, "a") as f:
                     f.write(
