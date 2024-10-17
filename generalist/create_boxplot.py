@@ -35,9 +35,6 @@ def collect_gains():
 
 
 def create_boxplot(data: pd.DataFrame, output_path: str):
-    with open("testing.txt", "w")as f:
-        f.write(str(data))
-
     sns.boxplot(x="EA", y="gain", hue="enemy_group", data=data)
 
     plt.xlabel("Evolutionary Algorithms")
