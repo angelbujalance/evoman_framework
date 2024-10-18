@@ -22,11 +22,11 @@ def eval_enemies(train_enemies: list, test_enemies: list,
     deapRunner.run_idx = run_idx
     folder = deapRunner.get_input_folder()
     best_solution = np.loadtxt(os.path.join(folder, 'best.txt'))
-    print(f'\nRUNNING SAVED BEST SOLUTION OF RUN {run_idx}\n')
     fitness, player_energy, enemy_energy, time = deapRunner.run_game(
         best_solution)
 
-    return fitness, player_energy, enemy_energy, time
+    gain = player_energy - enemy_energy
+    return fitness, player_energy, enemy_energy, gain
 
 
 def get_best_run_idx(enemy_group):
