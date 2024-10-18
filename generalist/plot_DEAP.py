@@ -9,7 +9,7 @@ from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
                        PATH_NEAT, PATH_DEAP, NUM_RUNS,
                        OUTPUT_FOLDER_TRAINING)
 
-dynamic = True
+dynamic = False
 
 
 def confidence_interval(data, confidence=0.95):
@@ -121,14 +121,7 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
                      np.array(avg_mean_fitness) - np.array(avg_std_fitness),
                      np.array(avg_mean_fitness) + np.array(avg_std_fitness),
                      color='blue', alpha=0.2)
-
-    '''Plot the average fitness with standard deviation for NEAT'''
-    print(generations, average_fitness_NEAT)
-    plt.plot(generations, average_fitness_NEAT,
-             label='Average NEAT', color='green', ls="--")
-    plt.fill_between(average_fitness_NEAT.index, mean_ci_lower, mean_ci_upper,
-                     color='green', alpha=0.2)
-
+        
     ''' Plot the best fitness for DEAP'''
     plt.plot(generations, avg_best_fitness, label='Best DEAP', color='blue')
     plt.fill_between(generations,
@@ -136,9 +129,23 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
                      np.array(avg_best_fitness) + np.array(std_best_fitness),
                      color='blue', alpha=0.2)
 
+    if dynamic:
+        avg_label = 'Average NEAT dynamic'
+        best_label = 'Best NEAT dynamic'
+    else:
+        avg_label = 'Average NEAT'
+        best_label = 'Best NEAT'
+
+    '''Plot the average fitness with standard deviation for NEAT'''
+    print(generations, average_fitness_NEAT)
+    plt.plot(generations, average_fitness_NEAT,
+             label=avg_label, color='green', ls="--")
+    plt.fill_between(average_fitness_NEAT.index, mean_ci_lower, mean_ci_upper,
+                     color='green', alpha=0.2)
+
     ''' Plot the best fitness for NEAT'''
     plt.plot(generations, best_fitness_NEAT,
-             label='Best NEAT', color='green')
+             label=best_label, color='green')
     plt.fill_between(best_fitness_NEAT.index, best_ci_lower, best_ci_upper,
                      color='green', alpha=0.2)
 
