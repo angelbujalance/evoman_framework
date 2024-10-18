@@ -11,8 +11,6 @@ from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
 
 dynamic = False
 
-# OUTPUT_FOLDER_TRAINING += '_100gens'
-
 print(OUTPUT_FOLDER_TRAINING)
 
 def confidence_interval(data, confidence=0.95):
@@ -119,19 +117,19 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
     best_ci_upper = [c[2] for c in best_fitness_NEAT_CI]
 
     '''Plot the average fitness with standard deviation for DEAP'''
-    # plt.plot(generations, avg_mean_fitness,
-    #          label='Average DEAP', color='blue', ls="--")
-    # plt.fill_between(generations,
-    #                  np.array(avg_mean_fitness) - np.array(avg_std_fitness),
-    #                  np.array(avg_mean_fitness) + np.array(avg_std_fitness),
-    #                  color='blue', alpha=0.2)
+    plt.plot(generations, avg_mean_fitness,
+             label='Average DEAP', color='blue', ls="--")
+    plt.fill_between(generations,
+                     np.array(avg_mean_fitness) - np.array(avg_std_fitness),
+                     np.array(avg_mean_fitness) + np.array(avg_std_fitness),
+                     color='blue', alpha=0.2)
         
     ''' Plot the best fitness for DEAP'''
-    # plt.plot(generations, avg_best_fitness, label='Best DEAP', color='blue')
-    # plt.fill_between(generations,
-    #                  np.array(avg_best_fitness) - np.array(std_best_fitness),
-    #                  np.array(avg_best_fitness) + np.array(std_best_fitness),
-    #                  color='blue', alpha=0.2)
+    plt.plot(generations, avg_best_fitness, label='Best DEAP', color='blue')
+    plt.fill_between(generations,
+                     np.array(avg_best_fitness) - np.array(std_best_fitness),
+                     np.array(avg_best_fitness) + np.array(std_best_fitness),
+                     color='blue', alpha=0.2)
 
     if dynamic:
         avg_label = 'Average NEAT dynamic'
@@ -167,7 +165,7 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
                     f'fitness_plot_enemies_{enemy_group_to_str(enemy_group)}_dynamic.png'))
     else:        
         plt.savefig(os.path.join(experiment_dir,
-                    f'fitness_plot_enemies_{enemy_group_to_str(enemy_group)}.png'))
+                    f'fitness_plot_enemies_{enemy_group_to_str(enemy_group)}_COMBINED.png'))
     plt.show()
 
 
@@ -176,7 +174,7 @@ if __name__ == '__main__':
         # Directory containing all run folders
         experiment_dir_DEAP = os.path.join(
             PATH_DEAP,
-            OUTPUT_FOLDER_TRAINING+'_100gens',
+            OUTPUT_FOLDER_TRAINING,
             enemy_folder(enemy_group))
 
         experiment_dir_NEAT = os.path.join(

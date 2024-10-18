@@ -10,8 +10,6 @@ from constants import (enemy_folder, PATH_DEAP,
 from evoman.environment import Environment
 from demo_controller import player_controller
 
-OUTPUT_FOLDER_TRAINING += '_100gens'
-OUTPUT_FOLDER_TESTING += '_100gens'
 
 print(OUTPUT_FOLDER_TRAINING)
 

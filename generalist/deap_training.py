@@ -3,8 +3,6 @@ from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
                        OUTPUT_FOLDER_TRAINING, OUTPUT_FOLDER_TESTING)
 from deap_evolution import DeapRunner
 
-OUTPUT_FOLDER_TRAINING += '_100gens'
-OUTPUT_FOLDER_TESTING += '_100gens'
 
 print(OUTPUT_FOLDER_TRAINING)
 
