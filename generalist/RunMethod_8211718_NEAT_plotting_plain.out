@@ -1,0 +1,80 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+trained
+EXPERIMENT DIR: results/DEAP/trained_100gens/enemies_3_4_5
+Trying to read: results/DEAP/trained_100gens/enemies_3_4_5/run_0/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_3_4_5/run_1/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_3_4_5/run_2/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_3_4_5/run_3/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_3_4_5/run_4/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_3_4_5/run_5/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_3_4_5/run_6/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_3_4_5/run_7/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_3_4_5/run_8/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_3_4_5/run_9/logbook.csv
+IT CAME IN HERE
+range(0, 100) Generation
+0     -2.316839
+1     -2.422012
+2     -2.029078
+3     -2.277545
+4     -2.517330
+        ...    
+95    21.066179
+96    21.775214
+97    22.600094
+98    23.563459
+99    24.724754
+Name: Mean Fitness, Length: 100, dtype: float64
+EXPERIMENT DIR: results/DEAP/trained_100gens/enemies_1_2_6_7_8
+Trying to read: results/DEAP/trained_100gens/enemies_1_2_6_7_8/run_0/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_1_2_6_7_8/run_1/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_1_2_6_7_8/run_2/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_1_2_6_7_8/run_3/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_1_2_6_7_8/run_4/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_1_2_6_7_8/run_5/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_1_2_6_7_8/run_6/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_1_2_6_7_8/run_7/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_1_2_6_7_8/run_8/logbook.csv
+Trying to read: results/DEAP/trained_100gens/enemies_1_2_6_7_8/run_9/logbook.csv
+IT CAME IN HERE
+range(0, 100) Generation
+0    -4.424027
+1    -4.615732
+2    -4.416813
+3    -4.754313
+4    -4.781061
+        ...   
+95    6.656910
+96    6.980365
+97    6.011502
+98    7.069613
+99    7.223043
+Name: Mean Fitness, Length: 100, dtype: float64
+
+JOB STATISTICS
+==============
+Job ID: 8211718
+Cluster: snellius
+User/Group: scur1762/scur1762
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 32
+CPU Utilized: 00:00:01
+CPU Efficiency: 0.24% of 00:06:56 core-walltime
+Job Wall-clock time: 00:00:13
+Memory Utilized: 1.60 MB
+Memory Efficiency: 0.00% of 180.00 GB

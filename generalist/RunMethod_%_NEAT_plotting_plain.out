@@ -1,0 +1,58 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+trained
+EXPERIMENT DIR: results/DEAP/trained/enemies_3_4_5
+Trying to read: results/DEAP/trained/enemies_3_4_5/run_0/logbook.csv
+Trying to read: results/DEAP/trained/enemies_3_4_5/run_1/logbook.csv
+Trying to read: results/DEAP/trained/enemies_3_4_5/run_2/logbook.csv
+Trying to read: results/DEAP/trained/enemies_3_4_5/run_3/logbook.csv
+Trying to read: results/DEAP/trained/enemies_3_4_5/run_4/logbook.csv
+Trying to read: results/DEAP/trained/enemies_3_4_5/run_5/logbook.csv
+Trying to read: results/DEAP/trained/enemies_3_4_5/run_6/logbook.csv
+Trying to read: results/DEAP/trained/enemies_3_4_5/run_7/logbook.csv
+Trying to read: results/DEAP/trained/enemies_3_4_5/run_8/logbook.csv
+Trying to read: results/DEAP/trained/enemies_3_4_5/run_9/logbook.csv
+IT CAME IN HERE
+range(0, 30) Generation
+0     -2.316839
+1     -2.422012
+2     -2.029078
+3     -2.277545
+4     -2.517330
+        ...    
+95    21.066179
+96    21.775214
+97    22.600094
+98    23.563459
+99    24.724754
+Name: Mean Fitness, Length: 100, dtype: float64
+Traceback (most recent call last):
+  File "/gpfs/home3/scur1762/evoman_framework/generalist/plot_DEAP.py", line 192, in <module>
+    plot_fitness(all_best_fitness, all_mean_fitness,
+  File "/gpfs/home3/scur1762/evoman_framework/generalist/plot_DEAP.py", line 145, in plot_fitness
+    plt.plot(generations, average_fitness_NEAT,
+  File "/sw/arch/RHEL8/EB_production/2023/software/Anaconda3/2023.07-2/lib/python3.11/site-packages/matplotlib/pyplot.py", line 2812, in plot
+    return gca().plot(
+           ^^^^^^^^^^^
+  File "/sw/arch/RHEL8/EB_production/2023/software/Anaconda3/2023.07-2/lib/python3.11/site-packages/matplotlib/axes/_axes.py", line 1688, in plot
+    lines = [*self._get_lines(*args, data=data, **kwargs)]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sw/arch/RHEL8/EB_production/2023/software/Anaconda3/2023.07-2/lib/python3.11/site-packages/matplotlib/axes/_base.py", line 311, in __call__
+    yield from self._plot_args(
+               ^^^^^^^^^^^^^^^^
+  File "/sw/arch/RHEL8/EB_production/2023/software/Anaconda3/2023.07-2/lib/python3.11/site-packages/matplotlib/axes/_base.py", line 504, in _plot_args
+    raise ValueError(f"x and y must have same first dimension, but "
+ValueError: x and y must have same first dimension, but have shapes (30,) and (100,)

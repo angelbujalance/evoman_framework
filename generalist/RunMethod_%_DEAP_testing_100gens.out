@@ -29,9 +29,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 0
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -85,9 +82,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 0
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -145,9 +139,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 0
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -201,9 +192,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 0
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -261,9 +249,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 0
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -317,9 +302,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 0
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -377,9 +359,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 0
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -433,9 +412,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 0
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -493,9 +469,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 1
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -549,9 +522,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 1
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -609,9 +579,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 1
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -665,9 +632,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 1
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -725,9 +689,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 1
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -781,9 +742,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 1
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -841,9 +799,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 1
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -897,9 +852,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 1
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -957,9 +909,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 2
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -1013,9 +962,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 2
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -1073,9 +1019,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 2
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -1129,9 +1072,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 2
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -1189,9 +1129,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 2
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -1245,9 +1182,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 2
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -1305,9 +1239,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 2
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -1361,9 +1292,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 2
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -1421,9 +1349,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 3
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -1477,9 +1402,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 3
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -1537,9 +1459,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 3
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -1593,9 +1512,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 3
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -1653,9 +1569,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 3
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -1709,9 +1622,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 3
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -1769,9 +1679,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 3
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -1825,9 +1732,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 3
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -1885,9 +1789,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 4
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -1941,9 +1842,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 4
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -2001,9 +1899,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 4
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -2057,9 +1952,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 4
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -2117,9 +2009,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 4
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -2173,9 +2062,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 4
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -2233,9 +2119,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 4
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -2289,9 +2172,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 4
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -2349,9 +2229,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 5
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -2405,9 +2282,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 5
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -2465,9 +2339,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 5
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -2521,9 +2392,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 5
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -2581,9 +2449,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 5
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -2637,9 +2502,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 5
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -2697,9 +2559,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 5
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -2753,9 +2612,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 5
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -2813,9 +2669,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 6
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -2869,9 +2722,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 6
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -2929,9 +2779,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 6
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -2985,9 +2832,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 6
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -3045,9 +2889,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 6
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -3101,9 +2942,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 6
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -3161,9 +2999,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 6
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -3217,9 +3052,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 6
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -3277,9 +3109,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 7
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -3333,9 +3162,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 7
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -3393,9 +3219,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 7
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -3449,9 +3272,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 7
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -3509,9 +3329,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 7
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -3565,9 +3382,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 7
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -3625,9 +3439,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 7
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -3681,9 +3492,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 7
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -3741,9 +3549,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 8
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -3797,9 +3602,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 8
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -3857,9 +3659,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 8
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -3913,9 +3712,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 8
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -3973,9 +3769,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 8
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -4029,9 +3822,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 8
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -4089,9 +3879,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 8
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -4145,9 +3932,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 8
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -4198,16 +3982,11 @@ save logs: yes
 
 ########## Simulation state - END ###########
 
-['\\begin{table}[ht]', '\\centering', '\n', '\\', 'b', 'e', 'g', 'i', 'n', '{', 't', 'a', 'b', 'u', 'l', 'a', 'r', '}', '{', '|', 'c', '|', 'c', '|', 'c', '|', 'c', '|', 'c', '|', 'c', '|', 'c', '|', 'c', '|', 'c', '|', '}', '\n', '\\', 'h', 'l', 'i', 'n', 'e', '\n', 'E', 'n', 'e', 'm', 'y', ' ', '&', ' ', '1', ' ', '&', ' ', '2', ' ', '&', ' ', '3', ' ', '&', ' ', '4', ' ', '&', ' ', '5', ' ', '&', ' ', '6', ' ', '&', ' ', '7', ' ', '&', ' ', '8', '\\', '\\', '\n', '\\', 'h', 'l', 'i', 'n', 'e', '\n', 'P', 'l', 'a', 'y', 'e', 'r', ' ', 'h', 'e', 'a', 'l', 't', 'h', ' ', '&', ' ', '0', ' ', '&', ' ', '0', ' ', '&', ' ', '4', '6', ' ', '&', ' ', '3', '3', ' ', '&', ' ', '7', '8', ' ', '&', ' ', '0', ' ', '&', ' ', '0', ' ', '&', ' ', '0', '\\', '\\', '\n', '\\', 'h', 'l', 'i', 'n', 'e', '\n', 'E', 'n', 'e', 'm', 'y', ' ', 'h', 'e', 'a', 'l', 't', 'h', ' ', '&', ' ', '8', '0', ' ', '&', ' ', '7', '0', ' ', '&', ' ', '0', ' ', '&', ' ', '0', ' ', '&', ' ', '0', ' ', '&', ' ', '1', '0', '0', ' ', '&', ' ', '1', '0', '0', ' ', '&', ' ', '1', '0', '\\', '\\', '\n', '\\', 'h', 'l', 'i', 'n', 'e', '\n', '\\', 'e', 'n', 'd', '{', 't', 'a', 'b', 'u', 'l', 'a', 'r', '}', '\n', '\\caption{Final healths of player and enemy. With DEAP with CMA-ES  model trained on group [3, 4, 5].}\n', '\\label{tab:test_DEAP_3_4_5}\n', '\\end{table}']
-
 
 
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 9
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -4265,9 +4044,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 9
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -4321,9 +4097,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 9
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -4381,9 +4154,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 9
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -4437,9 +4207,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 9
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -4497,9 +4264,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 9
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -4555,9 +4319,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 9
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -4611,9 +4372,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 9
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -4672,9 +4430,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 0
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -4728,9 +4483,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 0
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -4788,9 +4540,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 0
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -4844,9 +4593,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 0
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -4904,9 +4650,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 0
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -4960,9 +4703,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 0
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -5020,9 +4760,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 0
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -5076,9 +4813,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 0
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -5136,9 +4870,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 1
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -5192,9 +4923,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 1
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -5252,9 +4980,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 1
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -5308,9 +5033,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 1
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -5368,9 +5090,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 1
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -5424,9 +5143,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 1
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -5484,9 +5200,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 1
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -5540,475 +5253,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 1
-
-
-MESSAGE: Pygame initialized for simulation.
-
-########## Simulation state - INI ###########
-
-# solutions # : EMPTY 
-
-# sensors # : 20
-
- ------  parameters ------  
-
-# contact hurt (training agent) # : player
-
-multiple mode: no
-
-enemies list: 8
-
-current enemy: 8
-
-player mode: ai
-
-enemy mode: static
-
-level: 2
-
-clock precision: low
-
-inputs coded: no
-
-random initialization: no
-
-expiration time: 3000
-
-speed: fastest
-
-load player: yes
-
-load enemy: yes
-
-sound: off
-
-overture time: 100
-
-logs: on
-
-save logs: yes
-
-########## Simulation state - END ###########
-
-['\\begin{table}[ht]', '\\centering', '\n', '\\', 'b', 'e', 'g', 'i', 'n', '{', 't', 'a', 'b', 'u', 'l', 'a', 'r', '}', '{', '|', 'c', '|', 'c', '|', 'c', '|', 'c', '|', 'c', '|', 'c', '|', 'c', '|', 'c', '|', 'c', '|', '}', '\n', '\\', 'h', 'l', 'i', 'n', 'e', '\n', 'E', 'n', 'e', 'm', 'y', ' ', '&', ' ', '1', ' ', '&', ' ', '2', ' ', '&', ' ', '3', ' ', '&', ' ', '4', ' ', '&', ' ', '5', ' ', '&', ' ', '6', ' ', '&', ' ', '7', ' ', '&', ' ', '8', '\\', '\\', '\n', '\\', 'h', 'l', 'i', 'n', 'e', '\n', 'P', 'l', 'a', 'y', 'e', 'r', ' ', 'h', 'e', 'a', 'l', 't', 'h', ' ', '&', ' ', '0', ' ', '&', ' ', '7', '0', ' ', '&', ' ', '0', ' ', '&', ' ', '0', ' ', '&', ' ', '6', '3', ' ', '&', ' ', '0', ' ', '&', ' ', '0', ' ', '&', ' ', '0', '\\', '\\', '\n', '\\', 'h', 'l', 'i', 'n', 'e', '\n', 'E', 'n', 'e', 'm', 'y', ' ', 'h', 'e', 'a', 'l', 't', 'h', ' ', '&', ' ', '3', '0', ' ', '&', ' ', '0', ' ', '&', ' ', '4', '0', ' ', '&', ' ', '8', '0', ' ', '&', ' ', '0', ' ', '&', ' ', '3', '0', ' ', '&', ' ', '1', '0', ' ', '&', ' ', '1', '0', '\\', '\\', '\n', '\\', 'h', 'l', 'i', 'n', 'e', '\n', '\\', 'e', 'n', 'd', '{', 't', 'a', 'b', 'u', 'l', 'a', 'r', '}', '\n', '\\caption{Final healths of player and enemy. With DEAP with CMA-ES  model trained on group [1, 2, 6, 7, 8].}\n', '\\label{tab:test_DEAP_1_2_6_7_8}\n', '\\end{table}']
-
-
-
-USE_CMA: True
-
-
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 2
-
-
-MESSAGE: Pygame initialized for simulation.
-
-########## Simulation state - INI ###########
-
-# solutions # : EMPTY 
-
-# sensors # : 20
-
- ------  parameters ------  
-
-# contact hurt (training agent) # : player
-
-multiple mode: no
-
-enemies list: 1
-
-current enemy: 1
-
-player mode: ai
-
-enemy mode: static
-
-level: 2
-
-clock precision: low
-
-inputs coded: no
-
-random initialization: no
-
-expiration time: 3000
-
-speed: fastest
-
-load player: yes
-
-load enemy: yes
-
-sound: off
-
-overture time: 100
-
-logs: on
-
-save logs: yes
-
-########## Simulation state - END ###########
-
-
-
-USE_CMA: True
-
-
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 2
-
-
-MESSAGE: Pygame initialized for simulation.
-
-########## Simulation state - INI ###########
-
-# solutions # : EMPTY 
-
-# sensors # : 20
-
- ------  parameters ------  
-
-# contact hurt (training agent) # : player
-
-multiple mode: no
-
-enemies list: 2
-
-current enemy: 2
-
-player mode: ai
-
-enemy mode: static
-
-level: 2
-
-clock precision: low
-
-inputs coded: no
-
-random initialization: no
-
-expiration time: 3000
-
-speed: fastest
-
-load player: yes
-
-load enemy: yes
-
-sound: off
-
-overture time: 100
-
-logs: on
-
-save logs: yes
-
-########## Simulation state - END ###########
-
-
-
-USE_CMA: True
-
-
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 2
-
-
-MESSAGE: Pygame initialized for simulation.
-
-########## Simulation state - INI ###########
-
-# solutions # : EMPTY 
-
-# sensors # : 20
-
- ------  parameters ------  
-
-# contact hurt (training agent) # : player
-
-multiple mode: no
-
-enemies list: 3
-
-current enemy: 3
-
-player mode: ai
-
-enemy mode: static
-
-level: 2
-
-clock precision: low
-
-inputs coded: no
-
-random initialization: no
-
-expiration time: 3000
-
-speed: fastest
-
-load player: yes
-
-load enemy: yes
-
-sound: off
-
-overture time: 100
-
-logs: on
-
-save logs: yes
-
-########## Simulation state - END ###########
-
-
-
-USE_CMA: True
-
-
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 2
-
-
-MESSAGE: Pygame initialized for simulation.
-
-########## Simulation state - INI ###########
-
-# solutions # : EMPTY 
-
-# sensors # : 20
-
- ------  parameters ------  
-
-# contact hurt (training agent) # : player
-
-multiple mode: no
-
-enemies list: 4
-
-current enemy: 4
-
-player mode: ai
-
-enemy mode: static
-
-level: 2
-
-clock precision: low
-
-inputs coded: no
-
-random initialization: no
-
-expiration time: 3000
-
-speed: fastest
-
-load player: yes
-
-load enemy: yes
-
-sound: off
-
-overture time: 100
-
-logs: on
-
-save logs: yes
-
-########## Simulation state - END ###########
-
-
-
-USE_CMA: True
-
-
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 2
-
-
-MESSAGE: Pygame initialized for simulation.
-
-########## Simulation state - INI ###########
-
-# solutions # : EMPTY 
-
-# sensors # : 20
-
- ------  parameters ------  
-
-# contact hurt (training agent) # : player
-
-multiple mode: no
-
-enemies list: 5
-
-current enemy: 5
-
-player mode: ai
-
-enemy mode: static
-
-level: 2
-
-clock precision: low
-
-inputs coded: no
-
-random initialization: no
-
-expiration time: 3000
-
-speed: fastest
-
-load player: yes
-
-load enemy: yes
-
-sound: off
-
-overture time: 100
-
-logs: on
-
-save logs: yes
-
-########## Simulation state - END ###########
-
-
-
-USE_CMA: True
-
-
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 2
-
-
-MESSAGE: Pygame initialized for simulation.
-
-########## Simulation state - INI ###########
-
-# solutions # : EMPTY 
-
-# sensors # : 20
-
- ------  parameters ------  
-
-# contact hurt (training agent) # : player
-
-multiple mode: no
-
-enemies list: 6
-
-current enemy: 6
-
-player mode: ai
-
-enemy mode: static
-
-level: 2
-
-clock precision: low
-
-inputs coded: no
-
-random initialization: no
-
-expiration time: 3000
-
-speed: fastest
-
-load player: yes
-
-load enemy: yes
-
-sound: off
-
-overture time: 100
-
-logs: on
-
-save logs: yes
-
-########## Simulation state - END ###########
-
-
-
-USE_CMA: True
-
-
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 2
-
-
-MESSAGE: Pygame initialized for simulation.
-
-########## Simulation state - INI ###########
-
-# solutions # : EMPTY 
-
-# sensors # : 20
-
- ------  parameters ------  
-
-# contact hurt (training agent) # : player
-
-multiple mode: no
-
-enemies list: 7
-
-current enemy: 7
-
-player mode: ai
-
-enemy mode: static
-
-level: 2
-
-clock precision: low
-
-inputs coded: no
-
-random initialization: no
-
-expiration time: 3000
-
-speed: fastest
-
-load player: yes
-
-load enemy: yes
-
-sound: off
-
-overture time: 100
-
-logs: on
-
-save logs: yes
-
-########## Simulation state - END ###########
-
-
-
-USE_CMA: True
-
-
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 2
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -6066,9 +5310,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 3
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -6122,9 +5363,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 3
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -6182,9 +5420,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 3
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -6238,9 +5473,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 3
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -6298,9 +5530,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 3
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -6354,9 +5583,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 3
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -6414,9 +5640,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 3
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -6470,9 +5693,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 3
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -6530,9 +5750,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 4
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -6586,9 +5803,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 4
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -6646,9 +5860,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 4
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -6702,9 +5913,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 4
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -6762,9 +5970,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 4
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -6818,9 +6023,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 4
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -6878,9 +6080,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 4
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -6934,9 +6133,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 4
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -6994,9 +6190,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 5
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -7050,9 +6243,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 5
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -7110,9 +6300,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 5
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -7166,9 +6353,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 5
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -7226,9 +6410,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 5
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -7282,9 +6463,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 5
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -7342,9 +6520,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 5
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -7398,9 +6573,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 5
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -7458,9 +6630,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 6
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -7514,9 +6683,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 6
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -7574,9 +6740,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 6
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -7630,9 +6793,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 6
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -7690,9 +6850,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 6
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -7746,9 +6903,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 6
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -7806,9 +6960,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 6
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -7862,9 +7013,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 6
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -7922,9 +7070,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 7
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -7978,9 +7123,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 7
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -8038,9 +7180,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 7
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -8094,9 +7233,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 7
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -8154,9 +7290,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 7
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -8210,9 +7343,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 7
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -8270,9 +7400,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 7
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -8326,9 +7453,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 7
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -8386,9 +7510,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 8
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -8442,9 +7563,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 8
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -8502,9 +7620,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 8
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -8558,9 +7673,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 8
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -8618,9 +7730,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 8
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -8674,9 +7783,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 8
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -8734,9 +7840,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 8
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -8790,9 +7893,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 8
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -8850,9 +7950,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 9
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -8906,9 +8003,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 9
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -8966,9 +8060,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 9
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -9022,9 +8113,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 9
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -9082,9 +8170,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 9
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -9138,9 +8223,6 @@ save logs: yes
 USE_CMA: True
 
 
-
-
-RUNNING SAVED BEST SOLUTION OF RUN 9
 
 
 MESSAGE: Pygame initialized for simulation.
@@ -9198,9 +8280,6 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 9
-
-
 MESSAGE: Pygame initialized for simulation.
 
 ########## Simulation state - INI ###########
@@ -9256,7 +8335,444 @@ USE_CMA: True
 
 
 
-RUNNING SAVED BEST SOLUTION OF RUN 9
+MESSAGE: Pygame initialized for simulation.
+
+########## Simulation state - INI ###########
+
+# solutions # : EMPTY 
+
+# sensors # : 20
+
+ ------  parameters ------  
+
+# contact hurt (training agent) # : player
+
+multiple mode: no
+
+enemies list: 8
+
+current enemy: 8
+
+player mode: ai
+
+enemy mode: static
+
+level: 2
+
+clock precision: low
+
+inputs coded: no
+
+random initialization: no
+
+expiration time: 3000
+
+speed: fastest
+
+load player: yes
+
+load enemy: yes
+
+sound: off
+
+overture time: 100
+
+logs: on
+
+save logs: yes
+
+########## Simulation state - END ###########
+
+
+
+USE_CMA: True
+
+
+
+
+MESSAGE: Pygame initialized for simulation.
+
+########## Simulation state - INI ###########
+
+# solutions # : EMPTY 
+
+# sensors # : 20
+
+ ------  parameters ------  
+
+# contact hurt (training agent) # : player
+
+multiple mode: no
+
+enemies list: 1
+
+current enemy: 1
+
+player mode: ai
+
+enemy mode: static
+
+level: 2
+
+clock precision: low
+
+inputs coded: no
+
+random initialization: no
+
+expiration time: 3000
+
+speed: fastest
+
+load player: yes
+
+load enemy: yes
+
+sound: off
+
+overture time: 100
+
+logs: on
+
+save logs: yes
+
+########## Simulation state - END ###########
+
+
+
+USE_CMA: True
+
+
+
+
+MESSAGE: Pygame initialized for simulation.
+
+########## Simulation state - INI ###########
+
+# solutions # : EMPTY 
+
+# sensors # : 20
+
+ ------  parameters ------  
+
+# contact hurt (training agent) # : player
+
+multiple mode: no
+
+enemies list: 2
+
+current enemy: 2
+
+player mode: ai
+
+enemy mode: static
+
+level: 2
+
+clock precision: low
+
+inputs coded: no
+
+random initialization: no
+
+expiration time: 3000
+
+speed: fastest
+
+load player: yes
+
+load enemy: yes
+
+sound: off
+
+overture time: 100
+
+logs: on
+
+save logs: yes
+
+########## Simulation state - END ###########
+
+
+
+USE_CMA: True
+
+
+
+
+MESSAGE: Pygame initialized for simulation.
+
+########## Simulation state - INI ###########
+
+# solutions # : EMPTY 
+
+# sensors # : 20
+
+ ------  parameters ------  
+
+# contact hurt (training agent) # : player
+
+multiple mode: no
+
+enemies list: 3
+
+current enemy: 3
+
+player mode: ai
+
+enemy mode: static
+
+level: 2
+
+clock precision: low
+
+inputs coded: no
+
+random initialization: no
+
+expiration time: 3000
+
+speed: fastest
+
+load player: yes
+
+load enemy: yes
+
+sound: off
+
+overture time: 100
+
+logs: on
+
+save logs: yes
+
+########## Simulation state - END ###########
+
+
+
+USE_CMA: True
+
+
+
+
+MESSAGE: Pygame initialized for simulation.
+
+########## Simulation state - INI ###########
+
+# solutions # : EMPTY 
+
+# sensors # : 20
+
+ ------  parameters ------  
+
+# contact hurt (training agent) # : player
+
+multiple mode: no
+
+enemies list: 4
+
+current enemy: 4
+
+player mode: ai
+
+enemy mode: static
+
+level: 2
+
+clock precision: low
+
+inputs coded: no
+
+random initialization: no
+
+expiration time: 3000
+
+speed: fastest
+
+load player: yes
+
+load enemy: yes
+
+sound: off
+
+overture time: 100
+
+logs: on
+
+save logs: yes
+
+########## Simulation state - END ###########
+
+
+
+USE_CMA: True
+
+
+
+
+MESSAGE: Pygame initialized for simulation.
+
+########## Simulation state - INI ###########
+
+# solutions # : EMPTY 
+
+# sensors # : 20
+
+ ------  parameters ------  
+
+# contact hurt (training agent) # : player
+
+multiple mode: no
+
+enemies list: 5
+
+current enemy: 5
+
+player mode: ai
+
+enemy mode: static
+
+level: 2
+
+clock precision: low
+
+inputs coded: no
+
+random initialization: no
+
+expiration time: 3000
+
+speed: fastest
+
+load player: yes
+
+load enemy: yes
+
+sound: off
+
+overture time: 100
+
+logs: on
+
+save logs: yes
+
+########## Simulation state - END ###########
+
+
+
+USE_CMA: True
+
+
+
+
+MESSAGE: Pygame initialized for simulation.
+
+########## Simulation state - INI ###########
+
+# solutions # : EMPTY 
+
+# sensors # : 20
+
+ ------  parameters ------  
+
+# contact hurt (training agent) # : player
+
+multiple mode: no
+
+enemies list: 6
+
+current enemy: 6
+
+player mode: ai
+
+enemy mode: static
+
+level: 2
+
+clock precision: low
+
+inputs coded: no
+
+random initialization: no
+
+expiration time: 3000
+
+speed: fastest
+
+load player: yes
+
+load enemy: yes
+
+sound: off
+
+overture time: 100
+
+logs: on
+
+save logs: yes
+
+########## Simulation state - END ###########
+
+
+
+USE_CMA: True
+
+
+
+
+MESSAGE: Pygame initialized for simulation.
+
+########## Simulation state - INI ###########
+
+# solutions # : EMPTY 
+
+# sensors # : 20
+
+ ------  parameters ------  
+
+# contact hurt (training agent) # : player
+
+multiple mode: no
+
+enemies list: 7
+
+current enemy: 7
+
+player mode: ai
+
+enemy mode: static
+
+level: 2
+
+clock precision: low
+
+inputs coded: no
+
+random initialization: no
+
+expiration time: 3000
+
+speed: fastest
+
+load player: yes
+
+load enemy: yes
+
+sound: off
+
+overture time: 100
+
+logs: on
+
+save logs: yes
+
+########## Simulation state - END ###########
+
+
+
+USE_CMA: True
+
+
 
 
 MESSAGE: Pygame initialized for simulation.

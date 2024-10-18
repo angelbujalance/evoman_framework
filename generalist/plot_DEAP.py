@@ -11,6 +11,9 @@ from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
 
 dynamic = False
 
+# OUTPUT_FOLDER_TRAINING += '_100gens'
+
+print(OUTPUT_FOLDER_TRAINING)
 
 def confidence_interval(data, confidence=0.95):
     n = len(data)
@@ -21,6 +24,7 @@ def confidence_interval(data, confidence=0.95):
 
 
 def read_results(experiment_dir, num_runs):
+    print("EXPERIMENT DIR:", experiment_dir)
     all_best_fitness = []
     all_mean_fitness = []
     all_std_fitness = []
@@ -46,12 +50,10 @@ def read_results(experiment_dir, num_runs):
     return all_best_fitness, all_mean_fitness, all_std_fitness
 
 
-def NEAT_results(enemy_group, num_runs=NUM_RUNS):
+def neat_results(enemy_group, num_runs=NUM_RUNS):
 
+    print("IT CAME IN HERE")
     # Generate file names for the different runs
-    #if dynamic:
-    #    OUTPUT_FOLDER_TRAINING += '_dynamic'
-
     if dynamic:
         OUTPUT_FOLDER_TRAINING_NEAT = 'trained_dynamic'
     else:
@@ -92,6 +94,9 @@ def NEAT_results(enemy_group, num_runs=NUM_RUNS):
 
 def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment_dir, enemy_group: list):
     num_generations = len(all_mean_fitness[0])
+    
+    plt.clf()
+
     # Aggregate data across runs
     avg_best_fitness = np.mean(all_best_fitness, axis=0)
     std_best_fitness = np.std(all_best_fitness, axis=0)
@@ -101,8 +106,7 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
 
     generations = range(num_generations)
 
-    average_fitness_NEAT, average_fitness_NEAT_CI, best_fitness_NEAT, best_fitness_NEAT_CI, = NEAT_results(
-        enemy_group)
+    average_fitness_NEAT, average_fitness_NEAT_CI, best_fitness_NEAT, best_fitness_NEAT_CI, = neat_results(enemy_group)
 
     # Separate the mean, lower, and upper confidence intervals for mean fitness
     mean_fitness_values = [c[0] for c in average_fitness_NEAT_CI]
@@ -115,19 +119,19 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
     best_ci_upper = [c[2] for c in best_fitness_NEAT_CI]
 
     '''Plot the average fitness with standard deviation for DEAP'''
-    plt.plot(generations, avg_mean_fitness,
-             label='Average DEAP', color='blue', ls="--")
-    plt.fill_between(generations,
-                     np.array(avg_mean_fitness) - np.array(avg_std_fitness),
-                     np.array(avg_mean_fitness) + np.array(avg_std_fitness),
-                     color='blue', alpha=0.2)
+    # plt.plot(generations, avg_mean_fitness,
+    #          label='Average DEAP', color='blue', ls="--")
+    # plt.fill_between(generations,
+    #                  np.array(avg_mean_fitness) - np.array(avg_std_fitness),
+    #                  np.array(avg_mean_fitness) + np.array(avg_std_fitness),
+    #                  color='blue', alpha=0.2)
         
     ''' Plot the best fitness for DEAP'''
-    plt.plot(generations, avg_best_fitness, label='Best DEAP', color='blue')
-    plt.fill_between(generations,
-                     np.array(avg_best_fitness) - np.array(std_best_fitness),
-                     np.array(avg_best_fitness) + np.array(std_best_fitness),
-                     color='blue', alpha=0.2)
+    # plt.plot(generations, avg_best_fitness, label='Best DEAP', color='blue')
+    # plt.fill_between(generations,
+    #                  np.array(avg_best_fitness) - np.array(std_best_fitness),
+    #                  np.array(avg_best_fitness) + np.array(std_best_fitness),
+    #                  color='blue', alpha=0.2)
 
     if dynamic:
         avg_label = 'Average NEAT dynamic'
@@ -170,15 +174,20 @@ def plot_fitness(all_best_fitness, all_mean_fitness, all_std_fitness, experiment
 if __name__ == '__main__':
     for enemy_group in [ENEMY_GROUP_1, ENEMY_GROUP_2]:
         # Directory containing all run folders
-        experiment_dir = os.path.join(
+        experiment_dir_DEAP = os.path.join(
             PATH_DEAP,
+            OUTPUT_FOLDER_TRAINING+'_100gens',
+            enemy_folder(enemy_group))
+
+        experiment_dir_NEAT = os.path.join(
+            PATH_NEAT,
             OUTPUT_FOLDER_TRAINING,
             enemy_folder(enemy_group))
 
         # Read the results from the files
         all_best_fitness, all_mean_fitness, all_std_fitness = read_results(
-            experiment_dir, NUM_RUNS)
+            experiment_dir_DEAP, NUM_RUNS)
 
         # Plot the fitness results
         plot_fitness(all_best_fitness, all_mean_fitness,
-                     all_std_fitness, experiment_dir, enemy_group)
+                     all_std_fitness, experiment_dir_NEAT, enemy_group)
