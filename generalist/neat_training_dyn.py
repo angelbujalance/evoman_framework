@@ -3,8 +3,8 @@ from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
                        OUTPUT_FOLDER_TRAINING, OUTPUT_FOLDER_TESTING)
 from neat_evolution import NeatRunner
 
-OUTPUT_FOLDER_TRAINING += '_dynamic'
-OUTPUT_FOLDER_TESTING += '_dynamic'
+OUTPUT_FOLDER_TRAINING += '_dynamic_full'
+OUTPUT_FOLDER_TESTING += '_dynamic_full'
 
 print(OUTPUT_FOLDER_TRAINING)
 

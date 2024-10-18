@@ -2,7 +2,7 @@ import os
 
 DEBUG = False
 
-NUM_GENERATIONS = 1 if DEBUG else 30
+NUM_GENERATIONS = 1 if DEBUG else 100
 NUM_RUNS = 1 if DEBUG else 10
 NUM_TRIALS_NEAT = 1 if DEBUG else 50
 NUM_TRIALS_DEAP = 1 if DEBUG else 26

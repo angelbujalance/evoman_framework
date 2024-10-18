@@ -9,6 +9,10 @@ from deap_evolution import DeapRunner
 from general_testing_create_tables_plots import save_table_for_enemy_group
 # from best_individual_runs_DEAP import read_results
 
+OUTPUT_FOLDER_TRAINING += '_100gens'
+OUTPUT_FOLDER_TESTING += '_100gens'
+
+print(OUTPUT_FOLDER_TRAINING)
 
 def eval_enemies(train_enemies: list, test_enemies: list,
                  run_idx: int, use_cma: bool = False):

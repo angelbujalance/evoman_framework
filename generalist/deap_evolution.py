@@ -10,7 +10,10 @@ from constants import (enemy_folder, PATH_DEAP,
 from evoman.environment import Environment
 from demo_controller import player_controller
 
+OUTPUT_FOLDER_TRAINING += '_100gens'
+OUTPUT_FOLDER_TESTING += '_100gens'
 
+print(OUTPUT_FOLDER_TRAINING)
 
 # choose this for not using visuals and thus making experiments faster
 headless = True

@@ -3,8 +3,6 @@ from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
                        OUTPUT_FOLDER_TRAINING, OUTPUT_FOLDER_TESTING)
 from neat_evolution import NeatRunner
 
-# TODO: these are the old ones from task 1 and DEAP
-# This file is adjusted to run the default implementation of NEAT for Task 2
 best_params = {'pop_size': 95, 'bias_mutate_rate': 0.4856922882200584,
     'response_mutate_rate': 0.15015508877056483, 'weight_mutate_rate': 0.5142192411719388,
     'elitism': 0, 'initial_mutation_rate': 0.5292155144805903,

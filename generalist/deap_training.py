@@ -3,6 +3,10 @@ from constants import (ENEMY_GROUP_1, ENEMY_GROUP_2,
                        OUTPUT_FOLDER_TRAINING, OUTPUT_FOLDER_TESTING)
 from deap_evolution import DeapRunner
 
+OUTPUT_FOLDER_TRAINING += '_100gens'
+OUTPUT_FOLDER_TESTING += '_100gens'
+
+print(OUTPUT_FOLDER_TRAINING)
 
 def start_run(run_idx: int, enemies: list,
               cxpb: float = None, mutpb: float = None, mu: float = None, lambda_: float = None,
@@ -54,7 +58,7 @@ if __name__ == "__main__":
         best_params = {
             'mu': 57,
             'lambda_': 117,
-            'sigma': 1.36  # Example sigma for CMA-ES
+            'sigma': 1.36 
         }
         print("Using Optuna's CMA-ES params: ", best_params)
     else:
