@@ -81,7 +81,7 @@ def save_table_ttest(enemy_groups, means_NEAT, means_DEAP, p_values):
 
         latex_lines += \
             fr"""
-                Enemy {enemy_group} & {mean_NEAT} & {mean_DEAP} & {p} \\
+                Enemies {enemy_group} & {mean_NEAT} & {mean_DEAP} & {p} \\
         """
 
     latex_lines += \
