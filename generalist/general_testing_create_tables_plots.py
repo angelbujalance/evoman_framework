@@ -64,3 +64,37 @@ def save_table_for_enemy_group(stats_per_enemy_all_runs: dict, name_EA: str,
 
     with open(file, "w") as f:
         f.writelines(latex_lines)
+
+
+def save_table_ttest(enemy_groups, means_NEAT, means_DEAP, p_values):
+    latex_lines = ""
+    latex_lines = \
+        r"""
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{c|c|c|c}
+            & mean NEAT & mean DEAP & p-value \\
+            \hline
+    """
+
+    for enemy_group, mean_NEAT, mean_DEAP, p in zip(enemy_groups, means_NEAT, means_DEAP, p_values):
+
+        latex_lines += \
+            fr"""
+                Enemy {enemy_group} & {mean_NEAT} & {mean_DEAP} & {p} \\
+        """
+
+    latex_lines += \
+        r"""
+        \end{tabular}
+        \caption{T-test NEAT vs. MuCommaLambda (DEAP) with their mean individual gain and the p-values between them.}
+        \label{tab:ttest_results}
+    \end{table}
+    """
+
+    relpath = os.path.join("results", "general")
+    os.makedirs(relpath, exist_ok=True)
+    file = os.path.join(relpath, "t_test.tex")
+
+    with open(file, "w") as f:
+        f.writelines(latex_lines)
