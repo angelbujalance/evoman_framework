@@ -31,6 +31,10 @@ def collect_gains():
                                             enemy_folder(enemy_group),
                                             f"run_{run_idx}",
                                             "results.csv")
+
+                if not os.path.exists(results_file):
+                    continue
+
                 df = pd.read_csv(results_file)
                 df["EA"] = name_EA
                 df["enemy_group"] = str_enemy_group

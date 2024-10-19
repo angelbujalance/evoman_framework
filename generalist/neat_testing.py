@@ -57,6 +57,12 @@ if __name__ == "__main__":
         best_run_idx = get_best_run_idx(group)
 
         for run_idx in range(NUM_RUNS):
+            if not os.path.exists(os.path.join(PATH_NEAT,
+                                               OUTPUT_FOLDER_TRAINING,
+                                               enemy_folder(group),
+                                               f"run_{run_idx}")):
+                continue
+
             file = os.path.join(PATH_NEAT, OUTPUT_FOLDER_TESTING,
                                 enemy_folder(group), f"run_{run_idx}",
                                 "results.csv")
