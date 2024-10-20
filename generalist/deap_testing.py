@@ -74,7 +74,6 @@ if __name__ == "__main__":
         best_run_idx, best_generation_idx, max_fitness_value = \
             get_best_run_idx(group)
         print(f"DEAP enemy group: {group} best run idx: {best_run_idx}")
-        continue
 
         for run_idx in range(NUM_RUNS):
             file = os.path.join(PATH_DEAP, OUTPUT_FOLDER_TESTING,

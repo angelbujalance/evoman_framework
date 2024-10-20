@@ -57,7 +57,6 @@ if __name__ == "__main__":
         all_results = {}
         best_run_idx = get_best_run_idx(group)
         print(f"NEAT enemy group: {group} best run idx: {best_run_idx}")
-        continue
 
         for run_idx in range(NUM_RUNS):
             if not os.path.exists(os.path.join(PATH_NEAT,
