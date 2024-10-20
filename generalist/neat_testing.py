@@ -31,7 +31,7 @@ def get_best_run_idx(enemy_group):
     all_best_fitness = 0
 
     for dir in os.listdir(relpath):
-        if not os.path.isdir(dir):
+        if not os.path.isdir(os.path.join(relpath, dir)):
             continue
 
         results_file = os.path.join(relpath, dir, "results.csv")
@@ -44,6 +44,7 @@ def get_best_run_idx(enemy_group):
         if best_fitness > all_best_fitness:
             run_idx = dir.removeprefix("run_")
             best_run_idx = run_idx
+            all_best_fitness = best_fitness
 
     return int(best_run_idx)
 
@@ -55,6 +56,8 @@ if __name__ == "__main__":
     for group in groups:
         all_results = {}
         best_run_idx = get_best_run_idx(group)
+        print(f"NEAT enemy group: {group} best run idx: {best_run_idx}")
+        continue
 
         for run_idx in range(NUM_RUNS):
             if not os.path.exists(os.path.join(PATH_NEAT,
